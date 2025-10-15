@@ -1,84 +1,59 @@
-# 🏥 Sistema de Teleasistencia para Adultos Mayores
+# GrupoInterfaces
 
-**Proyecto de Interfaces Humano-Computadora - Grupo 8**
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
 
-Sistema web integral de teleasistencia diseñado para facilitar el cuidado, monitoreo y comunicación entre adultos mayores, sus familiares y personal médico, promoviendo la autonomía y el bienestar de las personas de la tercera edad.
+## Development server
 
----
+To start a local development server, run:
 
-## 📋 Descripción del Proyecto
+```bash
+ng serve
+```
 
-Plataforma digital que permite:
-- ✅ Registro manual de signos vitales (presión arterial, glucosa, temperatura, peso)
-- 💊 Gestión y recordatorios de medicación
-- 💬 Comunicación en tiempo real (chat/videollamada)
-- 👨‍⚕️ Teleasistencia médica y consultas en línea
-- 📊 Monitoreo y reportes de salud
-- 🔔 Notificaciones y alertas de emergencia
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
----
+## Code scaffolding
 
-## 👥 Roles y Funcionalidades
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-### 👴 Adulto Mayor (Usuario Principal)
-- Registra signos vitales manualmente
-- Recibe recordatorios de medicinas y citas médicas
-- Solicita asistencia en línea con médicos
-- Comunica emergencias
-- Marca medicación tomada
+```bash
+ng generate component component-name
+```
 
-### 👨‍👩‍👧 Familiar/Cuidador
-- Revisa datos de salud del adulto mayor
-- Verifica cumplimiento de medicación
-- Recibe notificaciones de emergencias
-- Configura recordatorios
-- Comunica con el adulto mayor y médicos
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
-### 👨‍⚕️ Personal de Salud (Médico)
-- Revisa reportes de salud de pacientes
-- Configura planes de medicación personalizados
-- Brinda consultas en línea (chat/videollamada)
-- Detecta tendencias en registros
-- Envía notificaciones y recomendaciones
+```bash
+ng generate --help
+```
 
-### ⚙️ Administrador del Sistema
-- Mantiene y monitorea la plataforma
-- Gestiona accesos y roles de usuarios
-- Visualiza estadísticas generales
-- Supervisa consultas y actividad del sistema
+## Building
 
----
+To build the project run:
 
-## 🔄 Flujos Principales
+```bash
+ng build
+```
 
-### 1️⃣ Inicio de Sesión/Registro
-- Autenticación segura con Supabase Auth
-- Asignación automática de roles
-- Acceso personalizado según tipo de usuario
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-### 2️⃣ Registro de Datos Manuales
-- El adulto mayor/cuidador ingresa valores vitales
-- Sistema guarda y genera reportes automáticos
-- Familiar puede consultar información en tiempo real
+## Running unit tests
 
-### 3️⃣ Recordatorios de Medicinas
-- Médico/familiar programa el plan de medicación
-- Notificaciones automáticas al adulto mayor
-- Confirmación de toma de medicamento
-- Alertas al familiar si no se cumple
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
 
-### 4️⃣ Consulta y Teleasistencia
-- Solicitud de ayuda (chat o videollamada)
-- Conexión con familiar o médico disponible
-- Registro completo de interacciones
-- Diagnóstico y notas médicas
+```bash
+ng test
+```
 
----
+## Running end-to-end tests
 
-## 🛠️ Tecnologías Utilizadas
+For end-to-end (e2e) testing, run:
 
-### Frontend
-- ![Angular](https://img.shields.io/badge/Angular-20.3.5-DD0031?logo=angular) Framework principal
-- ![Tailwind](https://img.shields.io/badge/Tailwind-4.x-38B2AC?logo=tailwind-css) Estilos y diseño responsivo
-- ![DaisyUI](https://img.shields.io/badge/DaisyUI-5.3.1-5A0EF8) Componentes UI
-- ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

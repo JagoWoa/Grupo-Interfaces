@@ -3,13 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Grupo-Interfaces": {
+    "grupo-interfaces": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -19,7 +15,6 @@
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
@@ -27,7 +22,7 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.css"
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
@@ -63,10 +58,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Grupo-Interfaces:build:production"
+              "buildTarget": "grupo-interfaces:build:production"
             },
             "development": {
-              "buildTarget": "Grupo-Interfaces:build:development"
+              "buildTarget": "grupo-interfaces:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,7 +73,6 @@
           "builder": "@angular/build:karma",
           "options": {
             "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
@@ -86,7 +80,7 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.css"
             ]
           }
         }
@@ -94,6 +88,6 @@
     }
   },
   "cli": {
-    "analytics": "015c3fc1-4d6d-43a0-92c5-732df8209fc9"
+    "analytics": "dd8c7c42-bf84-48c1-a949-43ce8433b70e"
   }
 }
