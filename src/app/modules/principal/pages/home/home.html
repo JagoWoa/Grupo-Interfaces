@@ -1,0 +1,163 @@
+<div class="flex flex-col min-h-screen">
+  <!-- Header -->
+  <app-header></app-header>
+
+  <!-- Contenedor Principal -->
+  <div class="flex flex-1 bg-gradient-to-b from-slate-50 to-slate-100">
+    <!-- Sidebar a la izquierda -->
+    <aside class="w-72 bg-white shadow-lg border-r border-slate-200 hidden md:block">
+      <app-sidebar></app-sidebar>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="flex-1 p-8 space-y-8 overflow-y-auto">
+      <!-- Bienvenida -->
+      <section class="bg-white shadow-xl rounded-2xl p-8 border-l-8 border-amber-500 
+                      transform hover:shadow-2xl transition-all duration-300">
+        <div class="flex items-center gap-4">
+          <div class="bg-gradient-to-br from-amber-500 to-amber-600 rounded-full p-4">
+            <i class="fas fa-user-circle text-white text-4xl"></i>
+          </div>
+          <div>
+            <h2 class="text-4xl font-bold text-slate-800 mb-2">¡Bienvenida, María González!</h2>
+            <p class="text-xl text-slate-700 flex items-center gap-2">
+              <i class="fas fa-id-badge text-amber-600"></i>
+              Rol: <span class="font-semibold text-amber-600">Adulto Mayor</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Signos Vitales Recientes -->
+      <section>
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-3xl font-bold text-slate-800 flex items-center gap-3">
+            <i class="fas fa-heartbeat text-amber-600"></i>
+            Últimas Mediciones
+          </h3>
+          <button class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 
+                         text-white px-6 py-2 rounded-xl font-semibold shadow-lg 
+                         transition-all duration-200 transform hover:scale-105">
+            <i class="fas fa-plus-circle mr-2"></i>
+            Nueva Medición
+          </button>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div
+            *ngFor="let sign of vitalSigns"
+            class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-2xl transition-all duration-300 
+                   border-t-4 transform hover:scale-105 cursor-pointer"
+            [ngClass]="sign.colorClass"
+          >
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="text-lg font-semibold text-slate-700">{{ sign.title }}</h4>
+              <i [class]="sign.icon + ' text-3xl ' + sign.iconColor"></i>
+            </div>
+            <div class="flex items-baseline gap-2 mb-2">
+              <span class="text-4xl font-extrabold text-slate-900">{{ sign.value }}</span>
+              <span class="text-base text-slate-600 font-medium">{{ sign.unit }}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+              <p class="text-sm text-emerald-600 font-bold">Estado Normal</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Novedades y Recordatorios -->
+      <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <!-- Aquí puedes agregar el componente de noticias si existe -->
+          <div class="bg-white shadow-xl rounded-2xl p-6 border-l-8 border-slate-700">
+            <h3 class="text-2xl font-bold mb-6 text-slate-800 flex items-center gap-3">
+              <i class="fas fa-newspaper text-amber-600"></i>
+              Novedades y Actividades
+            </h3>
+            <div class="space-y-4">
+              <div class="p-5 rounded-xl bg-gradient-to-r from-slate-50 to-slate-100 border border-slate-200 
+                          hover:shadow-lg transition-all duration-200">
+                <div class="flex items-start gap-4">
+                  <div class="bg-amber-500 rounded-full p-3">
+                    <i class="fas fa-calendar-check text-white text-xl"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-bold text-slate-800 text-lg mb-1">Nueva Funcionalidad</p>
+                    <p class="text-slate-600 text-sm">Ahora puedes exportar tus registros médicos en formato PDF</p>
+                    <p class="text-xs text-slate-500 mt-2">Hace 2 horas</p>
+                  </div>
+                </div>
+              </div>
+              <div class="p-5 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 
+                          hover:shadow-lg transition-all duration-200">
+                <div class="flex items-start gap-4">
+                  <div class="bg-blue-500 rounded-full p-3">
+                    <i class="fas fa-info-circle text-white text-xl"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-bold text-slate-800 text-lg mb-1">Recordatorio</p>
+                    <p class="text-slate-600 text-sm">No olvides actualizar tu historial médico mensualmente</p>
+                    <p class="text-xs text-slate-500 mt-2">Hace 1 día</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="bg-white shadow-xl rounded-2xl p-6 border-l-8 border-amber-500">
+            <h3 class="text-2xl font-bold mb-6 text-slate-800 flex items-center gap-3">
+              <i class="fas fa-bell text-amber-600"></i>
+              Próximos Recordatorios
+            </h3>
+            <div class="space-y-4">
+              <div class="p-5 rounded-xl bg-gradient-to-r from-amber-100 to-amber-50 border-2 border-amber-300 
+                          hover:shadow-lg transition-all duration-200 transform hover:scale-105">
+                <div class="flex items-start gap-3">
+                  <div class="text-3xl">💊</div>
+                  <div class="flex-1">
+                    <p class="font-bold text-slate-800 text-lg">Medicamento</p>
+                    <p class="text-slate-700 mt-1 font-medium">Aspirina</p>
+                    <p class="text-amber-700 text-sm font-bold mt-2">
+                      <i class="fas fa-clock mr-1"></i>Hoy - 2:00 PM
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="p-5 rounded-xl bg-gradient-to-r from-blue-100 to-blue-50 border-2 border-blue-300 
+                          hover:shadow-lg transition-all duration-200 transform hover:scale-105">
+                <div class="flex items-start gap-3">
+                  <div class="text-3xl">🩺</div>
+                  <div class="flex-1">
+                    <p class="font-bold text-slate-800 text-lg">Cita Médica</p>
+                    <p class="text-slate-700 mt-1 font-medium">Dr. García - Cardiología</p>
+                    <p class="text-blue-700 text-sm font-bold mt-2">
+                      <i class="fas fa-calendar mr-1"></i>Mañana - 10:00 AM
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="p-5 rounded-xl bg-gradient-to-r from-emerald-100 to-emerald-50 border-2 border-emerald-300 
+                          hover:shadow-lg transition-all duration-200 transform hover:scale-105">
+                <div class="flex items-start gap-3">
+                  <div class="text-3xl">🚶</div>
+                  <div class="flex-1">
+                    <p class="font-bold text-slate-800 text-lg">Ejercicio</p>
+                    <p class="text-slate-700 mt-1 font-medium">Caminata diaria - 30 min</p>
+                    <p class="text-emerald-700 text-sm font-bold mt-2">
+                      <i class="fas fa-clock mr-1"></i>Hoy - 5:00 PM
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <app-footer></app-footer>
+</div>
