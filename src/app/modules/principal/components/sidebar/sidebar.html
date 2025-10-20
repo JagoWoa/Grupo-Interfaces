@@ -1,1 +1,53 @@
-<p>sidebar works!</p>
+<nav class="flex flex-col gap-2 bg-rose-50 min-h-screen p-4 border-r border-rose-200">
+  <div *ngFor="let item of menuItems" class="w-full">
+    <!-- Item con Submenú -->
+    <div *ngIf="item.submenu">
+      <button
+        (click)="toggleExpanded(item.title)"
+        class="flex items-center justify-between w-full px-4 py-3 rounded-xl transition 
+               hover:bg-rose-200 focus:outline-none"
+        [ngClass]="{ 'bg-rose-300 text-white': isExpanded(item.title), 'text-gray-800': !isExpanded(item.title) }"
+      >
+        <span class="flex items-center gap-3 text-lg font-medium">
+          <i [class]="item.icon + ' text-xl'"></i>
+          {{ item.title }}
+        </span>
+        <i
+          class="fas fa-chevron-right transition-transform duration-300"
+          [ngClass]="{ 'rotate-90': isExpanded(item.title) }"
+        ></i>
+      </button>
+
+      <div
+        *ngIf="isExpanded(item.title)"
+        class="mt-1 ml-6 space-y-2 border-l-2 border-rose-300 pl-3 animate-slideDown"
+      >
+        <a
+          *ngFor="let sub of item.submenu"
+          routerLinkActive="bg-orange-200 text-orange-900"
+          class="block w-full text-left px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:bg-orange-100 transition"
+        >
+          <i [class]="sub.icon + ' mr-2 text-lg text-orange-600'"></i>
+          {{ sub.title }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Item sin Submenú -->
+  <!--   <ng-template #simpleItem>
+      <a
+        [routerLink]="item.href"
+        routerLinkActive="bg-rose-300 text-white"
+        class="flex items-center justify-between w-full px-4 py-3 rounded-xl text-lg font-medium text-gray-800 hover:bg-rose-200 transition"
+      >
+        <span class="flex items-center gap-3">
+          <i [class]="item.icon + ' text-xl'"></i>
+          {{ item.title }}
+        </span>
+        <span *ngIf="item.shortcut" class="hidden lg:inline-flex bg-white border border-gray-300 rounded px-2 py-0.5 text-xs text-gray-600">
+          {{ item.shortcut }}
+        </span>
+      </a>
+    </ng-template>-->
+  </div>
+</nav>

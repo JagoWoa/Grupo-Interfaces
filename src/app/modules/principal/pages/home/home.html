@@ -1,1 +1,59 @@
-<p>home works!</p>
+<main class="flex-1 md:ml-64 bg-gradient-to-b from-rose-50 to-orange-100 min-h-screen">
+<app-sidebar></app-sidebar>
+  <div class="container mx-auto p-6 space-y-8">
+    <!-- Bienvenida -->
+    <section class="bg-white shadow-lg rounded-2xl p-6 border-l-8 border-rose-400">
+      <h2 class="text-3xl font-bold text-rose-700 mb-2">¡Bienvenida, María González!</h2>
+      <p class="text-lg text-gray-700">Rol: Adulto Mayor</p>
+    </section>
+
+    <!-- Signos Vitales Recientes -->
+    <section>
+      <h3 class="text-2xl font-semibold mb-4 text-orange-700">Últimas Mediciones</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div
+          *ngFor="let sign of vitalSigns"
+          class="bg-white shadow-md rounded-2xl p-4 hover:shadow-lg transition border-t-4"
+          [ngClass]="sign.colorClass"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="text-lg font-medium text-gray-700">{{ sign.title }}</h4>
+            <i [class]="sign.icon + ' text-2xl ' + sign.iconColor"></i>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-3xl font-extrabold text-gray-900">{{ sign.value }}</span>
+            <span class="text-base text-gray-600">{{ sign.unit }}</span>
+          </div>
+          <p class="text-sm text-green-600 mt-1 font-medium">Normal</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Novedades y Recordatorios -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2">
+       <!-- <app-news-feed></app-news-feed> -->
+      </div>
+
+      <div>
+        <div class="bg-white shadow-lg rounded-2xl p-5 border-l-8 border-orange-400">
+          <h3 class="text-2xl font-semibold mb-4 text-orange-700">Próximos Recordatorios</h3>
+          <div class="space-y-4">
+            <div class="p-4 rounded-xl bg-orange-100 border border-orange-200">
+              <p class="font-semibold text-gray-800 text-lg">💊 Medicamento</p>
+              <p class="text-gray-600 mt-1 text-sm">Aspirina - 2:00 PM</p>
+            </div>
+            <div class="p-4 rounded-xl bg-rose-100 border border-rose-200">
+              <p class="font-semibold text-gray-800 text-lg">🩺 Cita Médica</p>
+              <p class="text-gray-600 mt-1 text-sm">Dr. García - Mañana 10:00 AM</p>
+            </div>
+            <div class="p-4 rounded-xl bg-teal-100 border border-teal-200">
+              <p class="font-semibold text-gray-800 text-lg">🚶 Ejercicio</p>
+              <p class="text-gray-600 mt-1 text-sm">Caminata diaria - 5:00 PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
