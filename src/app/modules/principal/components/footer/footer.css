@@ -1,0 +1,39 @@
+/* Animaciones para el footer */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Efectos hover mejorados */
+footer a:hover {
+  transform: translateX(2px);
+  transition: all 0.3s ease;
+}
+
+/* Estilo para enlaces de redes sociales */
+footer a[target="_blank"] {
+  position: relative;
+}
+
+/* Mejoras de accesibilidad */
+footer a:focus-visible {
+  outline: 2px solid #f43f5e;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  footer .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
