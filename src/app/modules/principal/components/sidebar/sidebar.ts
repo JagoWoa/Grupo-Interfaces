@@ -14,14 +14,8 @@ export class Sidebar {
   menuItems = [
     {
       title: 'Inicio',
-      href: '/',
+      href: '/inicio',
       icon: 'fas fa-home',
-    },
-    {
-      title: 'Gestión de Registros',
-      href: '/registro',
-      icon: 'fas fa-clipboard-list',
-      badge: 'Módulo 3',
     },
     {
       title: 'Salud',
@@ -36,12 +30,7 @@ export class Sidebar {
       href: '/recordatorios',
       icon: 'fas fa-bell',
     },
-    {
-      title: 'Ayuda',
-      href: '/ayuda',
-      icon: 'fas fa-question-circle',
-      shortcut: 'F1',
-    },
+
   ];
 
   toggleExpanded(title: string) {
