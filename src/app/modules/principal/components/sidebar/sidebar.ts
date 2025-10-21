@@ -30,7 +30,12 @@ export class Sidebar {
       href: '/recordatorios',
       icon: 'fas fa-bell',
     },
-
+    {
+      title: 'Ayuda',
+      href: '/ayuda',
+      icon: 'fas fa-question-circle',
+      shortcut: 'F1',
+    },
   ];
 
   toggleExpanded(title: string) {

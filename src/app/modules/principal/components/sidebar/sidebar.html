@@ -14,9 +14,39 @@
     </div>
 
     <div *ngFor="let item of menuItems" class="w-full">
+        <!-- Item con Submenú -->
+        <div *ngIf="item.submenu; else simpleItem">
+            <button (click)="toggleExpanded(item.title)" class="flex items-center justify-between w-full px-4 py-3.5 rounded-xl transition-all duration-300
+               hover:bg-gradient-to-r hover:from-slate-200 hover:to-slate-300 
+               focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-sm" [ngClass]="{ 
+          'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-md transform scale-105': isExpanded(item.title), 
+          'text-gray-800 bg-white/80': !isExpanded(item.title) 
+        }">
+                <span class="flex items-center gap-3 text-lg font-semibold">
+                    <i [class]="item.icon + ' text-xl'"></i>
+                    {{ item.title }}
+                </span>
+                <i class="fas fa-chevron-right transition-transform duration-300"
+                    [ngClass]="{ 'rotate-90': isExpanded(item.title) }"></i>
+            </button>
+
+            <div *ngIf="isExpanded(item.title)"
+                class="mt-2 ml-4 space-y-2 border-l-4 border-amber-500 pl-4 animate-slideDown">
+                <a *ngFor="let sub of item.submenu" [routerLink]="sub.href"
+                    routerLinkActive="bg-gradient-to-r from-amber-400 to-amber-500 text-white shadow-md transform scale-105"
+                    class="block w-full text-left px-4 py-2.5 rounded-lg text-base font-medium text-gray-700 
+                 hover:bg-gradient-to-r hover:from-amber-100 hover:to-amber-200 
+                 transition-all duration-200 bg-white/80">
+                    <i [class]="sub.icon + ' mr-3 text-lg text-amber-600'"></i>
+                    {{ sub.title }}
+                </a>
+            </div>
+        </div>
+
         <!-- Item sin Submenú -->
-        <div >
+        <ng-template #simpleItem>
             <a [routerLink]="item.href"
+                routerLinkActive="bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-md transform scale-105"
                 class="flex items-center justify-between w-full px-4 py-3.5 rounded-xl text-lg font-semibold 
                text-gray-800 hover:bg-gradient-to-r hover:from-slate-200 hover:to-slate-300 
                transition-all duration-300 bg-white/80 shadow-sm">
@@ -24,12 +54,16 @@
                     <i [class]="item.icon + ' text-xl'"></i>
                     {{ item.title }}
                 </span>
+                <span *ngIf="item.shortcut" class="hidden lg:inline-flex bg-white/90 border border-amber-400 
+                                            rounded-md px-2 py-1 text-xs text-gray-700 font-bold shadow-sm">
+                    {{ item.shortcut }}
+                </span>
             </a>
-        </div>
+        </ng-template>
     </div>
 
     <!-- Información del Usuario al final del Sidebar -->
-    <div class="pt-4 border-t border-slate-300 ">
+    <div class="mt-auto pt-4 border-t border-slate-300">
         <div class="bg-white/90 rounded-xl p-4 shadow-md border border-slate-200">
             <div class="flex items-center gap-3 mb-3">
                 <div
@@ -49,3 +83,86 @@
         </div>
     </div>
 </nav>
+
+<!-- Logo del Sidebar -->
+<div class="mb-6 pb-4 border-b border-rose-300">
+    <div class="flex items-center gap-3 px-3">
+        <div class="bg-gradient-to-br from-rose-500 to-orange-500 rounded-xl p-2.5 shadow-md">
+            <i class="fas fa-heartbeat text-white text-2xl"></i>
+        </div>
+        <div>
+            <h2 class="text-xl font-bold text-rose-700">Menú</h2>
+            <p class="text-xs text-gray-600">Navegación</p>
+        </div>
+    </div>
+</div>
+
+<div *ngFor="let item of menuItems" class="w-full">
+    <!-- Item con Submenú -->
+    <div *ngIf="item.submenu; else simpleItem">
+        <button (click)="toggleExpanded(item.title)" class="flex items-center justify-between w-full px-4 py-3.5 rounded-xl transition-all duration-300
+               hover:bg-gradient-to-r hover:from-rose-200 hover:to-orange-200 
+               focus:outline-none focus:ring-2 focus:ring-rose-400 shadow-sm" [ngClass]="{ 
+          'bg-gradient-to-r from-rose-400 to-orange-400 text-white shadow-md transform scale-105': isExpanded(item.title), 
+          'text-gray-800 bg-white/60': !isExpanded(item.title) 
+        }">
+            <span class="flex items-center gap-3 text-lg font-semibold">
+                <i [class]="item.icon + ' text-xl'"></i>
+                {{ item.title }}
+            </span>
+            <i class="fas fa-chevron-right transition-transform duration-300"
+                [ngClass]="{ 'rotate-90': isExpanded(item.title) }"></i>
+        </button>
+
+        <div *ngIf="isExpanded(item.title)"
+            class="mt-2 ml-4 space-y-2 border-l-4 border-rose-400 pl-4 animate-slideDown">
+            <a *ngFor="let sub of item.submenu" [routerLink]="sub.href"
+                routerLinkActive="bg-gradient-to-r from-orange-300 to-orange-400 text-orange-900 shadow-md transform scale-105"
+                class="block w-full text-left px-4 py-2.5 rounded-lg text-base font-medium text-gray-700 
+                 hover:bg-gradient-to-r hover:from-orange-100 hover:to-orange-200 
+                 transition-all duration-200 bg-white/80">
+                <i [class]="sub.icon + ' mr-3 text-lg text-orange-600'"></i>
+                {{ sub.title }}
+            </a>
+        </div>
+    </div>
+
+    <!-- Item sin Submenú -->
+    <ng-template #simpleItem>
+        <a [routerLink]="item.href"
+            routerLinkActive="bg-gradient-to-r from-rose-400 to-orange-400 text-white shadow-md transform scale-105"
+            class="flex items-center justify-between w-full px-4 py-3.5 rounded-xl text-lg font-semibold 
+               text-gray-800 hover:bg-gradient-to-r hover:from-rose-200 hover:to-orange-200 
+               transition-all duration-300 bg-white/60 shadow-sm">
+            <span class="flex items-center gap-3">
+                <i [class]="item.icon + ' text-xl'"></i>
+                {{ item.title }}
+            </span>
+            <span *ngIf="item.shortcut" class="hidden lg:inline-flex bg-white/90 border border-rose-300 
+                                            rounded-md px-2 py-1 text-xs text-gray-700 font-bold shadow-sm">
+                {{ item.shortcut }}
+            </span>
+        </a>
+    </ng-template>
+</div>
+
+<!-- Información del Usuario al final del Sidebar -->
+<div class="mt-auto pt-4 border-t border-rose-300">
+    <div class="bg-white/80 rounded-xl p-4 shadow-md">
+        <div class="flex items-center gap-3 mb-3">
+            <div
+                class="w-12 h-12 bg-gradient-to-br from-rose-400 to-orange-400 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
+                MG
+            </div>
+            <div class="flex-1">
+                <p class="font-bold text-gray-800 text-sm">María González</p>
+                <p class="text-xs text-gray-600">Adulto Mayor</p>
+            </div>
+        </div>
+        <button class="w-full bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-600 hover:to-orange-600 
+                     text-white py-2 rounded-lg text-sm font-semibold transition-all duration-200 shadow-md
+                     hover:shadow-lg transform hover:scale-105">
+            <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
+        </button>
+    </div>
+</div>
