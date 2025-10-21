@@ -1,0 +1,69 @@
+/* Estilos específicos para el componente de registro */
+
+/* Animación suave para las notificaciones */
+.toast {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Hover effects para las filas de la tabla */
+tbody tr {
+  transition: all 0.2s ease;
+}
+
+tbody tr:hover {
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para campos con error */
+.input-error,
+.select-error,
+.textarea-error {
+  border-color: hsl(var(--er));
+}
+
+/* Estilos para campos válidos */
+.input-success,
+.select-success,
+.textarea-success {
+  border-color: hsl(var(--su));
+}
+
+/* Autocompletado */
+.menu {
+  transition: all 0.2s ease;
+}
+
+/* Mejora de accesibilidad */
+.btn:focus,
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: 2px solid hsl(var(--p));
+  outline-offset: 2px;
+}
+
+/* Loader personalizado */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

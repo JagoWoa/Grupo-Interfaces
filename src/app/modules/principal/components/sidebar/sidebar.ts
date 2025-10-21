@@ -14,8 +14,14 @@ export class Sidebar {
   menuItems = [
     {
       title: 'Inicio',
-      href: '/inicio',
+      href: '/',
       icon: 'fas fa-home',
+    },
+    {
+      title: 'Gestión de Registros',
+      href: '/registro',
+      icon: 'fas fa-clipboard-list',
+      badge: 'Módulo 3',
     },
     {
       title: 'Salud',
