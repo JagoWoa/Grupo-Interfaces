@@ -14,7 +14,9 @@
 
   <!-- Título -->
   <div class="mb-6">
-    <h1 class="text-3xl font-bold text-primary">Gestión de Registros Maestros</h1>
+    <h1 class="text-3xl font-bold bg-gradient-to-r from-orange-500 to-amber-600 bg-clip-text text-transparent">
+      Gestión de Registros Maestros
+    </h1>
     <p class="text-sm text-base-content/70 mt-2">
       Módulo 3 - Formulario de Registro con validaciones y autocompletado
     </p>
@@ -24,9 +26,12 @@
   <div class="card bg-base-100 shadow-xl mb-6">
     <div class="card-body">
       <h2 class="card-title mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+        </svg>
         {{ modoEdicion() ? 'Editar Registro' : 'Nuevo Registro' }}
         @if (modoEdicion()) {
-          <span class="badge badge-warning">Modo Edición</span>
+          <span class="badge bg-gradient-to-r from-amber-500 to-orange-600 text-white border-0">Modo Edición</span>
         }
       </h2>
 
@@ -35,14 +40,14 @@
           <!-- Campo Nombre con Autocompletado -->
           <div class="form-control relative">
             <label class="label">
-              <span class="label-text">Nombre *</span>
-              <span class="label-text-alt">Min. 3 caracteres</span>
+              <span class="label-text font-semibold">Nombre *</span>
+              <span class="label-text-alt text-amber-600">Min. 3 caracteres</span>
             </label>
             <input 
               type="text" 
               formControlName="nombre"
               placeholder="Ingrese el nombre"
-              class="input input-bordered w-full"
+              class="input input-bordered w-full focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
               [class.input-error]="tieneError('nombre')"
               [class.input-success]="registroForm.get('nombre')?.valid && registroForm.get('nombre')?.touched"
             />
@@ -150,7 +155,7 @@
           @if (modoEdicion()) {
             <button 
               type="button"
-              class="btn btn-warning"
+              class="btn bg-amber-500 hover:bg-amber-600 text-white border-0"
               (click)="nuevoRegistro()"
               [disabled]="cargando()"
             >
@@ -163,7 +168,7 @@
 
           <button 
             type="submit"
-            class="btn btn-primary"
+            class="btn bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white border-0"
             [disabled]="cargando() || registroForm.invalid"
           >
             @if (cargando()) {
@@ -188,9 +193,14 @@
   </div>
 
   <!-- Filtros de Búsqueda -->
-  <div class="card bg-base-100 shadow-xl mb-6">
+  <div class="card bg-base-100 shadow-xl mb-6 border-l-4 border-amber-500">
     <div class="card-body">
-      <h2 class="card-title mb-4">Filtros de Búsqueda</h2>
+      <h2 class="card-title mb-4 text-amber-600">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+        </svg>
+        Filtros de Búsqueda
+      </h2>
       
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <!-- Filtro por Texto -->
@@ -248,7 +258,7 @@
             <span class="label-text">&nbsp;</span>
           </label>
           <button 
-            class="btn btn-outline btn-sm"
+            class="btn btn-outline btn-sm border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white"
             (click)="limpiarFiltros()"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -267,10 +277,15 @@
   </div>
 
   <!-- Tabla de Registros -->
-  <div class="card bg-base-100 shadow-xl">
+  <div class="card bg-base-100 shadow-xl border-l-4 border-orange-500">
     <div class="card-body">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="card-title">Listado de Registros</h2>
+        <h2 class="card-title text-orange-600">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+          Listado de Registros
+        </h2>
         <button 
           class="btn btn-sm btn-circle btn-ghost"
           (click)="cargarRegistros()"
@@ -315,7 +330,7 @@
                   <td class="max-w-xs truncate">{{ registro.descripcion }}</td>
                   <td>
                     @if (registro.estado) {
-                      <span class="badge badge-success badge-sm">Activo</span>
+                      <span class="badge bg-green-500 text-white badge-sm border-0">Activo</span>
                     } @else {
                       <span class="badge badge-ghost badge-sm">Inactivo</span>
                     }
@@ -326,7 +341,7 @@
                   <td>
                     <div class="flex gap-2 justify-center">
                       <button 
-                        class="btn btn-ghost btn-xs"
+                        class="btn btn-ghost btn-xs text-amber-600 hover:bg-amber-100"
                         (click)="editarRegistro(registro)"
                         title="Editar"
                       >
@@ -335,7 +350,7 @@
                         </svg>
                       </button>
                       <button 
-                        class="btn btn-ghost btn-xs text-error"
+                        class="btn btn-ghost btn-xs text-red-600 hover:bg-red-100"
                         (click)="eliminarRegistro(registro)"
                         title="Eliminar"
                       >
