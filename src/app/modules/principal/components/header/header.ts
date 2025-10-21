@@ -17,8 +17,7 @@ export class Header {
   
   languages = [
     { code: 'es', name: 'Español', flag: '🇪🇸' },
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'fr', name: 'Français', flag: '🇫🇷' }
+    { code: 'en', name: 'English', flag: '🇺🇸' }
   ];
 
   accessibilityOptions = [
@@ -27,12 +26,6 @@ export class Header {
     { id: 'screenReader', label: 'Lector de Pantalla', icon: 'fas fa-volume-up' }
   ];
 
-  onSearch() {
-    if (this.searchQuery.trim()) {
-      console.log('Buscando:', this.searchQuery);
-      // Implementar lógica de búsqueda
-    }
-  }
 
   changeLanguage(langCode: string) {
     this.selectedLanguage = langCode;
