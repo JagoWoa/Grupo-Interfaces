@@ -1,6 +1,68 @@
+<app-header></app-header>
 
-<div>
-      <!-- Header -->
-  <app-header></app-header>
-  
-</div>
+<section
+  class="relative min-h-screen flex items-center justify-center text-white px-8 py-12 bg-cover bg-center"
+  style="background-image: url('/doctor.jpeg');"
+>
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+
+  <div class="relative z-10 max-w-3xl text-center space-y-6">
+    <h1 class="text-5xl md:text-6xl font-bold leading-tight">
+      ¡Bienvenido a <span class="text-bold">Telecuidado Mayor</span>!
+    </h1>
+
+    <p class="text-lg md:text-xl text-gray-200 leading-relaxed">
+      Tu salud en buenas manos. Gestiona citas, consulta tu historial médico y mantén un seguimiento completo de tu bienestar.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+      <button
+        routerLink="/login"
+        class="bg-[#004b98] text-[#FFFFFF] px-8 py-3 font-semibold rounded-xl shadow-lg hover:bg-[#004bbc] transition-all duration-300"
+      >
+        Iniciar Sesión
+      </button>
+
+      <button
+        routerLink="/register"
+        class="bg-[#004b98] px-8 py-3 text-[#FFFFFF] rounded-xl font-semibold hover:bg-[#004bbc]  transition-all duration-300"
+      >
+        Crear Cuenta
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="flex flex-col md:flex-row items-center justify-between gap-16 px-10 py-24 bg-white">
+
+  <div class="md:w-1/2 space-y-6">
+    <h2 class="text-5xl font-serif font-semibold text-gray-900 leading-tight">
+      Telecuidado Mayor
+    </h2>
+
+    <p class="text-lg text-gray-600 leading-relaxed">
+      <span class="font-semibold text-[#004b98]">Telecuidado Mayor</span>, Gestiona tu salud integral 
+      gratis con nuestra plataforma de teleasistencia para adultos mayores. 
+      Agenda citas, recibe recordatorios, chatea con un doctor y monitorea tu bienestar. 
+      Todo en un solo lugar, con un diseño accesible y fácil de usar.
+    </p>
+
+    <button
+      routerLink="/register"
+      class="bg-[#004b98] text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-300"
+    >
+      Comenzar ahora
+    </button>
+  </div>
+
+  <div class="md:w-1/2 flex justify-center relative">
+    <div class="absolute -top-10 -right-10 w-64 h-64 bg-gradient-to-tr from-teal-100 to-teal-300 rounded-3xl blur-3xl opacity-30"></div>
+    <img
+      src="/doctor2.jpeg"
+      alt="Ilustración médica"
+      class="relative w-80 md:w-[420px] transform hover:scale-105 transition-transform duration-500"
+    />
+  </div>
+</section>
+<app-footer></app-footer>
+
