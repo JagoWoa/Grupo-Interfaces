@@ -26,27 +26,7 @@ export class Header {
     { id: 'screenReader', label: 'Lector de Pantalla', icon: 'fas fa-volume-up' }
   ];
 
-
-  changeLanguage(langCode: string) {
-    this.selectedLanguage = langCode;
-    console.log('Idioma cambiado a:', langCode);
-    // Implementar cambio de idioma
-  }
-
-  toggleAccessibilityMenu() {
-    this.isAccessibilityMenuOpen = !this.isAccessibilityMenuOpen;
-  }
-
-  toggleAccessibilityOption(optionId: string) {
-    console.log('Opción de accesibilidad:', optionId);
-    // Implementar lógica de accesibilidad
-  }
-
-  getSelectedLanguageFlag(): string {
-    return this.languages.find(l => l.code === this.selectedLanguage)?.flag || '🇪🇸';
-  }
-
-  getSelectedLanguageCode(): string {
-    return this.languages.find(l => l.code === this.selectedLanguage)?.code.toUpperCase() || 'ES';
+  isLogging(){
+    return false;
   }
 }

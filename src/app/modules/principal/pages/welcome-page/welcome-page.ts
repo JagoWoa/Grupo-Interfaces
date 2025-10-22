@@ -4,7 +4,7 @@ import { Footer }  from '../../components/footer/footer';
 import { Sidebar }  from '../../components/sidebar/sidebar';
 @Component({
   selector: 'app-welcome-page',
-  imports: [Header, Footer, Sidebar],
+  imports: [Header, Footer],
   templateUrl: './welcome-page.html',
 })
 export class WelcomePage {
