@@ -1,16 +1,12 @@
-<div class="min-h-screen bg-base-200 p-6" (keydown)="onKeyDown($event)">
+<div class="min-h-screen bg-base-200 p-6">
   <!-- Notificación -->
-  @if (mostrarNotificacion()) {
-    <div class="toast toast-top toast-end z-50">
-      <div class="alert" 
-           [class.alert-success]="tipoNotificacion() === 'success'"
-           [class.alert-error]="tipoNotificacion() === 'error'"
-           [class.alert-info]="tipoNotificacion() === 'info'">
-        <span>{{ mensajeNotificacion() }}</span>
-        <button class="btn btn-sm btn-circle btn-ghost" (click)="cerrarNotificacion()">✕</button>
-      </div>
+  <div *ngIf="mostrarNotificacion()" class="toast toast-top toast-end z-50">
+    <div class="alert" 
+         [ngClass]="{ 'alert-success': tipoNotificacion() === 'success', 'alert-error': tipoNotificacion() === 'error', 'alert-info': tipoNotificacion() === 'info' }">
+      <span>{{ mensajeNotificacion() }}</span>
+      <button class="btn btn-sm btn-circle btn-ghost" (click)="cerrarNotificacion()">✕</button>
     </div>
-  }
+  </div>
 
   <!-- Título -->
   <div class="mb-6">
@@ -30,12 +26,10 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
         </svg>
         {{ modoEdicion() ? 'Editar Registro' : 'Nuevo Registro' }}
-        @if (modoEdicion()) {
-          <span class="badge bg-gradient-to-r from-amber-500 to-orange-600 text-white border-0">Modo Edición</span>
-        }
+        <span *ngIf="modoEdicion()" class="badge bg-gradient-to-r from-amber-500 to-orange-600 text-white border-0">Modo Edición</span>
       </h2>
 
-      <form [formGroup]="registroForm" (ngSubmit)="guardarRegistro()">
+  <form [formGroup]="registroForm" (ngSubmit)="guardarRegistro()">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <!-- Campo Nombre con Autocompletado -->
           <div class="form-control relative">
@@ -53,26 +47,20 @@
             />
             
             <!-- Sugerencias de Autocompletado -->
-            @if (mostrarSugerencias() && sugerenciasNombre().length > 0) {
-              <ul class="menu bg-base-200 rounded-box absolute top-full mt-1 w-full z-10 shadow-lg max-h-48 overflow-y-auto">
-                @for (sugerencia of sugerenciasNombre(); track sugerencia) {
-                  <li>
-                    <a (click)="seleccionarSugerencia(sugerencia)">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                      {{ sugerencia }}
-                    </a>
-                  </li>
-                }
-              </ul>
-            }
-            
-            @if (tieneError('nombre')) {
-              <label class="label">
-                <span class="label-text-alt text-error">{{ getMensajeError('nombre') }}</span>
-              </label>
-            }
+            <ul *ngIf="mostrarSugerencias() && sugerenciasNombre().length > 0" class="menu bg-base-200 rounded-box absolute top-full mt-1 w-full z-10 shadow-lg max-h-48 overflow-y-auto">
+              <li *ngFor="let sugerencia of sugerenciasNombre()">
+                <a (click)="seleccionarSugerencia(sugerencia)" role="button" tabindex="0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  {{ sugerencia }}
+                </a>
+              </li>
+            </ul>
+
+            <label *ngIf="tieneError('nombre')" class="label">
+              <span class="label-text-alt text-error">{{ getMensajeError('nombre') }}</span>
+            </label>
           </div>
 
           <!-- Campo Categoría -->
@@ -82,6 +70,8 @@
             </label>
             <select 
               formControlName="categoria"
+              title="Seleccionar categoría"
+              aria-label="Seleccionar categoría"
               class="select select-bordered w-full"
               [class.select-error]="tieneError('categoria')"
               [class.select-success]="registroForm.get('categoria')?.valid && registroForm.get('categoria')?.touched"
@@ -92,15 +82,13 @@
               <option value="Consultas">Consultas</option>
               <option value="Tratamientos">Tratamientos</option>
               <option value="Otros">Otros</option>
-              @for (cat of categorias(); track cat) {
+              <ng-container *ngFor="let cat of categorias()">
                 <option [value]="cat">{{ cat }}</option>
-              }
+              </ng-container>
             </select>
-            @if (tieneError('categoria')) {
-              <label class="label">
-                <span class="label-text-alt text-error">{{ getMensajeError('categoria') }}</span>
-              </label>
-            }
+            <label *ngIf="tieneError('categoria')" class="label">
+              <span class="label-text-alt text-error">{{ getMensajeError('categoria') }}</span>
+            </label>
           </div>
 
           <!-- Campo Descripción (Full Width) -->
@@ -118,11 +106,9 @@
               [class.textarea-error]="tieneError('descripcion')"
               [class.textarea-success]="registroForm.get('descripcion')?.valid && registroForm.get('descripcion')?.touched"
             ></textarea>
-            @if (tieneError('descripcion')) {
-              <label class="label">
-                <span class="label-text-alt text-error">{{ getMensajeError('descripcion') }}</span>
-              </label>
-            }
+            <label *ngIf="tieneError('descripcion')" class="label">
+              <span class="label-text-alt text-error">{{ getMensajeError('descripcion') }}</span>
+            </label>
           </div>
 
           <!-- Campo Estado -->
@@ -152,32 +138,34 @@
             Limpiar
           </button>
           
-          @if (modoEdicion()) {
+          <ng-container *ngIf="modoEdicion()">
             <button 
               type="button"
               class="btn bg-amber-500 hover:bg-amber-600 text-white border-0"
               (click)="nuevoRegistro()"
               [disabled]="cargando()"
+              title="Nuevo registro"
             >
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
               </svg>
               Nuevo
             </button>
-          }
+          </ng-container>
 
           <button 
             type="submit"
             class="btn bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white border-0"
             [disabled]="cargando() || registroForm.invalid"
+            title="Guardar registro"
+            aria-label="Guardar registro"
           >
-            @if (cargando()) {
-              <span class="loading loading-spinner"></span>
-            } @else {
+            <span *ngIf="cargando(); else notLoading" class="loading loading-spinner" aria-hidden="true"></span>
+            <ng-template #notLoading>
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
               </svg>
-            }
+            </ng-template>
             {{ modoEdicion() ? 'Actualizar' : 'Guardar' }}
           </button>
         </div>
@@ -212,6 +200,7 @@
             type="text"
             [(ngModel)]="filtroTexto"
             (ngModelChange)="aplicarFiltros()"
+            name="filtroTexto"
             placeholder="Nombre o descripción..."
             class="input input-bordered input-sm"
           />
@@ -225,6 +214,9 @@
           <select 
             [(ngModel)]="filtroCategoria"
             (ngModelChange)="aplicarFiltros()"
+            name="filtroCategoria"
+            title="Filtrar por categoría"
+            aria-label="Filtrar por categoría"
             class="select select-bordered select-sm"
           >
             <option value="">Todas</option>
@@ -244,6 +236,9 @@
           <select 
             [(ngModel)]="filtroEstado"
             (ngModelChange)="aplicarFiltros()"
+            name="filtroEstado"
+            title="Filtrar por estado"
+            aria-label="Filtrar por estado"
             class="select select-bordered select-sm"
           >
             <option [ngValue]="null">Todos</option>
@@ -290,6 +285,8 @@
           class="btn btn-sm btn-circle btn-ghost"
           (click)="cargarRegistros()"
           [disabled]="cargando()"
+          title="Recargar registros"
+          aria-label="Recargar registros"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -298,14 +295,12 @@
       </div>
 
       <!-- Loader -->
-      @if (cargando()) {
-        <div class="flex justify-center items-center py-12">
-          <span class="loading loading-spinner loading-lg text-primary"></span>
-        </div>
-      }
+      <div *ngIf="cargando()" class="flex justify-center items-center py-12">
+        <span class="loading loading-spinner loading-lg text-primary" aria-hidden="true"></span>
+      </div>
 
       <!-- Tabla -->
-      @if (!cargando() && registrosFiltrados().length > 0) {
+      <div *ngIf="!cargando() && registrosFiltrados().length > 0">
         <div class="overflow-x-auto">
           <table class="table table-zebra">
             <thead>
@@ -320,8 +315,7 @@
               </tr>
             </thead>
             <tbody>
-              @for (registro of registrosFiltrados(); track registro.id) {
-                <tr [class.bg-base-300]="registroSeleccionado()?.id === registro.id">
+              <tr *ngFor="let registro of registrosFiltrados()" [class.bg-base-300]="registroSeleccionado()?.id === registro.id">
                   <td>{{ registro.id }}</td>
                   <td class="font-semibold">{{ registro.nombre }}</td>
                   <td>
@@ -329,11 +323,10 @@
                   </td>
                   <td class="max-w-xs truncate">{{ registro.descripcion }}</td>
                   <td>
-                    @if (registro.estado) {
-                      <span class="badge bg-green-500 text-white badge-sm border-0">Activo</span>
-                    } @else {
+                    <span *ngIf="registro.estado; else inactivo" class="badge bg-green-500 text-white badge-sm border-0">Activo</span>
+                    <ng-template #inactivo>
                       <span class="badge badge-ghost badge-sm">Inactivo</span>
-                    }
+                    </ng-template>
                   </td>
                   <td class="text-sm text-base-content/70">
                     {{ registro.fecha_modificacion | date:'short' }}
@@ -353,34 +346,30 @@
                         class="btn btn-ghost btn-xs text-red-600 hover:bg-red-100"
                         (click)="eliminarRegistro(registro)"
                         title="Eliminar"
+                        aria-label="Eliminar registro {{ registro.nombre }}"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
                       </button>
                     </div>
-                  </td>
+              </td>
                 </tr>
-              }
             </tbody>
           </table>
         </div>
-      }
+      </div>
 
       <!-- Mensaje sin resultados -->
-      @if (!cargando() && registrosFiltrados().length === 0) {
-        <div class="text-center py-12">
+      <div *ngIf="!cargando() && registrosFiltrados().length === 0" class="text-center py-12">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-base-content/30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
           </svg>
           <p class="text-base-content/60 mt-4">No se encontraron registros</p>
-          @if (filtroTexto() || filtroCategoria() || filtroEstado() !== null) {
-            <button class="btn btn-sm btn-primary mt-4" (click)="limpiarFiltros()">
-              Limpiar Filtros
-            </button>
-          }
-        </div>
-      }
+          <button *ngIf="filtroTexto() || filtroCategoria() || filtroEstado() !== null" class="btn btn-sm btn-primary mt-4" (click)="limpiarFiltros()" title="Limpiar filtros">
+            Limpiar Filtros
+          </button>
+      </div>
     </div>
   </div>
 </div>

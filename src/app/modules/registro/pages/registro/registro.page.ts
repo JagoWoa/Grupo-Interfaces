@@ -3,6 +3,7 @@ import { RegistroFormComponent } from '../../components/registro-form/registro-f
 
 @Component({
   selector: 'app-registro',
+  standalone: true,
   imports: [RegistroFormComponent],
   template: `
     <div class="container mx-auto">

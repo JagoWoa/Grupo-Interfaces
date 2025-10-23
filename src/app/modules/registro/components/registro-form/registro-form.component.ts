@@ -1,10 +1,11 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { RegistroService, RegistroMaestro } from '../../services/registro.service';
 
 @Component({
   selector: 'app-registro-form',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './registro-form.component.html',
   styleUrls: ['./registro-form.component.css']
@@ -354,12 +355,12 @@ export class RegistroFormComponent implements OnInit {
    */
   onKeyDown(event: KeyboardEvent, accion?: string): void {
     // Ctrl + S: Guardar
-    if (event.ctrlKey && event.key === 's') {
+    if (event.ctrlKey && (event.key === 's' || event.key === 'S')) {
       event.preventDefault();
       this.guardarRegistro();
     }
     // Ctrl + N: Nuevo
-    if (event.ctrlKey && event.key === 'n') {
+    if (event.ctrlKey && (event.key === 'n' || event.key === 'N')) {
       event.preventDefault();
       this.nuevoRegistro();
     }
@@ -367,5 +368,11 @@ export class RegistroFormComponent implements OnInit {
     if (event.key === 'Escape') {
       this.limpiarFormulario();
     }
+  }
+
+  // Escuchar teclas a nivel de ventana para asegurar que los atajos funcionen
+  @HostListener('window:keydown', ['$event'])
+  handleGlobalKeydown(event: KeyboardEvent) {
+    this.onKeyDown(event);
   }
 }
