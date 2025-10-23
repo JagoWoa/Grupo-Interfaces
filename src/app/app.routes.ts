@@ -1,6 +1,10 @@
 import { Routes } from '@angular/router';
-import { Home } from './modules/principal/pages/home/home';
+//import { Home } from './modules/principal/pages/home/home';
 import { WelcomePage } from './modules/principal/pages/welcome-page/welcome-page';
+import { Registre } from './modules/principal/pages/registre/registre';
+import { Login } from './modules/principal/pages/login/login';
+import { UsuarioAnciano } from './modules/principal/pages/usuarioAnciano/usuarioAnciano';
+
 export const routes: Routes = [
 	{
 		path: 'home',
@@ -12,14 +16,29 @@ export const routes: Routes = [
 		component: WelcomePage,
 		pathMatch: 'full'
 	},
-	// Módulo 3 - Registro
 	{
-		path: 'registro',
-		loadComponent: () => import('./modules/registro/pages/registro/registro.page').then(m => m.RegistroPage)
+		path: 'register',
+		component: Registre,
+		pathMatch: 'full'
 	},
-	// fallback: redirect unknown paths to home (client-side)
+	{
+		path: 'login',
+		component: Login,
+		pathMatch: 'full'
+	},
+	{
+		path: 'usuario',
+		component: UsuarioAnciano,
+		pathMatch: 'full'
+	},
 	{
 		path: '**',
 		redirectTo: ''
 	}
+	// Módulo 3 - Registro
+	//{
+	//	path: 'registro',
+	//	loadComponent: () => import('./modules/registro/pages/registro/registro.page').then(m => m.RegistroPage)
+	//},
+	// fallback: redirect unknown paths to home (client-side)
 ];

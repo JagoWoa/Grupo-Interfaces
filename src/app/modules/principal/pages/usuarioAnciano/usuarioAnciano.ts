@@ -3,14 +3,15 @@ import { CommonModule } from '@angular/common';
 import { Sidebar }  from '../../components/sidebar/sidebar';
 import { Header }  from '../../components/header/header';
 import { Footer }  from '../../components/footer/footer';
-
+import { Chat } from '../../components/chat/chat';
+import { ChatService } from '..//../../../core/services/chat.service';
 @Component({
-  selector: 'app-home',
+  selector: 'app-usuarioAnciano',
   standalone: true,
-  imports: [CommonModule, Sidebar, Header, Footer],
-  templateUrl: './home.html',
+  imports: [CommonModule, Sidebar, Header, Footer, Chat],
+  templateUrl: './usuarioAnciano.html',
 })
-export class Home {
+export class UsuarioAnciano {
 vitalSigns = [
     {
       title: 'Presión Arterial',
@@ -45,4 +46,8 @@ vitalSigns = [
       colorClass: 'border-blue-500',
     },
   ];
+  constructor(private chatService: ChatService) {}
+  toggleChat(): void {
+    this.chatService.toggleChat();
+  }
 }
