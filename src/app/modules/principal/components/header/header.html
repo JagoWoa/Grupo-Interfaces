@@ -3,20 +3,19 @@
     <div class="flex items-center gap-4">
       <!-- Logo -->
       <div class="flex items-center gap-2">
-        <i class="fa-solid fa-heart-pulse text-3xl" alt="Logo"></i>
+        <i class="fa-solid fa-heart-pulse text-3xl" alt="Logo"> </i>
+        <h1>Telecuidado Mayor</h1>
       </div>
     </div>
 
     <!-- Centro: Menu principal -->
-    <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="isLogging()">
-      <li><a href="#" class="hover:underline text-xl">home</a></li>
-      <li><a href="#" class="hover:underline text-xl">Perfil</a></li>
-      <li><a href="#" class="hover:underline text-xl">signos vitales</a></li>
-      <li><a href="#" class="hover:underline text-xl">Plan de medicamento</a></li>
-      <li><a href="#" class="hover:underline text-xl">Doctor Asignado</a></li>
+    <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="!isLogging()">
+      <li><a routerLink="/home" class="hover:underline text-xl">home</a></li>
+      <li><a routerLink="/perfil" class="hover:underline text-xl">Perfil</a></li>
+      <li><a routerLink="/usuario" class="hover:underline text-xl">Salud</a></li>
     </ul>
 
-    <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="!isLogging()">
+    <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="isLogging()">
       <li>
         <a routerLink="/login" class="hover:underline text-xl">Iniciar sesión</a>
       </li>
@@ -26,8 +25,14 @@
     </ul>
 
 
-    <!-- Derecha: Buscar -->
-    <div class="hidden md:flex items-center">
+    <!-- Derecha: Buscar y controles -->
+    <div class="hidden md:flex items-center gap-3">
+      <button class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm">
+        <i class="fa-solid fa-language"></i>
+      </button>
+      <button class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm">
+        <i class="fa-solid fa-palette"></i>
+      </button>
       <button class="hover:opacity-80 transition">
         <i class="fas fa-search text-xl"></i>
       </button>
