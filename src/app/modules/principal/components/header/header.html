@@ -9,11 +9,16 @@
 
     <!-- Centro: Menu principal -->
     <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="isLogging()">
-      <li><a href="#" class="hover:underline text-xl">home</a></li>
-      <li><a href="#" class="hover:underline text-xl">Perfil</a></li>
-      <li><a href="#" class="hover:underline text-xl">signos vitales</a></li>
-      <li><a href="#" class="hover:underline text-xl">Plan de medicamento</a></li>
+      <li><a routerLink="/home" class="hover:underline text-xl">Home</a></li>
+      <li><a routerLink="/usuario" class="hover:underline text-xl">Perfil</a></li>
+      <li><a href="#" class="hover:underline text-xl">Signos Vitales</a></li>
+      <li><a href="#" class="hover:underline text-xl">Plan de Medicamento</a></li>
       <li><a href="#" class="hover:underline text-xl">Doctor Asignado</a></li>
+      <li>
+        <button (click)="logout()" class="hover:underline text-xl text-red-300 hover:text-red-100">
+          <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
+        </button>
+      </li>
     </ul>
 
     <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="!isLogging()">

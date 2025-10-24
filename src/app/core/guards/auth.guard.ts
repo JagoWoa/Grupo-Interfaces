@@ -10,11 +10,17 @@ export const authGuard = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isAuthenticated()) {
+  const isAuth = authService.isAuthenticated();
+  const user = authService.getCurrentUser();
+  
+  console.log('🛡️ AuthGuard - isAuthenticated:', isAuth, 'User:', user?.nombre_completo || 'null');
+
+  if (isAuth) {
     return true;
   }
 
   // Redirigir al login si no está autenticado
+  console.log('❌ AuthGuard - Redirigiendo a /login');
   router.navigate(['/login']);
   return false;
 };
