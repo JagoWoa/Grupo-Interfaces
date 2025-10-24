@@ -12,8 +12,7 @@ import { Footer } from '../../components/footer/footer';
 })
 export class Registre {
   // Datos del formulario
-  nombre: string = '';
-  apellidos: string = '';
+  nombre_completo: string = '';
   email: string = '';
   telefono: string = '';
   fechaNacimiento: string = '';
@@ -33,7 +32,7 @@ export class Registre {
       
   
     // Validaciones
-    if (!this.nombre || !this.apellidos || !this.email || !this.telefono || 
+    if (!this.nombre_completo || !this.email || !this.telefono || 
         !this.fechaNacimiento || !this.password || !this.confirmPassword) {
       this.errorMessage = 'Por favor, completa todos los campos';
       return;
@@ -61,8 +60,7 @@ export class Registre {
 
     // Aquí iría la lógica de registro con Supabase
     console.log('Registro:', {
-      nombre: this.nombre,
-      apellidos: this.apellidos,
+      nombre_completo: this.nombre_completo,
       email: this.email,
       telefono: this.telefono,
       fechaNacimiento: this.fechaNacimiento

@@ -32,7 +32,7 @@ export const routes: Routes = [
 		pathMatch: 'full'
 	},
 	{
-		path: 'register-doctor',
+		path: 'registerdoctor',
 		component: RegisterDoctor,
 		pathMatch: 'full'
 	},
