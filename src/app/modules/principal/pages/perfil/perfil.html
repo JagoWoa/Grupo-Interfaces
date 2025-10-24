@@ -1,0 +1,48 @@
+<app-header></app-header>
+
+<div class="max-w-2xl mx-auto p-6">
+	<h2 class="text-2xl font-bold mb-4">Mi Perfil</h2>
+
+	<div *ngIf="loading">Cargando perfil...</div>
+
+	<div *ngIf="!loading">
+		<div *ngIf="message" class="mb-4 text-sm text-red-600">{{ message }}</div>
+
+		<div *ngIf="!profile || !profile.nombre_completo">
+			<p>No hay perfil asociado a este usuario.</p>
+		</div>
+
+		<form *ngIf="profile && profile.nombre_completo" (ngSubmit)="updateProfile()" class="space-y-4">
+			<!-- Campos comunes -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700">Nombre completo</label>
+				<input type="text" [(ngModel)]="profile.nombre_completo" name="nombre_completo"
+					class="w-full px-3 py-2 border rounded" />
+			</div>
+
+			<div *ngIf="role === 'doctor'">
+				<label class="block text-sm font-medium text-gray-700">Título</label>
+				<input type="text" [(ngModel)]="profile.titulo" name="titulo" class="w-full px-3 py-2 border rounded" />
+
+				<label class="block text-sm font-medium text-gray-700 mt-2">Especialidad</label>
+				<input type="text" [(ngModel)]="profile.especialidad" name="especialidad" class="w-full px-3 py-2 border rounded" />
+			</div>
+
+			<div>
+				<label class="block text-sm font-medium text-gray-700">Teléfono</label>
+				<input type="text" [(ngModel)]="profile.telefono" name="telefono" class="w-full px-3 py-2 border rounded" />
+			</div>
+
+					<div>
+						<label class="block text-sm font-medium text-gray-700">Correo (no editable)</label>
+						<input type="email" [value]="profile.email" disabled class="w-full px-3 py-2 border rounded bg-gray-100" />
+					</div>
+
+					<div>
+						<button type="submit" class="px-4 py-2 bg-[#004b98] text-white rounded">Guardar cambios</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<app-footer></app-footer>
