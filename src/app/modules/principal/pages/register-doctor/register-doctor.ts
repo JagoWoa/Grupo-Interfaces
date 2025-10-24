@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
-import { SupabaseService } from '../../../../core/services/supabase.service';
 
 @Component({
   selector: 'app-register-doctor',
@@ -27,7 +26,7 @@ export class RegisterDoctor {
   errorMessage: string = '';
   acceptTerms: boolean = false;
 
-  constructor(private router: Router, private supabaseService: SupabaseService) {}
+  constructor(private router: Router) {}
 
   onSubmit() {
     this.errorMessage = '';
@@ -60,51 +59,17 @@ export class RegisterDoctor {
       return;
     }
 
-    // Lógica de registro con Supabase: signUp en Auth y luego crear perfil en tabla `doctor`
-    (async () => {
-      try {
-        const { data: signData, error: signError } = await this.supabaseService.client.auth.signUp({
-          email: this.email,
-          password: this.password
-        });
-
-        if (signError) {
-          this.errorMessage = signError.message || 'Error al registrar la cuenta';
-          return;
-        }
-
-        const user = signData?.user ?? (await this.supabaseService.client.auth.getUser()).data?.user;
-
-        if (!user) {
-          this.errorMessage = 'Registro iniciado. Revisa tu correo para confirmar la cuenta antes de iniciar sesión.';
-          return;
-        }
-
-        const perfil = {
-          id: user.id,
-          nombre: this.nombre,
-          apellidos: this.apellidos,
-          email: this.email,
-          telefono: this.telefono,
-          fecha_nacimiento: this.fechaNacimiento
-        } as any;
-
-        const { error: insertError } = await this.supabaseService.client
-          .from('doctor')
-          .insert([perfil]);
-
-        if (insertError) {
-          console.error('Error insertando perfil doctor:', insertError);
-          this.errorMessage = 'Cuenta creada en Auth pero no se pudo crear el perfil (doctor). Contacta al administrador.';
-          return;
-        }
-
-        this.router.navigate(['/login']);
-      } catch (err: any) {
-        console.error('Error en registro doctor:', err);
-        this.errorMessage = err?.message || 'Error inesperado al registrar';
-      }
-    })();
+    // Aquí iría la lógica de registro con Supabase
+    console.log('Registro:', {
+      nombre: this.nombre,
+      apellidos: this.apellidos,
+      email: this.email,
+      telefono: this.telefono,
+      fechaNacimiento: this.fechaNacimiento
+    });
+    
+    // Simulación de registro exitoso (reemplazar con llamada real a Supabase)
+    // this.router.navigate(['/login']);
   }
 
   togglePasswordVisibility() {
