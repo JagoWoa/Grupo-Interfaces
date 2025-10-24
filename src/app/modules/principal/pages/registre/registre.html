@@ -21,27 +21,16 @@
 
             <!-- Formulario -->
             <form (ngSubmit)="onSubmit()" class="space-y-5">
-                <!-- Nombre y Apellidos -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-2">
-                        <label for="nombre" class="block text-sm font-medium text-gray-700">
-                            Nombre(s) *
-                        </label>
-                        <input type="text" id="nombre" name="nombre" [(ngModel)]="nombre" placeholder="Juan" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg 
+                <!-- Nombre Completo -->
+                <div class="space-y-2">
+                    <label for="nombre_completo" class="block text-sm font-medium text-gray-700">
+                        Nombre Completo *
+                    </label>
+                    <input type="text" id="nombre_completo" name="nombre_completo" [(ngModel)]="nombre_completo" 
+                        placeholder="Juan Pérez García" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg 
               focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
               placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
-                    </div>
-
-                    <div class="space-y-2">
-                        <label for="apellidos" class="block text-sm font-medium text-gray-700">
-                            Apellidos *
-                        </label>
-                        <input type="text" id="apellidos" name="apellidos" [(ngModel)]="apellidos"
-                            placeholder="Pérez García" required class="w-full px-4 py-3 border border-gray-300 rounded-lg 
-              focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
-              placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
-                    </div>
                 </div>
 
                 <!-- Email y Teléfono -->

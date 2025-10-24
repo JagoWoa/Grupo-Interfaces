@@ -12,11 +12,11 @@ import { Footer } from '../../components/footer/footer';
 })
 export class RegisterDoctor {
   // Datos del formulario
-  nombre: string = '';
-  apellidos: string = '';
+  nombre_completo: string = '';
+  titulo: string = '';
+  especialidad: string = '';
   email: string = '';
   telefono: string = '';
-  fechaNacimiento: string = '';
   password: string = '';
   confirmPassword: string = '';
   
@@ -33,8 +33,8 @@ export class RegisterDoctor {
       
   
     // Validaciones
-    if (!this.nombre || !this.apellidos || !this.email || !this.telefono || 
-        !this.fechaNacimiento || !this.password || !this.confirmPassword) {
+    if (!this.nombre_completo || !this.titulo || !this.especialidad || 
+        !this.email || !this.telefono || !this.password || !this.confirmPassword) {
       this.errorMessage = 'Por favor, completa todos los campos';
       return;
     }
@@ -60,12 +60,12 @@ export class RegisterDoctor {
     }
 
     // Aquí iría la lógica de registro con Supabase
-    console.log('Registro:', {
-      nombre: this.nombre,
-      apellidos: this.apellidos,
+    console.log('Registro Doctor:', {
+      nombre_completo: this.nombre_completo,
+      titulo: this.titulo,
+      especialidad: this.especialidad,
       email: this.email,
-      telefono: this.telefono,
-      fechaNacimiento: this.fechaNacimiento
+      telefono: this.telefono
     });
     
     // Simulación de registro exitoso (reemplazar con llamada real a Supabase)
