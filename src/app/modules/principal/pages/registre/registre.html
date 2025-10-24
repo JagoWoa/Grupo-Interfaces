@@ -2,9 +2,9 @@
 
 <section class="relative min-h-screen flex items-center justify-center px-8 py-12 bg-cover bg-center"
     style="background-image: url('/doctor.jpeg');">
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-none z-0"></div>
 
-    <div class="relative z-10 w-full max-w-2xl">
+    <div class="relative z-20 w-full max-w-2xl pointer-events-auto">
         <div class="bg-white rounded-2xl shadow-2xl p-8 space-y-6">
             <!-- Encabezado -->
             <div class="text-center space-y-2">
@@ -20,17 +20,28 @@
             }
 
             <!-- Formulario -->
-            <form (ngSubmit)="onSubmit()" class="space-y-5">
-                <!-- Nombre Completo -->
-                <div class="space-y-2">
-                    <label for="nombre_completo" class="block text-sm font-medium text-gray-700">
-                        Nombre Completo *
-                    </label>
-                    <input type="text" id="nombre_completo" name="nombre_completo" [(ngModel)]="nombre_completo" 
-                        placeholder="Juan Pérez García" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg text-black
-              focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
-              placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+            <form (ngSubmit)="onSubmit()" class="space-y-5 relative z-40 pointer-events-auto">
+                <!-- Nombre y Apellidos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label for="nombre" class="block text-sm font-medium text-gray-700">
+                            Nombre(s) *
+                        </label>
+                        <input type="text" id="nombre" name="nombre" [(ngModel)]="nombre" placeholder="Juan" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
+                  focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
+                  placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="apellidos" class="block text-sm font-medium text-gray-700">
+                            Apellidos *
+                        </label>
+                        <input type="text" id="apellidos" name="apellidos" [(ngModel)]="apellidos"
+                            placeholder="Pérez García" required class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
+                  focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
+                  placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                    </div>
                 </div>
 
                 <!-- Email y Teléfono -->
@@ -40,9 +51,9 @@
                             Correo electrónico *
                         </label>
                         <input type="email" id="email" name="email" [(ngModel)]="email" placeholder="ejemplo@correo.com"
-                            required class="w-full px-4 py-3 border border-gray-300 rounded-lg  text-black
-              focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
-              placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                            required class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
+                  focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
+                  placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
                     </div>
 
                     <div class="space-y-2">
@@ -50,9 +61,9 @@
                             Teléfono *
                         </label>
                         <input type="tel" id="telefono" name="telefono" [(ngModel)]="telefono"
-                            placeholder="+593 000 000" required class="w-full px-4 py-3 border border-gray-300 rounded-lg  text-black
-              focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
-              placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                            placeholder="+593 000 000" required class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
+                  focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
+                  placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
                     </div>
                 </div>
 
@@ -62,9 +73,9 @@
                         Fecha de Nacimiento *
                     </label>
                     <input type="text" id="fechaNacimiento" name="fechaNacimiento" [(ngModel)]="fechaNacimiento"
-                        placeholder="dd/mm/aaaa" required class="w-full px-4 py-3 border border-gray-300 rounded-lg text-black
-          focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
-          placeholder-gray-500 placeholder:font-medium placeholder:opacity-100" />
+                        placeholder="dd/mm/aaaa" required class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
+              focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
+              placeholder-gray-500 placeholder:font-medium placeholder:opacity-100" />
                 </div>
 
                 <!-- Contraseña -->
@@ -75,7 +86,7 @@
                     <div class="relative">
                         <input [type]="showPassword ? 'text' : 'password'" id="password" name="password"
                             [(ngModel)]="password" placeholder="Mínimo 6 caracteres" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 text-black focus:ring-[#004b98] focus:border-transparent outline-none transition-all placeholder-gray-500 placeholder:font-medium placeholder:opacity-100" />
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all placeholder-gray-500 placeholder:font-medium placeholder:opacity-100" />
                         <button type="button" (click)="togglePasswordVisibility()"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                             @if (showPassword) {
@@ -104,7 +115,7 @@
                         <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword"
                             name="confirmPassword" [(ngModel)]="confirmPassword" placeholder="Repite tu contraseña"
                             required
-                            class="w-full px-4 py-3 text-black border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all placeholder-gray-500 placeholder:font-medium placeholder:opacity-100" />
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all placeholder-gray-500 placeholder:font-medium placeholder:opacity-100" />
                         <button type="button" (click)="toggleConfirmPasswordVisibility()"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
                             @if (showConfirmPassword) {
