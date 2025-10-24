@@ -56,12 +56,43 @@
   </div>
 
   <div class="md:w-1/2 flex justify-center relative">
-    <div class="absolute -top-10 -right-10 w-64 h-64 bg-gradient-to-tr from-teal-100 to-teal-300 rounded-3xl blur-3xl opacity-30"></div>
+    <div class="absolute -top-10 -right-10 w-64 h-64 "></div>
     <img
       src="/doctor2.jpeg"
       alt="Ilustración médica"
-      class="relative w-80 md:w-[420px] transform hover:scale-105 transition-transform duration-500"
+      class="relative w-80 md:w-[420px] "
     />
+  </div>
+</section>
+<!-- Trabaja con nosotros -->
+<section class="flex flex-col md:flex-row items-center justify-between gap-16 px-10 py-24 bg-white">
+
+  <div class="md:w-1/2 flex justify-center relative">
+    <div class="absolute -top-10 -right-10 w-64 h-64 "></div>
+    <img
+      src="/doctores.jpeg"
+      alt="Ilustración médica"
+      class="relative w-80 md:w-[420px] "
+    />
+  </div>
+
+    <div class="md:w-1/2 space-y-6">
+    <h2 class="text-5xl font-serif font-semibold text-gray-900 leading-tight">
+      Trabaja con nosotros
+    </h2>
+
+    <p class="text-lg text-gray-600 leading-relaxed">
+      <span class="font-semibold text-[#004b98]">Telecuidado Mayor</span>, Te invita a formar parte de un proyecto 
+      que está cambiando la forma en que los adultos mayores gestionan su bienestar. Hemos creado una plataforma 
+      de teleasistencia integral y gratuita que les devuelve el control sobre su salud.
+    </p>
+
+    <button
+      routerLink="/register-doctor"
+      class="bg-[#004b98] text-white px-8 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-300"
+    >
+      Registrarse como profesional
+    </button>
   </div>
 </section>
 <app-footer></app-footer>

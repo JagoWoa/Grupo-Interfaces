@@ -4,6 +4,8 @@ import { WelcomePage } from './modules/principal/pages/welcome-page/welcome-page
 import { Registre } from './modules/principal/pages/registre/registre';
 import { Login } from './modules/principal/pages/login/login';
 import { UsuarioAnciano } from './modules/principal/pages/usuarioAnciano/usuarioAnciano';
+import { RegisterDoctor } from './modules/principal/pages/register-doctor/register-doctor';
+import { UsuarioDoctor } from './modules/principal/pages/usuario-doctor/usuario-doctor';
 
 export const routes: Routes = [
 	{
@@ -37,6 +39,16 @@ export const routes: Routes = [
 		loadComponent: () => import('./modules/registro/pages/registro/registro.page').then(m => m.RegistroPage)
 	},
 	// fallback: redirect unknown paths to home (client-side)
+	{
+		path: 'usuariodoctor',
+		component: UsuarioDoctor,
+		pathMatch: 'full'
+	},
+	{
+		path: 'registerdoctor',
+		component: RegisterDoctor,
+		pathMatch: 'full'
+	},
 	{
 		path: '**',
 		redirectTo: ''
