@@ -4,7 +4,7 @@ import { WelcomePage } from './modules/principal/pages/welcome-page/welcome-page
 import { Registre } from './modules/principal/pages/registre/registre';
 import { Login } from './modules/principal/pages/login/login';
 import { UsuarioAnciano } from './modules/principal/pages/usuarioAnciano/usuarioAnciano';
-
+import { RegisterDoctor } from './modules/principal/pages/register-doctor/register-doctor';
 export const routes: Routes = [
 	{
 		path: 'home',
@@ -29,6 +29,11 @@ export const routes: Routes = [
 	{
 		path: 'usuario',
 		component: UsuarioAnciano,
+		pathMatch: 'full'
+	},
+	{
+		path: 'register-doctor',
+		component: RegisterDoctor,
 		pathMatch: 'full'
 	},
 	{
