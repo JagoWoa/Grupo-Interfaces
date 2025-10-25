@@ -10,9 +10,9 @@
 
     <!-- Centro: Menu principal -->
     <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="!isLogging()">
-      <li><a i18n routerLink="/home" class="hover:underline text-xl">Inicio</a></li>
-      <li><a i18n routerLink="/perfil" class="hover:underline text-xl">Perfil</a></li>
-      <li><a i18n routerLink="/usuario" class="hover:underline text-xl">Salud</a></li>
+      <li><a routerLink="/home" class="hover:underline text-xl">Inicio</a></li>
+      <li><a routerLink="/perfil" class="hover:underline text-xl">Perfil</a></li>
+      <li><a routerLink="/usuario" class="hover:underline text-xl">Salud</a></li>
     </ul>
 
     <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="isLogging()">
