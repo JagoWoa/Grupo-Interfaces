@@ -12,10 +12,9 @@ import { SupabaseService } from '../../../../core/services/supabase.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, Header, Footer],
   templateUrl: './perfil.html',
-  styleUrls: ['./perfil.css']
 })
 export class Perfil implements OnInit, OnDestroy {
-  loading: boolean = true;
+  loading: boolean = false;
   user: any = null;
   role: 'adulto' | 'doctor' | null = null;
   profile: any = {};
@@ -58,7 +57,6 @@ export class Perfil implements OnInit, OnDestroy {
     this.message = '';
     const client = this.supabase.client;
     try {
-      // Soporte de debug: ?debug_user_id=<id> para forzar carga por id
       try {
         const params = new URLSearchParams(window.location.search);
         const debugId = params.get('debug_user_id');
@@ -82,7 +80,6 @@ export class Perfil implements OnInit, OnDestroy {
           return;
         }
       } catch (e) {
-        // ignore if window not available or URL parsing fails
       }
       // Intentar obtener sesión primero (supabase-js v2)
       let userObj: any = null;
