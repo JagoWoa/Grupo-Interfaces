@@ -10,9 +10,9 @@
 
     <!-- Centro: Menu principal -->
     <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="!isLogging()">
-      <li><a routerLink="/home" class="hover:underline text-xl">home</a></li>
-      <li><a routerLink="/perfil" class="hover:underline text-xl">Perfil</a></li>
-      <li><a routerLink="/usuario" class="hover:underline text-xl">Salud</a></li>
+      <li><a i18n routerLink="/home" class="hover:underline text-xl">Inicio</a></li>
+      <li><a i18n routerLink="/perfil" class="hover:underline text-xl">Perfil</a></li>
+      <li><a i18n routerLink="/usuario" class="hover:underline text-xl">Salud</a></li>
     </ul>
 
     <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="isLogging()">
@@ -27,8 +27,13 @@
 
     <!-- Derecha: Buscar y controles -->
     <div class="hidden md:flex items-center gap-3">
-      <button class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm">
+      <button (click)="toggleLanguage()"
+        class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm flex items-center space-x-2">
+
         <i class="fa-solid fa-language"></i>
+
+        <span>{{ targetLang.toUpperCase() }}</span>
+
       </button>
       <button class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm">
         <i class="fa-solid fa-palette"></i>

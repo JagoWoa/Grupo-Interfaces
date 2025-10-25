@@ -10,7 +10,7 @@ import { Perfil } from "./modules/principal/pages/perfil/perfil"
 
 export const routes: Routes = [
 	{
-		path: 'home',
+		path: 'inicio',
 		component: WelcomePage,
 		pathMatch: 'full'
 	},
