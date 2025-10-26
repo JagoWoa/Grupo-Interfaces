@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { Route } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -13,29 +14,33 @@ import { DOCUMENT } from '@angular/common';
   templateUrl: './header.html'
 })
 export class Header {
-  public targetLang: string = 'en'; // Idioma por defecto al que cambiar
-  public currentLang: string = 'es'; // Idioma actual
+  public targetLang: string = 'en';
+  public currentLang: string = 'es';
   searchQuery: string = '';
   selectedLanguage: string = 'es';
   currentPage: string = 'Inicio';
   isAccessibilityMenuOpen: boolean = false;
-  
+  isDarkMode: boolean = false;
+
   languages = [
     { code: 'es', name: 'Español', flag: '🇪🇸' },
     { code: 'en', name: 'English', flag: '🇺🇸' }
   ];
-  
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    @Inject(LOCALE_ID) public locale: string
+    @Inject(LOCALE_ID) public locale: string,
+    private themeService: ThemeService
   ) { }
-  
+
   ngOnInit(): void {
-    // Obtenemos el idioma actual del LOCALE_ID inyectado
     this.currentLang = this.locale;
-    
-    // Determinamos a qué idioma debe cambiar el botón
     this.targetLang = this.currentLang === 'es' ? 'en' : 'es';
+
+    // Suscribirse al estado del tema
+    this.themeService.darkMode$.subscribe(isDark => {
+      this.isDarkMode = isDark;
+    });
   }
 
   // Función que se llamará al hacer clic en el botón
@@ -43,7 +48,7 @@ export class Header {
     // Obtenemos la ruta actual sin el prefijo de idioma
     const currentPath = this.document.location.pathname;
     const pathWithoutLang = currentPath.replace(/^\/(es|en)/, '');
-    
+
     // Redirigimos a la misma ruta pero con el nuevo idioma
     this.document.location.href = `/${this.targetLang}${pathWithoutLang}`;
   }
@@ -56,5 +61,9 @@ export class Header {
 
   isLogging() {
     return false;
+  }
+
+  botonCambio(): void {
+    this.themeService.toggleTheme();
   }
 }

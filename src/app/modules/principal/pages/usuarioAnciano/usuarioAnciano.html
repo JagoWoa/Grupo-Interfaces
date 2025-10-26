@@ -1,44 +1,44 @@
 <!-- Header -->
 <app-header></app-header>
 
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 main-container">
 
   <!-- Main Content -->
-  <div class="max-w-7xl mx-auto px-6 py-10">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <div class="max-w-7xl mx-auto px-6 py-10 main-content">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 dashboard-grid">
 
-      <!-- Columna Izquierda: Signos Vitales y Recordatorios -->
-      <div class="lg:col-span-2 space-y-8">
-<!-- prueba sarabia -->
-        <!-- Signos Vitales Section -->
-        <section class="bg-white rounded-2xl shadow-lg p-8 ">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-12 h-12 flex items-center justify-center">
+      <!-- Columna Izquierda -->
+      <div class="lg:col-span-2 space-y-8 left-column">
+
+        <!-- Signos Vitales -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 vitales-section">
+          <div class="flex items-center gap-3 mb-6 vitales-header">
+            <div class="w-12 h-12 flex items-center justify-center icon-vitales">
               <i class="fa-solid fa-heart text-red-500 text-2xl"></i>
             </div>
             <h2 class="text-3xl font-bold text-gray-800">Signos Vitales</h2>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-red-50 p-6 rounded-xl">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 vitales-grid">
+            <div class="bg-red-50 p-6 rounded-xl card-vital">
               <p class="text-sm text-gray-600 font-medium mb-1">Presión Arterial</p>
               <p class="text-2xl font-bold text-gray-900">120/80</p>
               <p class="text-xs text-gray-500 mt-1">mmHg</p>
             </div>
 
-            <div class="bg-pink-50 p-6 rounded-xl">
+            <div class="bg-pink-50 p-6 rounded-xl card-vital">
               <p class="text-sm text-gray-600 font-medium mb-1">Frecuencia Cardíaca</p>
               <p class="text-2xl font-bold text-gray-900">72</p>
               <p class="text-xs text-gray-500 mt-1">bpm</p>
             </div>
 
-            <div class="bg-orange-50  p-6 rounded-xl ">
+            <div class="bg-orange-50 p-6 rounded-xl card-vital">
               <p class="text-sm text-gray-600 font-medium mb-1">Temperatura</p>
               <p class="text-2xl font-bold text-gray-900">36.5</p>
               <p class="text-xs text-gray-500 mt-1">°C</p>
             </div>
 
-            <div class="bg-blue-100 p-6 rounded-xl ">
+            <div class="bg-blue-100 p-6 rounded-xl card-vital">
               <p class="text-sm text-gray-600 font-medium mb-1">Peso</p>
               <p class="text-2xl font-bold text-gray-900">70</p>
               <p class="text-xs text-gray-500 mt-1">kg</p>
@@ -46,26 +46,24 @@
           </div>
         </section>
 
-        <!-- Recordatorios Section -->
-        <section class="bg-white rounded-2xl shadow-lg p-8 ">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-12 h-12 flex items-center justify-center">
+        <!-- Recordatorios -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 recordatorios-section">
+          <div class="flex items-center gap-3 mb-6 recordatorios-header">
+            <div class="w-12 h-12 flex items-center justify-center icon-recordatorios">
               <i class="fa-solid fa-bell text-green-500 text-2xl"></i>
             </div>
             <h2 class="text-3xl font-bold text-gray-800">Recordatorios</h2>
           </div>
 
-          <ul class="space-y-4">
-            <li
-              class="flex items-start gap-4 p-5 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl">
+          <ul class="space-y-4 recordatorios-list">
+            <li class="flex items-start gap-4 p-5 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl recordatorio-item">
               <div>
                 <p class="font-semibold text-gray-800 text-lg">Paracetamol</p>
                 <p class="text-gray-600">500 mg cada 8 horas</p>
               </div>
             </li>
 
-            <li
-              class="flex items-start gap-4 p-5 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl">
+            <li class="flex items-start gap-4 p-5 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl recordatorio-item">
               <div>
                 <p class="font-semibold text-gray-800 text-lg">Consulta Médica</p>
                 <p class="text-gray-600">Cada 6 meses</p>
@@ -76,16 +74,16 @@
 
       </div>
 
-      <!-- Columna Derecha: Chat con Doctor -->
-      <div class="lg:col-span-1">
-        <section class="bg-white rounded-2xl shadow-lg p-6 sticky top-6">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center">
+      <!-- Columna Derecha -->
+      <div class="lg:col-span-1 right-column">
+        <section class="bg-white rounded-2xl shadow-lg p-6 sticky top-6 chat-section">
+          <div class="flex items-center gap-3 mb-4 chat-header">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center icon-chat">
               <i class="fa-solid fa-comments text-blue-500 text-2xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-gray-800">Chat con Doctor</h2>
           </div>
-          <div class="bg-purple-50 to-indigo-50 rounded-xl ">
+          <div class="bg-purple-50 to-indigo-50 rounded-xl chat-box">
             <app-chat></app-chat>
           </div>
         </section>
