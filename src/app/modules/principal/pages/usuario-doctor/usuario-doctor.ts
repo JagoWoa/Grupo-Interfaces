@@ -29,10 +29,16 @@ export class UsuarioDoctor {
   temperatura: number = 0;
   peso: number = 0;
 
+  // Recordatorios
+  recordatorios: { titulo: string, descripcion: string }[] = [];
+  nuevoRecordatorioTitulo: string = '';
+  nuevoRecordatorioDescripcion: string = '';
+
   seleccionarPaciente(paciente: any) {
     this.pacienteSeleccionado = paciente;
     // Aquí cargarías los signos vitales del paciente desde tu servicio
     this.cargarSignosVitales(paciente.id);
+    this.cargarRecordatorios(paciente.id);
   }
 
   cargarSignosVitales(pacienteId: number) {
@@ -41,6 +47,46 @@ export class UsuarioDoctor {
     this.frecuenciaCardiaca = 72;
     this.temperatura = 36.5;
     this.peso = 70;
+  }
+
+  cargarRecordatorios(pacienteId: number) {
+    // Simulación - aquí deberías llamar a tu servicio para obtener los datos reales
+    this.recordatorios = [
+      { titulo: 'Paracetamol', descripcion: '500 mg cada 8 horas' },
+      { titulo: 'Consulta Médica', descripcion: 'Cada 6 meses' }
+    ];
+  }
+
+  agregarRecordatorio() {
+    if (!this.pacienteSeleccionado) {
+      alert('Por favor selecciona un paciente primero');
+      return;
+    }
+
+    if (!this.nuevoRecordatorioTitulo || !this.nuevoRecordatorioDescripcion) {
+      alert('Por favor completa todos los campos del recordatorio');
+      return;
+    }
+
+    this.recordatorios.push({
+      titulo: this.nuevoRecordatorioTitulo,
+      descripcion: this.nuevoRecordatorioDescripcion
+    });
+
+    // Limpiar campos
+    this.nuevoRecordatorioTitulo = '';
+    this.nuevoRecordatorioDescripcion = '';
+
+    // Aquí llamarías a tu servicio para guardar el recordatorio
+    console.log('Recordatorio agregado:', this.recordatorios);
+  }
+
+  eliminarRecordatorio(index: number) {
+    if (confirm('¿Estás seguro de eliminar este recordatorio?')) {
+      this.recordatorios.splice(index, 1);
+      // Aquí llamarías a tu servicio para eliminar el recordatorio
+      console.log('Recordatorio eliminado');
+    }
   }
 
   actualizarSignosVitales() {

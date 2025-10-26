@@ -5,7 +5,7 @@
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-none z-0"></div>
 
     <div class="relative z-20 w-full max-w-2xl pointer-events-auto">
-        <div class="bg-white rounded-2xl shadow-2xl p-8 space-y-6">
+        <div class="bg-white rounded-2xl  p-8 space-y-6 card-registerDoctor">
             <!-- Encabezado -->
             <div class="text-center space-y-2">
                 <h1 class="text-3xl font-bold text-gray-900">Crear Cuenta</h1>
@@ -27,7 +27,7 @@
                         Nombre Completo *
                     </label>
                     <input type="text" id="nombre_completo" name="nombre_completo" [(ngModel)]="nombre_completo"
-                        placeholder="Juan Pérez García" required class="w-full px-4 py-3 border border-gray-300 rounded-lg text-black
+                        placeholder="Juan Pérez García" required class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
               focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
               placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
                 </div>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                
+
                 <!-- Contraseña -->
                 <div class="space-y-2">
                     <label for="password" class="block text-sm font-medium text-gray-700">
@@ -137,7 +137,7 @@
                 </div>
 
                 <!-- Términos y condiciones -->
-              <!--  <div class="flex items-start gap-3">
+                <div class="flex items-start gap-3">
                     <input type="checkbox" id="terms" name="terms" [(ngModel)]="acceptTerms" required
                         class="w-4 h-4 mt-1 text-[#004b98] border-gray-300 rounded focus:ring-[#004b98]" />
                     <label for="terms" class="text-sm text-gray-600">
@@ -146,7 +146,7 @@
                         y la
                         <a href="#" class="text-[#004b98] hover:underline font-medium">política de privacidad</a>
                     </label>
-                </div>-->
+                </div>
 
                 <!-- Botón de envío -->
                 <button type="submit"
@@ -155,9 +155,11 @@
                 </button>
             </form>
 
-            <div class="relative flex justify-center text-sm">
-                <span class="px-4 bg-white text-gray-500">Inicia Sesion con</span><a routerLink="/login"
-                    class="text-[#004b98] hover:underline font-semibold ml-1">aquí</a>
+            <div class="text-center text-sm">
+                <span class="text-gray-600">¿Ya tienes una cuenta?</span>
+                <a routerLink="/login" class="text-[#004b98] hover:underline font-semibold ml-1">
+                    Inicia sesión aquí
+                </a>
             </div>
 
 
