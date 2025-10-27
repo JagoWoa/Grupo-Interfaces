@@ -38,29 +38,24 @@ export class Login {
 
     // Autenticación con Supabase Auth
     try {
+      console.log('🔐 Login - Intentando autenticar:', this.email);
+      
       const result = await this.authService.login(this.email, this.password);
       
+      console.log('📊 Login - Resultado:', result);
+      
       if (result.success) {
-        // Obtener el usuario actual para verificar su rol
-        const user = this.authService.getCurrentUser();
-        
-        // Redirigir según el rol del usuario
-        if (user?.rol === 'doctor') {
-          this.router.navigate(['/usuariodoctor']);
-        } else if (user?.rol === 'adulto_mayor') {
-          this.router.navigate(['/usuario']);
-        } else if (user?.rol === 'admin') {
-          this.router.navigate(['/admin']);
-        } else {
-          this.router.navigate(['/home']);
-        }
+        console.log('✅ Login exitoso, redirigiendo a dashboard...');
+        // Redirigir siempre al Dashboard después del login exitoso
+        this.router.navigate(['/dashboard']);
       } else {
+        console.error('❌ Login falló:', result.error);
         // Mostrar error y verificar si necesita validación de email
         this.errorMessage = result.error || 'Credenciales incorrectas. Por favor, verifica tu email y contraseña.';
         this.needsEmailVerification = result.needsEmailVerification || false;
       }
     } catch (error) {
-      console.error('Error en login:', error);
+      console.error('❌ Error en login:', error);
       this.errorMessage = 'Error al iniciar sesión. Por favor, intenta de nuevo.';
     } finally {
       this.isLoading = false;

@@ -31,60 +31,44 @@ export class Registre {
   isLoading: boolean = false;
   showEmailVerificationMessage: boolean = false;
 
+  // Errores de validación individuales
+  fieldErrors: {
+    nombre?: string;
+    apellidos?: string;
+    email?: string;
+    telefono?: string;
+    fechaNacimiento?: string;
+    password?: string;
+    confirmPassword?: string;
+    terms?: string;
+  } = {};
+
   constructor(
     private router: Router,
     private authService: AuthService
   ) {}
 
   async onSubmit() {
+    // Limpiar mensajes previos
     this.errorMessage = '';
     this.successMessage = '';
     this.showEmailVerificationMessage = false;
+    this.fieldErrors = {};
+    
+    // Validar todos los campos ANTES de activar isLoading
+    const validationErrors = this.validateForm();
+    
+    if (Object.keys(validationErrors).length > 0) {
+      this.fieldErrors = validationErrors;
+      // Mostrar el primer error en el mensaje general
+      const firstError = Object.values(validationErrors)[0];
+      this.errorMessage = firstError;
+      // NO activar isLoading si hay errores de validación
+      return;
+    }
+    
+    // Si pasó todas las validaciones, activar loading
     this.isLoading = true;
-  
-    // Validaciones
-    if (!this.nombre || !this.apellidos || !this.email || !this.telefono || 
-        !this.fechaNacimiento || !this.password || !this.confirmPassword) {
-      this.errorMessage = 'Por favor, completa todos los campos';
-      this.isLoading = false;
-      return;
-    }
-
-    if (!this.email.includes('@')) {
-      this.errorMessage = 'Por favor, ingresa un correo electrónico válido';
-      this.isLoading = false;
-      return;
-    }
-
-    if (this.telefono.length > 15) {
-      this.errorMessage = 'El teléfono es demasiado largo. Formato: +593 0000000000';
-      this.isLoading = false;
-      return;
-    }
-
-    if (this.telefono.length < 10) {
-      this.errorMessage = 'El teléfono es demasiado corto. Incluye el código de país';
-      this.isLoading = false;
-      return;
-    }
-
-    if (this.password.length < 6) {
-      this.errorMessage = 'La contraseña debe tener al menos 6 caracteres';
-      this.isLoading = false;
-      return;
-    }
-
-    if (this.password !== this.confirmPassword) {
-      this.errorMessage = 'Las contraseñas no coinciden';
-      this.isLoading = false;
-      return;
-    }
-
-    if (!this.acceptTerms) {
-      this.errorMessage = 'Debes aceptar los términos y condiciones';
-      this.isLoading = false;
-      return;
-    }
 
     // Componer nombre completo desde nombre y apellidos
     this.nombre_completo = `${this.nombre} ${this.apellidos}`.trim();
@@ -128,6 +112,73 @@ export class Registre {
   }
 
   /**
+   * Validar todos los campos del formulario
+   */
+  private validateForm(): { [key: string]: string } {
+    const errors: { [key: string]: string } = {};
+
+    // Validar nombre
+    if (!this.nombre || this.nombre.trim() === '') {
+      errors['nombre'] = 'El nombre es obligatorio';
+    }
+
+    // Validar apellidos
+    if (!this.apellidos || this.apellidos.trim() === '') {
+      errors['apellidos'] = 'Los apellidos son obligatorios';
+    }
+
+    // Validar email
+    if (!this.email || this.email.trim() === '') {
+      errors['email'] = 'El correo electrónico es obligatorio';
+    } else if (!this.email.includes('@') || !this.email.includes('.')) {
+      errors['email'] = 'Por favor, ingresa un correo electrónico válido';
+    }
+
+    // Validar teléfono
+    if (!this.telefono || this.telefono.trim() === '') {
+      errors['telefono'] = 'El teléfono es obligatorio';
+    } else if (this.telefono.includes('@')) {
+      errors['telefono'] = 'El teléfono no puede ser un correo electrónico';
+    } else {
+      const digitosEnTelefono = this.telefono.replace(/[^0-9]/g, '');
+      if (digitosEnTelefono.length < 10) {
+        errors['telefono'] = 'El teléfono debe contener al menos 10 dígitos';
+      }
+    }
+
+    // Validar longitud máxima del teléfono
+    if (this.telefono && this.telefono.length > 15) {
+      errors['telefono'] = 'El teléfono es demasiado largo. Formato: +593 0000000000';
+    }
+
+    // Validar fecha de nacimiento
+    if (!this.fechaNacimiento || this.fechaNacimiento.trim() === '') {
+      errors['fechaNacimiento'] = 'La fecha de nacimiento es obligatoria';
+    }
+
+    // Validar contraseña
+    if (!this.password || this.password.trim() === '') {
+      errors['password'] = 'La contraseña es obligatoria';
+    } else if (this.password.length < 6) {
+      errors['password'] = 'La contraseña debe tener al menos 6 caracteres';
+    }
+
+    // Validar confirmación de contraseña
+    if (!this.confirmPassword || this.confirmPassword.trim() === '') {
+      errors['confirmPassword'] = 'Debes confirmar la contraseña';
+    } else if (this.password !== this.confirmPassword) {
+      errors['confirmPassword'] = 'Las contraseñas no coinciden';
+    }
+
+    // Validar términos
+    if (!this.acceptTerms) {
+      errors['terms'] = 'Debes aceptar los términos y condiciones';
+    }
+
+    return errors;
+  }
+
+  /**
    * Reenviar email de verificación
    */
   async resendVerificationEmail() {
@@ -156,5 +207,24 @@ export class Registre {
 
   toggleConfirmPasswordVisibility() {
     this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  /**
+   * Filtrar solo números, espacios, paréntesis, guiones y el símbolo +
+   */
+  onTelefonoInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const cursorPosition = input.selectionStart || 0;
+    
+    // Permitir solo: números, espacios, paréntesis, guiones y +
+    const filtered = input.value.replace(/[^0-9\s\+\-\(\)]/g, '');
+    
+    if (input.value !== filtered) {
+      this.telefono = filtered;
+      // Restaurar posición del cursor
+      setTimeout(() => {
+        input.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
+      }, 0);
+    }
   }
 }

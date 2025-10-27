@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Sidebar }  from '../../components/sidebar/sidebar';
 import { Header }  from '../../components/header/header';
 import { Footer }  from '../../components/footer/footer';
-import { Chat } from '../../components/chat/chat';
 import { ChatService } from '..//../../../core/services/chat.service';
 @Component({
   selector: 'app-usuarioAnciano',
   standalone: true,
-  imports: [CommonModule, Sidebar, Header, Footer, Chat],
+  imports: [CommonModule, Header, Footer],
   templateUrl: './usuarioAnciano.html',
 })
 export class UsuarioAnciano {

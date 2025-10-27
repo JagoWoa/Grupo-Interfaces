@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Sidebar }  from '../../components/sidebar/sidebar';
 import { Header }  from '../../components/header/header';
 import { Footer }  from '../../components/footer/footer';
-import { Chat } from '../../components/chat/chat';
 import { ChatService } from '..//../../../core/services/chat.service';
 
 @Component({
   selector: 'app-usuario-doctor',
-  imports: [CommonModule, FormsModule, Header, Footer, Sidebar, Chat],
+  imports: [CommonModule, FormsModule, Header, Footer],
   templateUrl: './usuario-doctor.html',
 })
 export class UsuarioDoctor {

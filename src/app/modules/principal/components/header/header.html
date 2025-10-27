@@ -11,7 +11,7 @@
     <!-- Centro: Menu principal -->
     <!-- Menú cuando está logueado -->
     <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="isLogging()">
-      <li><a routerLink="/home" class="hover:underline text-xl">Home</a></li>
+      <li><a routerLink="/dashboard" class="hover:underline text-xl">Dashboard</a></li>
       <li><a routerLink="/perfil" class="hover:underline text-xl">Perfil</a></li>
       <li><a routerLink="/usuario" class="hover:underline text-xl">Salud</a></li>
       <li>
@@ -23,6 +23,9 @@
 
     <!-- Menú cuando NO está logueado -->
     <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="!isLogging()">
+      <li>
+        <a routerLink="/home" class="hover:underline text-xl">Home</a>
+      </li>
       <li>
         <a routerLink="/login" class="hover:underline text-xl">Iniciar sesión</a>
       </li>

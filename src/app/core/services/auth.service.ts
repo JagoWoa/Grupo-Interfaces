@@ -33,6 +33,8 @@ export interface RegisterDoctorData {
   titulo: string;
   especialidad: string;
   telefono: string;
+  numero_licencia?: string;
+  anos_experiencia?: number;
 }
 
 @Injectable({
@@ -96,16 +98,33 @@ export class AuthService {
    */
   async login(email: string, password: string): Promise<{ success: boolean; error?: string; needsEmailVerification?: boolean }> {
     try {
+      console.log('🔐 AuthService.login - Iniciando con:', email);
+      
       const { data, error } = await this.supabase.client.auth.signInWithPassword({
         email,
         password
       });
 
-      if (error) throw error;
+      console.log('📊 AuthService.login - Respuesta de Supabase:', { 
+        hasData: !!data, 
+        hasUser: !!data?.user,
+        hasSession: !!data?.session,
+        error: error?.message 
+      });
+
+      if (error) {
+        console.error('❌ AuthService.login - Error de Supabase:', error);
+        throw error;
+      }
 
       if (data.user) {
+        console.log('👤 AuthService.login - Usuario autenticado:', data.user.email);
+        console.log('📧 Email confirmado:', !!data.user.email_confirmed_at);
+        console.log('🎫 Sesión activa:', !!data.session);
+        
         // Verificar si el email está confirmado
         if (!data.user.email_confirmed_at) {
+          console.warn('⚠️ Email no confirmado, cerrando sesión');
           await this.supabase.client.auth.signOut();
           return { 
             success: false, 
@@ -115,21 +134,27 @@ export class AuthService {
         }
 
         // Cargar perfil del usuario
+        console.log('📋 Cargando perfil del usuario...');
         await this.loadUserProfile(data.user.id);
         
         // Activar cuenta si aún no está activa
         const currentUser = this.getCurrentUser();
+        console.log('👤 Usuario actual después de cargar perfil:', currentUser);
+        
         if (currentUser && !currentUser.activo) {
+          console.log('⚙️ Activando cuenta...');
           await this.activateAccount(data.user.id);
           await this.loadUserProfile(data.user.id); // Recargar con activo = true
         }
 
+        console.log('✅ AuthService.login - Login exitoso');
         return { success: true };
       }
 
+      console.warn('⚠️ AuthService.login - No hay usuario en la respuesta');
       return { success: false, error: 'No se pudo iniciar sesión' };
     } catch (error: any) {
-      console.error('Error en login:', error);
+      console.error('❌ AuthService.login - Error:', error);
       
       // Manejo específico de errores
       let errorMessage = 'Error al iniciar sesión';
@@ -307,6 +332,8 @@ export class AuthService {
           usuario_id: authData.user.id,
           titulo: userData.titulo,
           especialidad: userData.especialidad,
+          numero_licencia: userData.numero_licencia || null,
+          anos_experiencia: userData.anos_experiencia || null,
           disponible: !needsVerification
         });
 
@@ -508,6 +535,59 @@ export class AuthService {
         success: false, 
         error: error.message || 'Error al actualizar perfil' 
       };
+    }
+  }
+
+  /**
+   * Obtener perfil completo del usuario actual
+   */
+  async getUserProfile(): Promise<any | null> {
+    try {
+      const userId = this.getCurrentUserId();
+      if (!userId) {
+        return null;
+      }
+
+      // Obtener datos básicos del usuario
+      const { data: usuario, error: usuarioError } = await this.supabase.client
+        .from('usuarios')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (usuarioError) throw usuarioError;
+
+      // Si es doctor, obtener datos adicionales
+      if (usuario && usuario.rol === 'doctor') {
+        const { data: doctor, error: doctorError } = await this.supabase.client
+          .from('doctores')
+          .select('*')
+          .eq('usuario_id', userId)
+          .single();
+
+        if (!doctorError && doctor) {
+          return { ...usuario, ...doctor };
+        }
+      }
+
+      return usuario;
+    } catch (error) {
+      console.error('Error al obtener perfil:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Cerrar sesión
+   */
+  async signOut(): Promise<void> {
+    try {
+      await this.supabase.client.auth.signOut();
+      this.currentUserSubject.next(null);
+      console.log('🚪 Sesión cerrada');
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+      throw error;
     }
   }
 }

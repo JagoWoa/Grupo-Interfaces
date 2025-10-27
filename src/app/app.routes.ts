@@ -6,9 +6,11 @@ import { Login } from './modules/principal/pages/login/login';
 import { UsuarioAnciano } from './modules/principal/pages/usuarioAnciano/usuarioAnciano';
 import { RegisterDoctor } from './modules/principal/pages/register-doctor/register-doctor';
 import { UsuarioDoctor } from './modules/principal/pages/usuario-doctor/usuario-doctor';
-import { Perfil } from "./modules/principal/pages/perfil/perfil"
+import { Perfil } from "./modules/principal/pages/perfil/perfil";
+import { Dashboard } from "./modules/principal/pages/dashboard/dashboard";
 
 export const routes: Routes = [
+	// Rutas públicas (accesibles sin login)
 	{
 		path: 'home',
 		component: WelcomePage,
@@ -30,8 +32,8 @@ export const routes: Routes = [
 		pathMatch: 'full'
 	},
 	{
-		path: 'usuario',
-		component: UsuarioAnciano,
+		path: 'registerdoctor',
+		component: RegisterDoctor,
 		pathMatch: 'full'
 	},
 	// Módulo 3 - Registro
@@ -39,15 +41,11 @@ export const routes: Routes = [
 		path: 'registro',
 		loadComponent: () => import('./modules/registro/pages/registro/registro.page').then(m => m.RegistroPage)
 	},
-	// fallback: redirect unknown paths to home (client-side)
+	
+	// Rutas protegidas (requieren autenticación)
 	{
-		path: 'usuariodoctor',
-		component: UsuarioDoctor,
-		pathMatch: 'full'
-	},
-	{
-		path: 'registerdoctor',
-		component: RegisterDoctor,
+		path: 'dashboard',
+		component: Dashboard,
 		pathMatch: 'full'
 	},
 	{
@@ -56,7 +54,20 @@ export const routes: Routes = [
 		pathMatch: 'full'
 	},
 	{
+		path: 'usuario',
+		component: UsuarioAnciano,
+		pathMatch: 'full'
+	},
+	{
+		path: 'usuariodoctor',
+		component: UsuarioDoctor,
+		pathMatch: 'full'
+	},
+	
+	// Fallback: redirect unknown paths to home
+	{
 		path: '**',
 		redirectTo: ''
 	}
 ];
+
