@@ -56,6 +56,18 @@ export class Registre {
       return;
     }
 
+    if (this.telefono.length > 15) {
+      this.errorMessage = 'El teléfono es demasiado largo. Formato: +593 0000000000';
+      this.isLoading = false;
+      return;
+    }
+
+    if (this.telefono.length < 10) {
+      this.errorMessage = 'El teléfono es demasiado corto. Incluye el código de país';
+      this.isLoading = false;
+      return;
+    }
+
     if (this.password.length < 6) {
       this.errorMessage = 'La contraseña debe tener al menos 6 caracteres';
       this.isLoading = false;

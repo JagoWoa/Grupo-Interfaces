@@ -6,6 +6,7 @@ import { Login } from './modules/principal/pages/login/login';
 import { UsuarioAnciano } from './modules/principal/pages/usuarioAnciano/usuarioAnciano';
 import { RegisterDoctor } from './modules/principal/pages/register-doctor/register-doctor';
 import { UsuarioDoctor } from './modules/principal/pages/usuario-doctor/usuario-doctor';
+import { Perfil } from "./modules/principal/pages/perfil/perfil"
 
 export const routes: Routes = [
 	{
@@ -47,6 +48,11 @@ export const routes: Routes = [
 	{
 		path: 'registerdoctor',
 		component: RegisterDoctor,
+		pathMatch: 'full'
+	},
+	{
+		path: 'perfil',
+		component: Perfil,
 		pathMatch: 'full'
 	},
 	{

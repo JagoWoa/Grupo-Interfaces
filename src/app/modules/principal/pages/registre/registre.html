@@ -80,9 +80,11 @@
                             Teléfono *
                         </label>
                         <input type="tel" id="telefono" name="telefono" [(ngModel)]="telefono"
-                            placeholder="+593 000 000" required class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
+                            placeholder="+593 000000000" required maxlength="15"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
                   focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
                   placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                        <p class="text-xs text-gray-500">Incluye código de país (ej: +593 0000000000)</p>
                     </div>
                 </div>
 

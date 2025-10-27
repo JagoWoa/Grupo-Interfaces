@@ -1,0 +1,4 @@
+{
+  "TITLE": "Bienvenido",
+  "GREETING": "Hola {{name}}"
+}
