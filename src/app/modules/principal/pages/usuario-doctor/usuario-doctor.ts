@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Sidebar } from '../../components/sidebar/sidebar';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { Chat } from '../../components/chat/chat';
+
 import { ChatService } from '..//../../../core/services/chat.service';
 import { SupabaseService } from '..//../../../core/services/supabase.service';
 @Component({
   selector: 'app-usuario-doctor',
-  imports: [CommonModule, FormsModule, Header, Footer, Sidebar, Chat],
+  imports: [CommonModule, FormsModule, Header, Footer, Chat],
   templateUrl: './usuario-doctor.html',
 })
 export class UsuarioDoctor implements OnInit {
