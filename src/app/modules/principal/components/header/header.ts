@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { Route } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { ChatService } from '../../../../core/services/chat.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -19,7 +20,11 @@ export class Header implements OnInit, OnDestroy {
   currentPage: string = 'Inicio';
   isAccessibilityMenuOpen: boolean = false;
   isAuthenticated: boolean = false;
+  userName: string = '';
+  userRole: string = '';
+  unreadMessages: number = 0;
   private authSubscription?: Subscription;
+  private messagesSubscription?: Subscription;
   
   languages = [
     { code: 'es', name: 'Español', flag: '🇪🇸' },
@@ -32,19 +37,39 @@ export class Header implements OnInit, OnDestroy {
     { id: 'screenReader', label: 'Lector de Pantalla', icon: 'fas fa-volume-up' }
   ];
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private chatService: ChatService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     // Suscribirse a cambios en el estado de autenticación
     this.authSubscription = this.authService.currentUser$.subscribe(user => {
       this.isAuthenticated = !!user;
-      console.log('🔄 Header - Estado de autenticación actualizado:', this.isAuthenticated, user ? `Usuario: ${user.nombre_completo}` : 'Sin usuario');
+      if (user) {
+        this.userName = user.nombre_completo;
+        this.userRole = user.rol === 'doctor' ? 'Doctor' : 'Paciente';
+        console.log('🔄 Header - Usuario:', this.userName, 'Rol:', this.userRole);
+      } else {
+        this.userName = '';
+        this.userRole = '';
+      }
+    });
+
+    // Suscribirse a mensajes no leídos
+    this.messagesSubscription = this.chatService.messages$.subscribe(messages => {
+      const userId = this.authService.getCurrentUserId();
+      if (userId) {
+        this.unreadMessages = messages.filter(m => !m.leido && m.emisor_tipo !== this.getUserEmitterType()).length;
+      }
     });
   }
 
   ngOnDestroy() {
-    // Limpiar suscripción
+    // Limpiar suscripciones
     this.authSubscription?.unsubscribe();
+    this.messagesSubscription?.unsubscribe();
   }
 
   isLogging(){
@@ -53,5 +78,15 @@ export class Header implements OnInit, OnDestroy {
 
   logout() {
     this.authService.logout();
+  }
+
+  toggleChat() {
+    // Navegar a la página de chat
+    this.router.navigate(['/chat']);
+  }
+
+  private getUserEmitterType(): 'doctor' | 'adulto_mayor' {
+    const user = this.authService.getCurrentUser();
+    return user?.rol === 'doctor' ? 'doctor' : 'adulto_mayor';
   }
 }

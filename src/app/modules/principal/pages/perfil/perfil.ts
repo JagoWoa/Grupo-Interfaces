@@ -12,8 +12,7 @@ import { SupabaseService } from '../../../../core/services/supabase.service';
   selector: 'app-perfil',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, Header, Footer],
-  templateUrl: './perfil.html',
-  styleUrls: ['./perfil.css']
+  templateUrl: './perfil.html'
 })
 export class Perfil implements OnInit, OnDestroy {
   loading: boolean = true;
@@ -203,5 +202,19 @@ export class Perfil implements OnInit, OnDestroy {
       this.message = 'Error al actualizar perfil: ' + (e.message || e);
       this.messageType = 'error';
     }
+  }
+
+  cancelEdit(): void {
+    // Volver al dashboard
+    this.router.navigate(['/dashboard']);
+  }
+
+  getInitials(name: string): string {
+    if (!name) return '??';
+    const names = name.split(' ');
+    if (names.length >= 2) {
+      return (names[0][0] + names[names.length - 1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
   }
 }

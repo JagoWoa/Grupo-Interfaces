@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { SupabaseService } from './supabase.service';
 
 export interface Message {
   id: string;
-  text: string;
-  sender: 'user' | 'doctor';
-  timestamp: Date;
-  senderName: string;
-  userId?: string;
-  doctorId?: string;
-  conversationId?: string;
-  read?: boolean;
+  conversacion_id: string;
+  emisor_tipo: 'doctor' | 'adulto_mayor';
+  contenido: string;
+  creado_en: string;
+  leido: boolean;
 }
 
 export interface Conversation {
   id: string;
-  userId: string;
-  doctorId: string;
-  userName: string;
-  doctorName: string;
-  lastMessage?: string;
-  lastMessageTime?: Date;
-  active: boolean;
+  doctor_id: string;
+  adulto_mayor_id: string;
+  creada_en: string;
+  ultima_actividad: string;
+  activo: boolean;
+  // Datos adicionales para mostrar
+  doctor_nombre?: string;
+  paciente_nombre?: string;
+  doctor_titulo?: string;
+  doctor_especialidad?: string;
 }
 
 @Injectable({
@@ -31,170 +31,216 @@ export interface Conversation {
 export class ChatService {
   private messages: Message[] = [];
   private currentConversationId: string | null = null;
-  private currentUserId: string = 'user-1'; // Temporal - debería venir del servicio de autenticación
-  private currentDoctorId: string = 'doctor-1'; // Temporal
+  private currentUserId: string | null = null;
+  private currentUserRole: 'doctor' | 'adulto_mayor' | null = null;
   
   public messages$ = new BehaviorSubject<Message[]>(this.messages);
+  public conversations$ = new BehaviorSubject<Conversation[]>([]);
+  public currentConversation$ = new BehaviorSubject<Conversation | null>(null);
   public isChatOpen$ = new BehaviorSubject<boolean>(false);
   public isLoading$ = new BehaviorSubject<boolean>(false);
+  private subscription: any = null;
 
-  constructor(private supabaseService: SupabaseService) {
-    this.initializeChat();
+  constructor(private supabaseService: SupabaseService) {}
+
+  /**
+   * Inicializa el chat con el usuario actual
+   */
+  async inicializarChat(userId: string, userRole: 'doctor' | 'adulto_mayor'): Promise<void> {
+    this.currentUserId = userId;
+    this.currentUserRole = userRole;
+    
+    if (userRole === 'doctor') {
+      await this.cargarConversacionesDoctor();
+    } else {
+      await this.cargarConversacionPaciente();
+    }
   }
 
   /**
-   * Inicializa el chat y carga mensajes existentes
+   * Cargar conversaciones del doctor
    */
-  private async initializeChat(): Promise<void> {
+  async cargarConversacionesDoctor(): Promise<void> {
+    if (!this.currentUserId) return;
+
     try {
       this.isLoading$.next(true);
-      
-      // Obtener o crear conversación
-      const conversation = await this.getOrCreateConversation();
-      if (conversation) {
-        this.currentConversationId = conversation.id;
-        
-        // Cargar mensajes existentes
-        await this.loadMessages();
-        
-        // Suscribirse a nuevos mensajes en tiempo real
-        this.subscribeToMessages();
-      }
+      const supabase = this.supabaseService.client;
+
+      const { data, error } = await supabase
+        .from('conversacion')
+        .select(`
+          *,
+          paciente:usuarios!conversacion_adulto_mayor_id_fkey(id, nombre_completo, email, telefono)
+        `)
+        .eq('doctor_id', this.currentUserId)
+        .eq('activo', true)
+        .order('ultima_actividad', { ascending: false });
+
+      if (error) throw error;
+
+      const conversaciones: Conversation[] = (data || []).map(conv => ({
+        ...conv,
+        paciente_nombre: conv.paciente?.nombre_completo
+      }));
+
+      console.log(`📋 Conversaciones del doctor cargadas: ${conversaciones.length}`);
+      this.conversations$.next(conversaciones);
     } catch (error) {
-      console.error('Error al inicializar el chat:', error);
+      console.error('Error cargando conversaciones del doctor:', error);
     } finally {
       this.isLoading$.next(false);
     }
   }
 
   /**
-   * Obtiene una conversación existente o crea una nueva
+   * Cargar conversación del paciente con su doctor
    */
-  private async getOrCreateConversation(): Promise<Conversation | null> {
-    try {
-      const supabase = this.supabaseService.client;
-      
-      // Buscar conversación existente
-      const { data: existing, error: fetchError } = await supabase
-        .from('conversations')
-        .select('*')
-        .eq('user_id', this.currentUserId)
-        .eq('doctor_id', this.currentDoctorId)
-        .eq('active', true)
-        .single();
+  async cargarConversacionPaciente(): Promise<void> {
+    if (!this.currentUserId) return;
 
-      if (existing && !fetchError) {
-        return {
-          id: existing.id,
-          userId: existing.user_id,
-          doctorId: existing.doctor_id,
-          userName: existing.user_name,
-          doctorName: existing.doctor_name,
-          lastMessage: existing.last_message,
-          lastMessageTime: existing.last_message_time ? new Date(existing.last_message_time) : undefined,
-          active: existing.active
-        };
+    try {
+      this.isLoading$.next(true);
+      const supabase = this.supabaseService.client;
+
+      console.log('🔍 Buscando conversación para paciente:', this.currentUserId);
+
+      // Primero obtener la conversación básica
+      const { data: conversacionData, error: convError } = await supabase
+        .from('conversacion')
+        .select(`
+          *,
+          doctor:usuarios!conversacion_doctor_id_fkey(id, nombre_completo, email)
+        `)
+        .eq('adulto_mayor_id', this.currentUserId)
+        .eq('activo', true)
+        .maybeSingle();
+
+      if (convError && convError.code !== 'PGRST116') {
+        console.error('❌ Error en query:', convError);
+        throw convError;
       }
 
-      // Crear nueva conversación si no existe
-      const { data: newConversation, error: createError } = await supabase
-        .from('conversations')
-        .insert({
-          user_id: this.currentUserId,
-          doctor_id: this.currentDoctorId,
-          user_name: 'María González',
-          doctor_name: 'Dr. Carlos García',
-          active: true
-        })
-        .select()
-        .single();
+      if (conversacionData) {
+        console.log('✅ Conversación encontrada:', conversacionData);
+        
+        // Intentar obtener información adicional del doctor desde v_doctores_completo
+        let doctorInfo = null;
+        if (conversacionData.doctor_id) {
+          const { data: doctorData } = await supabase
+            .from('v_doctores_completo')
+            .select('titulo, especialidad')
+            .eq('id', conversacionData.doctor_id)
+            .maybeSingle();
+          
+          doctorInfo = doctorData;
+          console.log('📋 Info del doctor:', doctorInfo);
+        }
 
-      if (createError) throw createError;
-
-      return {
-        id: newConversation.id,
-        userId: newConversation.user_id,
-        doctorId: newConversation.doctor_id,
-        userName: newConversation.user_name,
-        doctorName: newConversation.doctor_name,
-        active: newConversation.active
-      };
+        const conversacion: Conversation = {
+          ...conversacionData,
+          doctor_nombre: conversacionData.doctor?.nombre_completo,
+          doctor_titulo: doctorInfo?.titulo || 'Dr.',
+          doctor_especialidad: doctorInfo?.especialidad || 'Medicina General'
+        };
+        
+        this.conversations$.next([conversacion]);
+        await this.seleccionarConversacion(conversacion.id);
+      } else {
+        console.log('⚠️ No se encontró conversación para este paciente');
+      }
     } catch (error) {
-      console.error('Error al obtener/crear conversación:', error);
-      return null;
+      console.error('Error cargando conversación del paciente:', error);
+    } finally {
+      this.isLoading$.next(false);
     }
   }
 
   /**
-   * Carga mensajes desde Supabase
+   * Seleccionar una conversación y cargar sus mensajes
    */
-  private async loadMessages(): Promise<void> {
+  async seleccionarConversacion(conversacionId: string): Promise<void> {
+    try {
+      // Cancelar suscripción anterior si existe
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
+
+      this.currentConversationId = conversacionId;
+      
+      // Buscar la conversación en la lista
+      const conversaciones = this.conversations$.value;
+      const conversacion = conversaciones.find(c => c.id === conversacionId);
+      if (conversacion) {
+        this.currentConversation$.next(conversacion);
+      }
+
+      // Cargar mensajes
+      await this.cargarMensajes();
+      
+      // Suscribirse a nuevos mensajes
+      this.suscribirseAMensajes();
+      
+      // Marcar como leídos
+      await this.marcarMensajesComoLeidos();
+    } catch (error) {
+      console.error('Error seleccionando conversación:', error);
+    }
+  }
+
+  /**
+   * Cargar mensajes de la conversación actual
+   */
+  private async cargarMensajes(): Promise<void> {
     if (!this.currentConversationId) return;
 
     try {
       const supabase = this.supabaseService.client;
       const { data, error } = await supabase
-        .from('messages')
+        .from('mensajes')
         .select('*')
-        .eq('conversation_id', this.currentConversationId)
-        .order('created_at', { ascending: true });
+        .eq('conversacion_id', this.currentConversationId)
+        .order('creado_en', { ascending: true });
 
       if (error) throw error;
 
-      this.messages = data.map(msg => ({
-        id: msg.id,
-        text: msg.text,
-        sender: msg.sender_type as 'user' | 'doctor',
-        timestamp: new Date(msg.created_at),
-        senderName: msg.sender_name,
-        userId: msg.user_id,
-        doctorId: msg.doctor_id,
-        conversationId: msg.conversation_id,
-        read: msg.read
-      }));
-
+      this.messages = data || [];
       this.messages$.next(this.messages);
     } catch (error) {
-      console.error('Error al cargar mensajes:', error);
+      console.error('Error cargando mensajes:', error);
     }
   }
 
   /**
-   * Se suscribe a nuevos mensajes en tiempo real
+   * Suscribirse a nuevos mensajes en tiempo real
    */
-  private subscribeToMessages(): void {
+  private suscribirseAMensajes(): void {
     if (!this.currentConversationId) return;
 
     const supabase = this.supabaseService.client;
     
-    supabase
-      .channel(`messages:${this.currentConversationId}`)
+    this.subscription = supabase
+      .channel(`mensajes:${this.currentConversationId}`)
       .on(
         'postgres_changes',
         {
           event: 'INSERT',
           schema: 'public',
-          table: 'messages',
-          filter: `conversation_id=eq.${this.currentConversationId}`
+          table: 'mensajes',
+          filter: `conversacion_id=eq.${this.currentConversationId}`
         },
         (payload) => {
-          const newMsg = payload.new as any;
-          const message: Message = {
-            id: newMsg['id'],
-            text: newMsg['text'],
-            sender: newMsg['sender_type'] as 'user' | 'doctor',
-            timestamp: new Date(newMsg['created_at']),
-            senderName: newMsg['sender_name'],
-            userId: newMsg['user_id'],
-            doctorId: newMsg['doctor_id'],
-            conversationId: newMsg['conversation_id'],
-            read: newMsg['read']
-          };
-
-          // Solo agregar si el mensaje no existe ya (evitar duplicados)
-          if (!this.messages.find(m => m.id === message.id)) {
-            this.messages = [...this.messages, message];
+          const newMsg = payload.new as Message;
+          
+          // Solo agregar si no existe
+          if (!this.messages.find(m => m.id === newMsg.id)) {
+            this.messages = [...this.messages, newMsg];
             this.messages$.next(this.messages);
+            
+            // Si el mensaje es del otro usuario, marcarlo como leído después de un breve delay
+            if (this.isChatOpen$.value && newMsg.emisor_tipo !== this.currentUserRole) {
+              setTimeout(() => this.marcarMensajesComoLeidos(), 500);
+            }
           }
         }
       )
@@ -202,91 +248,101 @@ export class ChatService {
   }
 
   /**
-   * Envía un mensaje a Supabase
+   * Enviar un mensaje
    */
-  async sendMessage(text: string, sender: 'user' | 'doctor' = 'user'): Promise<void> {
-    if (!this.currentConversationId || !text.trim()) return;
+  async enviarMensaje(texto: string): Promise<void> {
+    if (!this.currentConversationId || !texto.trim() || !this.currentUserRole) return;
 
     try {
       const supabase = this.supabaseService.client;
-      const senderName = sender === 'user' ? 'María González' : 'Dr. Carlos García';
 
       const { data, error } = await supabase
-        .from('messages')
+        .from('mensajes')
         .insert({
-          conversation_id: this.currentConversationId,
-          text: text.trim(),
-          sender_type: sender,
-          sender_name: senderName,
-          user_id: sender === 'user' ? this.currentUserId : null,
-          doctor_id: sender === 'doctor' ? this.currentDoctorId : null,
-          read: false
+          conversacion_id: this.currentConversationId,
+          emisor_tipo: this.currentUserRole,
+          contenido: texto.trim(),
+          leido: false
         })
         .select()
         .single();
 
       if (error) throw error;
 
-      // Actualizar última mensaje en la conversación
+      // Actualizar última actividad
       await supabase
-        .from('conversations')
-        .update({
-          last_message: text.trim(),
-          last_message_time: new Date().toISOString()
-        })
+        .from('conversacion')
+        .update({ ultima_actividad: new Date().toISOString() })
         .eq('id', this.currentConversationId);
 
       // El mensaje se agregará automáticamente vía suscripción en tiempo real
       
     } catch (error) {
-      console.error('Error al enviar mensaje:', error);
+      console.error('Error enviando mensaje:', error);
       throw error;
     }
   }
 
   /**
-   * Marca mensajes como leídos
+   * Marcar mensajes como leídos
    */
-  async markMessagesAsRead(): Promise<void> {
-    if (!this.currentConversationId) return;
+  async marcarMensajesComoLeidos(): Promise<void> {
+    if (!this.currentConversationId || !this.currentUserRole) return;
 
     try {
       const supabase = this.supabaseService.client;
+      
+      // Marcar como leídos los mensajes del otro usuario
+      const emisorTipo = this.currentUserRole === 'doctor' ? 'adulto_mayor' : 'doctor';
+      
       await supabase
-        .from('messages')
-        .update({ read: true })
-        .eq('conversation_id', this.currentConversationId)
-        .eq('sender_type', 'doctor')
-        .eq('read', false);
+        .from('mensajes')
+        .update({ leido: true })
+        .eq('conversacion_id', this.currentConversationId)
+        .eq('emisor_tipo', emisorTipo)
+        .eq('leido', false);
     } catch (error) {
-      console.error('Error al marcar mensajes como leídos:', error);
+      console.error('Error marcando mensajes como leídos:', error);
     }
   }
 
   /**
-   * Alterna el estado del chat
+   * Abrir/cerrar chat
    */
   toggleChat(): void {
     const newState = !this.isChatOpen$.value;
     this.isChatOpen$.next(newState);
     
-    if (newState) {
-      this.markMessagesAsRead();
+    if (newState && this.currentConversationId) {
+      this.marcarMensajesComoLeidos();
     }
   }
 
-  /**
-   * Cierra el chat
-   */
   closeChat(): void {
     this.isChatOpen$.next(false);
   }
 
-  /**
-   * Abre el chat
-   */
   openChat(): void {
     this.isChatOpen$.next(true);
-    this.markMessagesAsRead();
+    if (this.currentConversationId) {
+      this.marcarMensajesComoLeidos();
+    }
+  }
+
+  /**
+   * Limpiar estado al cerrar sesión
+   */
+  limpiarEstado(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.messages = [];
+    this.messages$.next([]);
+    this.conversations$.next([]);
+    this.currentConversation$.next(null);
+    this.currentConversationId = null;
+    this.currentUserId = null;
+    this.currentUserRole = null;
+    this.isChatOpen$.next(false);
   }
 }
