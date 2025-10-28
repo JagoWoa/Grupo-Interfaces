@@ -37,61 +37,83 @@
   transition: transform 0.3s ease;
 }
 
-/* Caja expandida del chat */
-.chat-expanded-box {
-  animation: expandBox 0.3s ease-out;
-  overflow-y: auto;
-  max-height: 600px;
+/* Overlay oscuro */
+.chat-overlay {
+  animation: fadeInOverlay 0.3s ease-out;
 }
 
-@keyframes expandBox {
+@keyframes fadeInOverlay {
   from {
     opacity: 0;
-    transform: scale(0.8);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+  }
+}
+
+/* Chat expandido fullscreen */
+.chat-expanded-fullscreen {
+  width: 100%;
+  max-width: 600px;
+  animation: slideInFromRight 0.4s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
 }
 
 .chat-expanded-header {
-  padding-bottom: 12px;
-  border-bottom: 2px solid #e5e7eb;
+  background: white;
+  padding: 1.5rem;
+  flex-shrink: 0;
 }
 
 .chat-expanded-header button {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.5rem;
-  padding: 0;
+  padding: 0.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: color 0.2s ease;
 }
 
-.chat-expanded-content {
-  height: calc(100% - 60px);
+.chat-expanded-header button:hover {
+  color: #1f2937;
+}
+
+.chat-expanded-content-fullscreen {
+  flex: 1;
   overflow-y: auto;
+  padding: 1.5rem;
+  background: #f9fafb;
 }
 
 /* Scrollbar personalizado */
-.chat-expanded-box::-webkit-scrollbar {
-  width: 6px;
+.chat-expanded-content-fullscreen::-webkit-scrollbar {
+  width: 8px;
 }
 
-.chat-expanded-box::-webkit-scrollbar-track {
+.chat-expanded-content-fullscreen::-webkit-scrollbar-track {
   background: #f1f5f9;
-  border-radius: 10px;
 }
 
-.chat-expanded-box::-webkit-scrollbar-thumb {
+.chat-expanded-content-fullscreen::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 10px;
 }
 
-.chat-expanded-box::-webkit-scrollbar-thumb:hover {
+.chat-expanded-content-fullscreen::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
@@ -113,10 +135,21 @@
 
 /* Responsive para móviles */
 @media (max-width: 768px) {
-  .chat-expanded-box {
-    width: 100vw !important;
-    max-width: 360px;
-    max-height: 70vh;
+  .chat-expanded-fullscreen {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .chat-expanded-header {
+    padding: 1rem;
+  }
+
+  .chat-expanded-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .chat-expanded-content-fullscreen {
+    padding: 1rem;
   }
 
   .vitales-grid {
@@ -124,6 +157,20 @@
   }
 
   .recordatorios-list {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-expanded-header h3 {
+    font-size: 1.125rem;
+  }
+
+  .chat-expanded-header h3 i {
+    font-size: 1.5rem;
+  }
+
+  .vitales-grid {
     grid-template-columns: 1fr !important;
   }
 }
