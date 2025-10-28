@@ -1,4 +1,4 @@
-import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Header }  from '../../components/header/header';
@@ -17,6 +17,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 })
 export class UsuarioAnciano implements OnInit {
   private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
   chatExpanded = false;
   currentDate = new Date();
   isLoading = true;
@@ -144,6 +145,10 @@ export class UsuarioAnciano implements OnInit {
     } finally {
       console.log('🏁 Finalizando carga, isLoading = false');
       this.isLoading = false;
+      
+      // Forzar detección de cambios
+      this.cdr.detectChanges();
+      console.log('🔄 Change detection forzada en usuarioAnciano');
     }
   }
 

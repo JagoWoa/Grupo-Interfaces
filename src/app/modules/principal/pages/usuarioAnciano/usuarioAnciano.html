@@ -5,11 +5,32 @@
 
   <!-- Loading State -->
   @if (isLoading) {
-    <div class="flex items-center justify-center min-h-[400px]">
+    <div class="flex items-center justify-center min-h-[calc(100vh-80px)]">
       <div class="text-center">
-        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#004b98]"></div>
-        <p class="mt-4 text-gray-600">Cargando datos...</p>
-        <p class="mt-2 text-sm text-gray-400">Si esto tarda mucho, revisa la consola del navegador (F12)</p>
+        <!-- Animated pulse circle -->
+        <div class="relative inline-flex items-center justify-center mb-6">
+          <div class="absolute w-24 h-24 bg-blue-400 rounded-full opacity-75 animate-ping"></div>
+          <div class="absolute w-20 h-20 bg-blue-500 rounded-full opacity-75 animate-pulse"></div>
+          <div class="relative w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+            <svg class="w-8 h-8 text-white animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+              </path>
+            </svg>
+          </div>
+        </div>
+        
+        <h2 class="text-2xl font-bold text-gray-800 mb-2 animate-pulse">Cargando tu salud...</h2>
+        <p class="text-gray-600 mb-4">Obteniendo tus datos vitales</p>
+        
+        <!-- Loading dots animation -->
+        <div class="flex justify-center gap-1">
+          <div class="w-2 h-2 bg-blue-500 rounded-full loading-dot-1"></div>
+          <div class="w-2 h-2 bg-blue-500 rounded-full loading-dot-2"></div>
+          <div class="w-2 h-2 bg-blue-500 rounded-full loading-dot-3"></div>
+        </div>
+        
+        <p class="mt-6 text-sm text-gray-400">Si esto tarda mucho, revisa la consola del navegador (F12)</p>
       </div>
     </div>
   } @else {

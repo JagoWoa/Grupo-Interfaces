@@ -1,4 +1,4 @@
-import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Header }  from '../../components/header/header';
@@ -14,6 +14,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 })
 export class UsuarioDoctor implements OnInit {
   private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
   
   // Estado de carga
   isLoading = true;
@@ -76,12 +77,20 @@ export class UsuarioDoctor implements OnInit {
 
       // Cargar lista de pacientes
       await this.cargarPacientes();
+      
+      console.log('🏁 Carga completada exitosamente');
 
     } catch (error) {
       console.error('❌ Error cargando datos del doctor:', error);
       alert('Error al cargar los datos: ' + (error as any)?.message);
     } finally {
+      console.log('🔚 Finally block - Cambiando isLoading a false');
       this.isLoading = false;
+      console.log('✅ isLoading ahora es:', this.isLoading);
+      
+      // Forzar detección de cambios
+      this.cdr.detectChanges();
+      console.log('🔄 Change detection forzada');
     }
   }
 
@@ -89,19 +98,23 @@ export class UsuarioDoctor implements OnInit {
     console.log('📋 Cargando pacientes del doctor...');
     try {
       const data = await this.healthService.getPacientesDeDoctor(this.doctorId);
+      console.log('📦 Datos recibidos:', data);
       
       // Transformar datos para el formato esperado
-      this.pacientes = data.map((item: any) => ({
-        id: item.paciente.id,
-        nombre: item.paciente.nombre_completo,
-        email: item.paciente.email,
-        telefono: item.paciente.telefono,
-        fechaNacimiento: item.paciente.fecha_nacimiento,
-        fechaAsignacion: item.fecha_asignacion,
-        ultimaConsulta: this.formatearFecha(item.fecha_asignacion)
-      }));
+      this.pacientes = data
+        .filter((item: any) => item.paciente) // Filtrar items sin paciente
+        .map((item: any) => ({
+          id: item.paciente.id,
+          nombre: item.paciente.nombre_completo,
+          email: item.paciente.email || '',
+          telefono: item.paciente.telefono || '',
+          fechaNacimiento: item.paciente.fecha_nacimiento || '',
+          fechaAsignacion: item.fecha_asignacion,
+          ultimaConsulta: this.formatearFecha(item.fecha_asignacion)
+        }));
 
       console.log('✅ Pacientes cargados:', this.pacientes.length);
+      console.log('👥 Lista de pacientes:', this.pacientes);
     } catch (error) {
       console.error('❌ Error cargando pacientes:', error);
       this.pacientes = [];
