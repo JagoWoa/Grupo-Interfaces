@@ -1,0 +1,214 @@
+<app-header></app-header>
+
+<section class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-8 px-4">
+    <div class="max-w-7xl mx-auto">
+        @if (isLoading) {
+            <div class="flex items-center justify-center min-h-[400px]">
+                <div class="text-center">
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#004b98]"></div>
+                    <p class="mt-4 text-gray-600">Cargando...</p>
+                </div>
+            </div>
+        } @else {
+            
+            <!-- Sección de Perfil del Usuario -->
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden mb-8">
+                <!-- Banner con gradiente -->
+                <div class="h-32 bg-gradient-to-r from-[#004b98] to-[#0066cc]"></div>
+                
+                <!-- Contenido del perfil -->
+                <div class="px-6 sm:px-8 pb-8">
+                    <!-- Avatar y nombre -->
+                    <div class="flex flex-col sm:flex-row items-center sm:items-end -mt-16 sm:-mt-12 mb-6">
+                        <div class="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold shadow-2xl ring-4 ring-white mb-4 sm:mb-0">
+                            {{ getInitials(userName) }}
+                        </div>
+                        
+                        <div class="sm:ml-6 text-center sm:text-left flex-1">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                                <div>
+                                    <h1 class="text-3xl font-bold text-gray-900">{{ userName }}</h1>
+                                    <div class="flex flex-wrap gap-2 mt-2 justify-center sm:justify-start">
+                                        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                                            <i class="fas fa-user-circle mr-1"></i>
+                                            {{ userRole === 'doctor' ? 'Doctor' : 'Paciente' }}
+                                        </span>
+                                        @if (userRole === 'adulto_mayor') {
+                                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                                                <i class="fas fa-heartbeat mr-1"></i>
+                                                Activo
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                                
+                                <!-- Botón de editar perfil -->
+                                <button (click)="navigateToEditProfile()" 
+                                        class="mt-4 sm:mt-0 px-6 py-3 bg-gradient-to-r from-[#004b98] to-[#0066cc] text-white rounded-xl hover:shadow-lg transition-all duration-300 flex items-center gap-2 hover:scale-105">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Editar Perfil</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grid de información personal -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+                        <!-- Email -->
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-4 border border-blue-200">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-envelope text-white text-lg"></i>
+                                </div>
+                                <div class="overflow-hidden">
+                                    <p class="text-xs text-blue-600 font-medium mb-1">Correo Electrónico</p>
+                                    <p class="text-sm font-semibold text-gray-900 truncate">{{ user?.email || 'No especificado' }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Teléfono -->
+                        <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-4 border border-green-200">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-phone text-white text-lg"></i>
+                                </div>
+                                <div class="overflow-hidden">
+                                    <p class="text-xs text-green-600 font-medium mb-1">Teléfono</p>
+                                    <p class="text-sm font-semibold text-gray-900 truncate">{{ user?.telefono || 'No especificado' }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fecha de nacimiento -->
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-4 border border-purple-200">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-calendar text-white text-lg"></i>
+                                </div>
+                                <div class="overflow-hidden">
+                                    <p class="text-xs text-purple-600 font-medium mb-1">Fecha de Nacimiento</p>
+                                    <p class="text-sm font-semibold text-gray-900 truncate">{{ formatDate(user?.fecha_nacimiento) }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (userRole === 'doctor') {
+                            <!-- Título profesional -->
+                            <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl p-4 border border-indigo-200">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-indigo-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-user-md text-white text-lg"></i>
+                                    </div>
+                                    <div class="overflow-hidden">
+                                        <p class="text-xs text-indigo-600 font-medium mb-1">Título</p>
+                                        <p class="text-sm font-semibold text-gray-900 truncate">{{ user?.titulo_profesional || 'No especificado' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Especialidad -->
+                            <div class="bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-4 border border-pink-200">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-stethoscope text-white text-lg"></i>
+                                    </div>
+                                    <div class="overflow-hidden">
+                                        <p class="text-xs text-pink-600 font-medium mb-1">Especialidad</p>
+                                        <p class="text-sm font-semibold text-gray-900 truncate">{{ user?.especialidad || 'No especificado' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Licencia médica -->
+                            <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-4 border border-orange-200">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-id-card text-white text-lg"></i>
+                                    </div>
+                                    <div class="overflow-hidden">
+                                        <p class="text-xs text-orange-600 font-medium mb-1">Licencia Médica</p>
+                                        <p class="text-sm font-semibold text-gray-900 truncate">{{ user?.licencia_medica || 'No especificado' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid de accesos rápidos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @if (userRole === 'adulto_mayor') {
+                    <!-- Tarjeta Panel de Salud -->
+                    <a routerLink="/usuario" 
+                       class="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 hover:scale-105 group">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-heartbeat text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Mi Panel de Salud</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Signos vitales, recordatorios y seguimiento médico</p>
+                        <div class="flex items-center text-green-600 font-medium">
+                            <span>Ver detalles</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                        </div>
+                    </a>
+
+                    <!-- Tarjeta Chat -->
+                    <a routerLink="/chat" 
+                       class="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 hover:scale-105 group">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-comments text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Mensajes</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Consulta con tu médico en tiempo real</p>
+                        <div class="flex items-center text-blue-600 font-medium">
+                            <span>Abrir chat</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                        </div>
+                    </a>
+                }
+
+                @if (userRole === 'doctor') {
+                    <!-- Tarjeta Mis Pacientes -->
+                    <a routerLink="/usuariodoctor" 
+                       class="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 hover:scale-105 group">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-users text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Mis Pacientes</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Gestionar pacientes y seguimiento</p>
+                        <div class="flex items-center text-green-600 font-medium">
+                            <span>Ver pacientes</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                        </div>
+                    </a>
+
+                    <!-- Tarjeta Chat -->
+                    <a routerLink="/chat" 
+                       class="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 hover:scale-105 group">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-comments text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Mensajes</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Comunicación con pacientes</p>
+                        <div class="flex items-center text-blue-600 font-medium">
+                            <span>Abrir chat</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+<app-footer></app-footer>

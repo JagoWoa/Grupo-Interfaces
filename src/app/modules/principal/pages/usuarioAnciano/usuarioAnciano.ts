@@ -1,55 +1,243 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Sidebar }  from '../../components/sidebar/sidebar';
+import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Header }  from '../../components/header/header';
 import { Footer }  from '../../components/footer/footer';
 import { Chat } from '../../components/chat/chat';
 import { ChatService } from '..//../../../core/services/chat.service';
+import { HealthService, SignosVitales, Recordatorio } from '../../../../core/services/health.service';
+import { AuthService } from '../../../../core/services/auth.service';
+
 @Component({
   selector: 'app-usuarioAnciano',
   standalone: true,
-  imports: [CommonModule, Sidebar, Header, Footer, Chat],
+  imports: [CommonModule, FormsModule, Header, Footer, Chat],
   templateUrl: './usuarioAnciano.html',
   styleUrls: ['./usuarioAnciano.css'],
 })
-export class UsuarioAnciano {
+export class UsuarioAnciano implements OnInit {
+  private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
   chatExpanded = false;
+  currentDate = new Date();
+  isLoading = true;
+  pacienteId: string = '';
+  userName: string = '';
 
-  vitalSigns = [
-    {
-      title: 'Presión Arterial',
-      value: '120/80',
-      unit: 'mmHg',
-      icon: 'fas fa-heartbeat',
-      iconColor: 'text-red-600',
-      colorClass: 'border-red-500',
-    },
-    {
-      title: 'Frecuencia Cardíaca',
-      value: '75',
-      unit: 'bpm',
-      icon: 'fas fa-heart',
-      iconColor: 'text-pink-600',
-      colorClass: 'border-pink-500',
-    },
-    {
-      title: 'Temperatura',
-      value: '36.5',
-      unit: '°C',
-      icon: 'fas fa-thermometer-half',
-      iconColor: 'text-amber-600',
-      colorClass: 'border-amber-500',
-    },
-    {
-      title: 'Glucosa',
-      value: '95',
-      unit: 'mg/dL',
-      icon: 'fas fa-tint',
-      iconColor: 'text-blue-600',
-      colorClass: 'border-blue-500',
-    },
-  ];
-  constructor(private chatService: ChatService) {}
+  // Signos vitales
+  signosVitales: SignosVitales = {
+    adulto_mayor_id: '',
+    presion_arterial: '120/80',
+    frecuencia_cardiaca: '75',
+    temperatura: '36.5',
+    peso: '70',
+    glucosa: '95',
+    saturacion_oxigeno: '98'
+  };
+
+  // Recordatorios
+  recordatorios: Recordatorio[] = [];
+
+  // Doctor asignado
+  doctorAsignado: any = null;
+
+  // Detalles del paciente
+  detallesPaciente = {
+    tipo_sangre: 'A+',
+    altura: 170,
+    peso: 70
+  };
+
+  // Modo de edición
+  editingVitalSigns = false;
+
+  constructor(
+    private chatService: ChatService,
+    private healthService: HealthService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    // Solo ejecutar en el navegador, no en el servidor (SSR)
+    if (isPlatformBrowser(this.platformId)) {
+      console.log('🌐 Componente inicializado en el navegador');
+      this.loadUserData();
+    } else {
+      console.log('🖥️ Componente en servidor (SSR), omitiendo carga de datos');
+    }
+  }
+
+  async loadUserData() {
+    this.isLoading = true;
+    console.log('🚀 Iniciando carga de datos...');
+    
+    try {
+      // Esperar a que el AuthService cargue el usuario con timeout
+      const user = await this.waitForUser();
+      
+      if (!user) {
+        console.error('❌ No hay usuario autenticado después de esperar');
+        alert('No se pudo cargar el usuario. Por favor, inicia sesión nuevamente.');
+        return;
+      }
+
+      console.log('👤 Usuario cargado:', user.nombre_completo, 'ID:', user.id);
+
+      this.pacienteId = user.id;
+      this.userName = user.nombre_completo;
+      this.signosVitales.adulto_mayor_id = user.id;
+
+      console.log('📦 Cargando todos los datos en paralelo...');
+
+      // Crear promesas con timeout de 5 segundos cada una
+      const timeoutMs = 5000;
+      
+      const [signosResult, recordatoriosResult, doctorResult, detallesResult] = await Promise.allSettled([
+        this.withTimeout(this.healthService.getSignosVitales(this.pacienteId), timeoutMs, 'signos vitales'),
+        this.withTimeout(this.healthService.getRecordatorios(this.pacienteId), timeoutMs, 'recordatorios'),
+        this.withTimeout(this.healthService.getDoctorAsignado(this.pacienteId), timeoutMs, 'doctor'),
+        this.withTimeout(this.healthService.getDetallesPaciente(this.pacienteId), timeoutMs, 'detalles')
+      ]);
+
+      // Procesar signos vitales
+      if (signosResult.status === 'fulfilled' && signosResult.value) {
+        this.signosVitales = { ...this.signosVitales, ...signosResult.value };
+        console.log('✅ Signos vitales cargados:', signosResult.value);
+      } else {
+        console.log('ℹ️ No hay signos vitales registrados o error:', 
+          signosResult.status === 'rejected' ? signosResult.reason : 'sin datos');
+      }
+
+      // Procesar recordatorios
+      if (recordatoriosResult.status === 'fulfilled') {
+        this.recordatorios = recordatoriosResult.value || [];
+        console.log('✅ Recordatorios cargados:', this.recordatorios.length);
+      } else {
+        console.error('⚠️ Error cargando recordatorios:', recordatoriosResult.reason);
+        this.recordatorios = [];
+      }
+
+      // Procesar doctor asignado
+      if (doctorResult.status === 'fulfilled') {
+        this.doctorAsignado = doctorResult.value;
+        console.log('✅ Doctor asignado:', this.doctorAsignado);
+      } else {
+        console.error('⚠️ Error cargando doctor:', doctorResult.reason);
+        this.doctorAsignado = null;
+      }
+
+      // Procesar detalles del paciente
+      if (detallesResult.status === 'fulfilled' && detallesResult.value) {
+        this.detallesPaciente = {
+          tipo_sangre: detallesResult.value.tipo_sangre || 'A+',
+          altura: detallesResult.value.altura || 170,
+          peso: detallesResult.value.peso || 70
+        };
+        console.log('✅ Detalles del paciente cargados');
+      } else {
+        console.log('ℹ️ Usando detalles por defecto');
+      }
+
+      console.log('✅✅✅ Datos del paciente cargados completamente');
+    } catch (error) {
+      console.error('❌❌❌ Error FATAL cargando datos:', error);
+      alert('Error al cargar los datos: ' + (error as any)?.message || error);
+    } finally {
+      console.log('🏁 Finalizando carga, isLoading = false');
+      this.isLoading = false;
+      
+      // Forzar detección de cambios
+      this.cdr.detectChanges();
+      console.log('🔄 Change detection forzada en usuarioAnciano');
+    }
+  }
+
+  // Función auxiliar para esperar al usuario con reintentos
+  private async waitForUser(): Promise<any> {
+    let user = this.authService.getCurrentUser();
+    
+    if (user) {
+      return user;
+    }
+
+    // Reintentar hasta 3 veces con delays crecientes
+    const delays = [500, 1000, 1500];
+    for (const delay of delays) {
+      console.log(`⏳ Esperando usuario (${delay}ms)...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      user = this.authService.getCurrentUser();
+      if (user) {
+        return user;
+      }
+    }
+
+    return null;
+  }
+
+  // Función auxiliar para agregar timeout a las promesas
+  private withTimeout<T>(promise: Promise<T>, timeoutMs: number, name: string): Promise<T> {
+    return Promise.race([
+      promise,
+      new Promise<T>((_, reject) => 
+        setTimeout(() => reject(new Error(`Timeout en ${name} después de ${timeoutMs}ms`)), timeoutMs)
+      )
+    ]);
+  }
+
+  toggleEditVitalSigns() {
+    this.editingVitalSigns = !this.editingVitalSigns;
+  }
+
+  async saveVitalSigns() {
+    const success = await this.healthService.updateSignosVitales(
+      this.pacienteId,
+      this.signosVitales
+    );
+
+    if (success) {
+      this.editingVitalSigns = false;
+      alert('✅ Signos vitales actualizados correctamente');
+    } else {
+      alert('❌ Error al actualizar signos vitales');
+    }
+  }
+
+  cancelEditVitalSigns() {
+    this.editingVitalSigns = false;
+    // Recargar datos originales
+    this.loadUserData();
+  }
+
+  async toggleRecordatorio(recordatorio: Recordatorio) {
+    if (recordatorio.id) {
+      await this.healthService.toggleRecordatorioCompletado(
+        recordatorio.id,
+        !recordatorio.completado,
+        this.pacienteId
+      );
+      // Recargar recordatorios
+      this.recordatorios = await this.healthService.getRecordatorios(this.pacienteId);
+    }
+  }
+
+  async deleteRecordatorio(recordatorio: Recordatorio) {
+    if (recordatorio.id && confirm('¿Estás seguro de eliminar este recordatorio?')) {
+      await this.healthService.deleteRecordatorio(recordatorio.id, this.pacienteId);
+      // Recargar recordatorios
+      this.recordatorios = await this.healthService.getRecordatorios(this.pacienteId);
+    }
+  }
+
+  getVitalSignIcon(tipo: string): string {
+    const icons: any = {
+      presion: 'fas fa-heartbeat',
+      frecuencia: 'fas fa-heart',
+      temperatura: 'fas fa-thermometer-half',
+      glucosa: 'fas fa-tint'
+    };
+    return icons[tipo] || 'fas fa-info-circle';
+  }
+  
   toggleChat(): void {
     this.chatExpanded = !this.chatExpanded;
     this.chatService.toggleChat();

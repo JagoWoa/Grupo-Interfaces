@@ -6,9 +6,13 @@ import { Login } from './modules/principal/pages/login/login';
 import { UsuarioAnciano } from './modules/principal/pages/usuarioAnciano/usuarioAnciano';
 import { RegisterDoctor } from './modules/principal/pages/register-doctor/register-doctor';
 import { UsuarioDoctor } from './modules/principal/pages/usuario-doctor/usuario-doctor';
-import { Perfil } from "./modules/principal/pages/perfil/perfil"
+import { Perfil } from "./modules/principal/pages/perfil/perfil";
+import { Dashboard } from "./modules/principal/pages/dashboard/dashboard";
+import { ChatPage } from './modules/principal/pages/chat-page/chat-page';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
+	// Rutas públicas (accesibles sin login)
 	{
 		path: 'inicio',
 		component: WelcomePage,
@@ -30,33 +34,47 @@ export const routes: Routes = [
 		pathMatch: 'full'
 	},
 	{
-		path: 'usuario',
-		component: UsuarioAnciano,
-		pathMatch: 'full'
-	},
-	{
-		path: 'usuariodoctor',
-		component: UsuarioDoctor,
-		pathMatch: 'full'
-	},
-	{
 		path: 'registerdoctor',
 		component: RegisterDoctor,
 		pathMatch: 'full'
 	},
+	
+	// Rutas protegidas (requieren autenticación)
+	{
+		path: 'dashboard',
+		component: Dashboard,
+		pathMatch: 'full',
+		canActivate: [authGuard]
+	},
 	{
 		path: 'perfil',
 		component: Perfil,
-		pathMatch: 'full'
+		pathMatch: 'full',
+		canActivate: [authGuard]
 	},
+	{
+		path: 'usuario',
+		component: UsuarioAnciano,
+		pathMatch: 'full',
+		canActivate: [authGuard]
+	},
+	{
+		path: 'usuariodoctor',
+		component: UsuarioDoctor,
+		pathMatch: 'full',
+		canActivate: [authGuard]
+	},
+	{
+		path: 'chat',
+		component: ChatPage,
+		pathMatch: 'full',
+		canActivate: [authGuard]
+	},
+	
+	// Fallback: redirect unknown paths to home
 	{
 		path: '**',
 		redirectTo: ''
 	}
-	// Módulo 3 - Registro
-	//{
-	//	path: 'registro',
-	//	loadComponent: () => import('./modules/registro/pages/registro/registro.page').then(m => m.RegistroPage)
-	//},
-	// fallback: redirect unknown paths to home (client-side)
 ];
+
