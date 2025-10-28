@@ -263,7 +263,7 @@ export class UsuarioAnciano implements OnInit {
     this.signosVitalesService.getSignosVitales().then(response => {
       if (response.success && response.data) {
         console.log('Signos vitales obtenidos:', response.data);
-        this.signos = response.data;
+        //this.signos = response.data;
         this.isEditing = false;
         // popular formulario con valores actuales por si desea editar
         this.form.presion_arterial = response.data.presion_arterial || '';

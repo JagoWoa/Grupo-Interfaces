@@ -24,8 +24,12 @@ export class Header implements OnInit, OnDestroy {
   userName: string = '';
   userRole: string = '';
   unreadMessages: number = 0;
+  isChatOpen: boolean = false; // ✅ Cambiado de toggleChat a isChatOpen
   private authSubscription?: Subscription;
-  
+  private messagesSubscription?: Subscription;
+  isDarkMode: boolean = false;
+
+
   languages = [
     { code: 'es', name: 'Español', flag: '🇪🇸' },
     { code: 'en', name: 'English', flag: '🇺🇸' }
@@ -37,8 +41,21 @@ export class Header implements OnInit, OnDestroy {
     { id: 'screenReader', label: 'Lector de Pantalla', icon: 'fas fa-volume-up' }
   ];
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private themeService: ThemeService, private chatService: ChatService) { }
 
+  toggleChat(): void {
+    this.isChatOpen = !this.isChatOpen;
+    // Aquí puedes emitir un evento o llamar al servicio de chat
+    if (this.isChatOpen) {
+      this.chatService.openChat();
+    } else {
+      this.chatService.closeChat();
+    }
+  }
+
+  botonCambio(): void {
+    this.themeService.toggleTheme();
+  }
   ngOnInit() {
     // Suscribirse a cambios en el estado de autenticación
     this.authSubscription = this.authService.currentUser$.subscribe(user => {
@@ -60,10 +77,16 @@ export class Header implements OnInit, OnDestroy {
         this.unreadMessages = messages.filter(m => !m.leido && m.emisor_tipo !== this.getUserEmitterType()).length;
       }
     });
-        // Suscribirse al estado del tema
+    // Suscribirse al estado del tema
     this.themeService.darkMode$.subscribe(isDark => {
       this.isDarkMode = isDark;
     });
+  }
+  getUserEmitterType(): 'doctor' | 'adulto_mayor' | null {
+    const role = "doctor";
+    if (role === 'doctor') return 'doctor';
+    if (role === 'adulto_mayor') return 'adulto_mayor';
+    return null;
   }
 
   ngOnDestroy() {
@@ -72,11 +95,12 @@ export class Header implements OnInit, OnDestroy {
     this.messagesSubscription?.unsubscribe();
   }
 
-  isLogging(){
+  isLogging() {
     return this.isAuthenticated;
   }
 
   logout() {
     this.authService.logout();
   }
+
 }
