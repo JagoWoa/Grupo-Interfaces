@@ -1,0 +1,338 @@
+<div class="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-bold text-white">Política de Privacidad</h1>
+          <p class="text-purple-100 mt-2">Telecuidado Mayor</p>
+        </div>
+        <button 
+          (click)="volver()"
+          class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Volver
+        </button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="px-8 py-8 space-y-8">
+      <!-- Última actualización -->
+      <div class="bg-purple-50 border-l-4 border-purple-600 p-4 rounded-r-lg">
+        <p class="text-sm text-purple-800">
+          <span class="font-semibold">Última actualización:</span> {{ fechaActualizacion }}
+        </p>
+      </div>
+
+      <!-- Introducción -->
+      <section class="space-y-4">
+        <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-200">
+          <p class="text-gray-700 leading-relaxed">
+            En <span class="font-bold text-purple-600">Telecuidado Mayor</span>, respetamos y protegemos la privacidad de nuestros usuarios. Esta Política de Privacidad describe cómo recopilamos, utilizamos, almacenamos y protegemos su información personal y médica.
+          </p>
+        </div>
+      </section>
+
+      <!-- 1. Información que Recopilamos -->
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">1</span>
+          Información que Recopilamos
+        </h2>
+        <div class="pl-13 space-y-4 text-gray-700 leading-relaxed">
+          <div class="space-y-3">
+            <h3 class="font-semibold text-lg text-gray-900">📋 Datos Personales:</h3>
+            <ul class="list-disc pl-6 space-y-2">
+              <li>Nombre completo</li>
+              <li>Correo electrónico</li>
+              <li>Número de teléfono</li>
+              <li>Fecha de nacimiento</li>
+              <li>Dirección</li>
+            </ul>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-lg text-gray-900">⚕️ Datos Médicos:</h3>
+            <ul class="list-disc pl-6 space-y-2">
+              <li>Signos vitales (presión arterial, frecuencia cardíaca, temperatura, peso, glucosa, saturación de oxígeno)</li>
+              <li>Historial médico</li>
+              <li>Medicamentos y recordatorios</li>
+              <li>Notas y recomendaciones de profesionales de salud</li>
+            </ul>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-lg text-gray-900">💻 Datos Técnicos:</h3>
+            <ul class="list-disc pl-6 space-y-2">
+              <li>Dirección IP</li>
+              <li>Tipo de navegador y dispositivo</li>
+              <li>Fecha y hora de acceso</li>
+              <li>Cookies y tecnologías similares</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Cómo Utilizamos su Información -->
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">2</span>
+          Cómo Utilizamos su Información
+        </h2>
+        <div class="pl-13 space-y-3 text-gray-700 leading-relaxed">
+          <p>Utilizamos la información recopilada para:</p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li><span class="font-semibold">Atención médica:</span> Facilitar la comunicación entre pacientes y doctores</li>
+            <li><span class="font-semibold">Seguimiento:</span> Monitorear signos vitales y alertar sobre anomalías</li>
+            <li><span class="font-semibold">Recordatorios:</span> Enviar notificaciones sobre medicamentos y citas médicas</li>
+            <li><span class="font-semibold">Mejora del servicio:</span> Analizar el uso de la plataforma para optimizar la experiencia</li>
+            <li><span class="font-semibold">Seguridad:</span> Detectar y prevenir actividades fraudulentas</li>
+            <li><span class="font-semibold">Comunicación:</span> Enviar actualizaciones importantes sobre el servicio</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 3. Base Legal -->
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">3</span>
+          Base Legal del Tratamiento
+        </h2>
+        <div class="pl-13 space-y-3 text-gray-700 leading-relaxed">
+          <p>Procesamos sus datos personales bajo las siguientes bases legales:</p>
+          <div class="bg-blue-50 rounded-lg p-4 space-y-2">
+            <p class="flex items-start gap-2">
+              <span class="font-semibold text-blue-900 mt-1">✓</span>
+              <span><span class="font-semibold text-blue-900">Consentimiento:</span> Usted ha dado su consentimiento explícito al registrarse</span>
+            </p>
+            <p class="flex items-start gap-2">
+              <span class="font-semibold text-blue-900 mt-1">✓</span>
+              <span><span class="font-semibold text-blue-900">Ejecución del contrato:</span> Necesario para proporcionar nuestros servicios</span>
+            </p>
+            <p class="flex items-start gap-2">
+              <span class="font-semibold text-blue-900 mt-1">✓</span>
+              <span><span class="font-semibold text-blue-900">Obligación legal:</span> Cumplimiento con leyes de protección de datos (Ley N° 29733)</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Compartir Información -->
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">4</span>
+          Compartir su Información
+        </h2>
+        <div class="pl-13 space-y-3 text-gray-700 leading-relaxed">
+          <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg">
+            <p class="font-semibold text-yellow-900 mb-2">⚠️ Importante:</p>
+            <p class="text-yellow-800">NO vendemos, alquilamos ni compartimos su información personal con terceros para fines comerciales.</p>
+          </div>
+          
+          <p class="mt-4">Solo compartimos información con:</p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li><span class="font-semibold">Profesionales de salud autorizados:</span> Doctores asignados a su cuidado</li>
+            <li><span class="font-semibold">Proveedores de servicios:</span> Empresas que nos ayudan a operar la plataforma (hosting, almacenamiento)</li>
+            <li><span class="font-semibold">Autoridades legales:</span> Solo cuando sea requerido por ley</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 5. Seguridad de Datos -->
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">5</span>
+          Seguridad de sus Datos
+        </h2>
+        <div class="pl-13 space-y-3 text-gray-700 leading-relaxed">
+          <div class="bg-green-50 border border-green-200 rounded-lg p-6 space-y-3">
+            <p class="font-semibold text-green-900 flex items-center gap-2">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
+              Medidas de Seguridad Implementadas:
+            </p>
+            <ul class="list-disc pl-6 text-green-800 space-y-2">
+              <li><span class="font-semibold">Encriptación SSL/TLS:</span> Toda la comunicación está encriptada</li>
+              <li><span class="font-semibold">Encriptación en reposo:</span> Datos almacenados de forma segura</li>
+              <li><span class="font-semibold">Autenticación segura:</span> Contraseñas hasheadas con algoritmos seguros</li>
+              <li><span class="font-semibold">Control de acceso:</span> Solo personal autorizado puede acceder a datos sensibles</li>
+              <li><span class="font-semibold">Monitoreo continuo:</span> Detección de amenazas en tiempo real</li>
+              <li><span class="font-semibold">Copias de seguridad:</span> Respaldos automáticos y regulares</li>
+              <li><span class="font-semibold">Auditorías:</span> Revisiones periódicas de seguridad</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Sus Derechos -->
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">6</span>
+          Sus Derechos de Privacidad
+        </h2>
+        <div class="pl-13 space-y-3 text-gray-700 leading-relaxed">
+          <p>De acuerdo con la Ley N° 29733, usted tiene derecho a:</p>
+          <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-900 mb-2">🔍 Acceso</h4>
+              <p class="text-sm">Solicitar acceso a sus datos personales</p>
+            </div>
+            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-900 mb-2">✏️ Rectificación</h4>
+              <p class="text-sm">Corregir datos inexactos o incompletos</p>
+            </div>
+            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-900 mb-2">🗑️ Eliminación</h4>
+              <p class="text-sm">Solicitar la eliminación de sus datos</p>
+            </div>
+            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-900 mb-2">🚫 Oposición</h4>
+              <p class="text-sm">Oponerse al procesamiento de sus datos</p>
+            </div>
+            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-900 mb-2">📦 Portabilidad</h4>
+              <p class="text-sm">Exportar sus datos en formato legible</p>
+            </div>
+            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-900 mb-2">⛔ Limitación</h4>
+              <p class="text-sm">Limitar el procesamiento de sus datos</p>
+            </div>
+          </div>
+          <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-4 rounded-r-lg">
+            <p class="text-sm text-blue-800">
+              Para ejercer estos derechos, contáctenos en <span class="font-semibold">privacidad&#64;telecuidadomayor.pe</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Retención de Datos -->
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">7</span>
+          Retención de Datos
+        </h2>
+        <div class="pl-13 space-y-3 text-gray-700 leading-relaxed">
+          <p>Conservamos su información mientras:</p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>Su cuenta esté activa</li>
+            <li>Sea necesario para proporcionar nuestros servicios</li>
+            <li>Lo requieran obligaciones legales (mínimo 5 años para datos médicos según normativa peruana)</li>
+          </ul>
+          <p class="mt-3">
+            Después de la eliminación de su cuenta, anonimizamos o eliminamos sus datos personales de forma segura, excepto cuando la ley nos obligue a conservarlos.
+          </p>
+        </div>
+      </section>
+
+      <!-- 8. Cookies -->
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">8</span>
+          Cookies y Tecnologías Similares
+        </h2>
+        <div class="pl-13 space-y-3 text-gray-700 leading-relaxed">
+          <p>Utilizamos cookies para:</p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li><span class="font-semibold">Esenciales:</span> Mantener su sesión activa y recordar sus preferencias</li>
+            <li><span class="font-semibold">Analíticas:</span> Entender cómo usa la plataforma para mejorarla</li>
+            <li><span class="font-semibold">Funcionalidad:</span> Recordar configuraciones y preferencias</li>
+          </ul>
+          <p class="mt-3">
+            Puede configurar su navegador para rechazar cookies, pero esto puede afectar la funcionalidad del sitio.
+          </p>
+        </div>
+      </section>
+
+      <!-- 9. Menores de Edad -->
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">9</span>
+          Privacidad de Menores
+        </h2>
+        <div class="pl-13 space-y-3 text-gray-700 leading-relaxed">
+          <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+            <p class="text-red-800">
+              Nuestros servicios están diseñados para adultos mayores (18+ años). Los menores de 18 años deben contar con el consentimiento de un padre, tutor o representante legal.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. Cambios a esta Política -->
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">10</span>
+          Cambios a esta Política
+        </h2>
+        <div class="pl-13 space-y-3 text-gray-700 leading-relaxed">
+          <p>
+            Podemos actualizar esta Política de Privacidad periódicamente. Le notificaremos sobre cambios significativos mediante:
+          </p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>Email a su dirección registrada</li>
+            <li>Notificación en la plataforma</li>
+            <li>Actualización de la fecha al inicio de este documento</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 11. Contacto -->
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">11</span>
+          Contacto
+        </h2>
+        <div class="pl-13 space-y-3 text-gray-700 leading-relaxed">
+          <p>Para consultas sobre privacidad o ejercer sus derechos:</p>
+          <div class="bg-gray-50 rounded-lg p-6 space-y-3">
+            <p class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              <span class="font-semibold">Email de Privacidad:</span> privacidad&#64;telecuidadomayor.pe
+            </p>
+            <p class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              <span class="font-semibold">Email de Soporte:</span> soporte&#64;telecuidadomayor.pe
+            </p>
+            <p class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+              </svg>
+              <span class="font-semibold">Teléfono:</span> +51 987 654 321
+            </p>
+            <p class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-purple-600 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <span><span class="font-semibold">Dirección:</span> Av. Principal 123, Lima, Perú</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer final -->
+      <div class="border-t-2 border-gray-200 pt-6 mt-8">
+        <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6">
+          <p class="text-center text-gray-700">
+            Al utilizar <span class="font-bold text-purple-600">Telecuidado Mayor</span>, usted acepta esta Política de Privacidad y consiente el procesamiento de sus datos personales según lo descrito.
+          </p>
+          <p class="text-center text-sm text-gray-600 mt-3">
+            Versión 1.0 - Última actualización: {{ fechaActualizacion }}
+          </p>
+          <p class="text-center text-xs text-gray-500 mt-2">
+            Conforme a la Ley N° 29733 - Ley de Protección de Datos Personales del Perú
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
