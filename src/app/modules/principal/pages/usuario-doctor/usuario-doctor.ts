@@ -3,13 +3,14 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Header }  from '../../components/header/header';
 import { Footer }  from '../../components/footer/footer';
+import { Chat } from '../../components/chat/chat';
 import { ChatService } from '..//../../../core/services/chat.service';
 import { HealthService, SignosVitales } from '../../../../core/services/health.service';
 import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-usuario-doctor',
-  imports: [CommonModule, FormsModule, Header, Footer],
+  imports: [CommonModule, FormsModule, Header, Footer, Chat],
   templateUrl: './usuario-doctor.html',
 })
 export class UsuarioDoctor implements OnInit {
@@ -131,7 +132,10 @@ export class UsuarioDoctor implements OnInit {
 
   async cargarDatosPaciente(pacienteId: string) {
     try {
+      console.log('📋 Cargando datos del paciente:', pacienteId);
       const datos = await this.healthService.getDatosPacienteParaDoctor(pacienteId);
+      
+      console.log('📦 Datos recibidos:', datos);
       
       if (datos) {
         // Cargar signos vitales
@@ -145,6 +149,7 @@ export class UsuarioDoctor implements OnInit {
 
         // Cargar recordatorios
         this.recordatorios = datos.recordatorios;
+        console.log('📌 Recordatorios cargados:', this.recordatorios.length);
 
         console.log('✅ Datos del paciente cargados');
       }
