@@ -8,9 +8,12 @@ import { ChatService } from '..//../../../core/services/chat.service';
   standalone: true,
   imports: [CommonModule, Header, Footer],
   templateUrl: './usuarioAnciano.html',
+  styleUrls: ['./usuarioAnciano.css'],
 })
 export class UsuarioAnciano {
-vitalSigns = [
+  chatExpanded = false;
+
+  vitalSigns = [
     {
       title: 'Presión Arterial',
       value: '120/80',
@@ -46,6 +49,7 @@ vitalSigns = [
   ];
   constructor(private chatService: ChatService) {}
   toggleChat(): void {
+    this.chatExpanded = !this.chatExpanded;
     this.chatService.toggleChat();
   }
 }

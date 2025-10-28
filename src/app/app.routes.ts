@@ -12,7 +12,7 @@ import { Dashboard } from "./modules/principal/pages/dashboard/dashboard";
 export const routes: Routes = [
 	// Rutas públicas (accesibles sin login)
 	{
-		path: 'home',
+		path: 'inicio',
 		component: WelcomePage,
 		pathMatch: 'full'
 	},
