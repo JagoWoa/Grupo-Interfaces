@@ -1,0 +1,29 @@
+/* Chat Page Styles */
+
+/* Aseguramos que el chat ocupe todo el espacio disponible */
+app-chat {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+/* Estilos responsive para móviles */
+@media (max-width: 640px) {
+  .min-h-screen {
+    min-height: 100vh;
+  }
+  
+  /* Ajuste para pantallas pequeñas */
+  .h-\[calc\(100vh-220px\)\] {
+    height: calc(100vh - 200px);
+  }
+}
+
+/* Animación suave para el contenedor */
+.bg-white.rounded-3xl {
+  transition: all 0.3s ease;
+}
+
+.bg-white.rounded-3xl:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}

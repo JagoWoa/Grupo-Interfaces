@@ -1,44 +1,44 @@
 <!-- Header -->
 <app-header></app-header>
 
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 main-container">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
 
   <!-- Main Content -->
-  <div class="max-w-7xl mx-auto px-6 py-10 main-content">
-    <div class="grid grid-cols-1 gap-8 dashboard-grid">
+  <div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-      <!-- Contenedor unificado de Signos Vitales y Recordatorios -->
-      <div class="bg-white rounded-2xl shadow-lg p-8 unified-section">
-        
-        <!-- Signos Vitales (una sola fila) -->
-        <div class="mb-8">
-          <div class="flex items-center gap-3 mb-6 vitales-header">
-            <div class="w-12 h-12 flex items-center justify-center icon-vitales">
+      <!-- Columna Izquierda: Signos Vitales y Recordatorios -->
+      <div class="lg:col-span-2 space-y-8">
+<!-- prueba sarabia -->
+        <!-- Signos Vitales Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 ">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 flex items-center justify-center">
               <i class="fa-solid fa-heart text-red-500 text-2xl"></i>
             </div>
             <h2 class="text-3xl font-bold text-gray-800">Signos Vitales</h2>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 vitales-grid">
-            <div class="bg-red-50 p-4 rounded-xl card-vital">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-red-50 p-6 rounded-xl">
               <p class="text-sm text-gray-600 font-medium mb-1">Presión Arterial</p>
               <p class="text-2xl font-bold text-gray-900">120/80</p>
               <p class="text-xs text-gray-500 mt-1">mmHg</p>
             </div>
 
-            <div class="bg-pink-50 p-4 rounded-xl card-vital">
+            <div class="bg-pink-50 p-6 rounded-xl">
               <p class="text-sm text-gray-600 font-medium mb-1">Frecuencia Cardíaca</p>
               <p class="text-2xl font-bold text-gray-900">72</p>
               <p class="text-xs text-gray-500 mt-1">bpm</p>
             </div>
 
-            <div class="bg-orange-50 p-4 rounded-xl card-vital">
+            <div class="bg-orange-50  p-6 rounded-xl ">
               <p class="text-sm text-gray-600 font-medium mb-1">Temperatura</p>
               <p class="text-2xl font-bold text-gray-900">36.5</p>
               <p class="text-xs text-gray-500 mt-1">°C</p>
             </div>
 
-            <div class="bg-blue-100 p-4 rounded-xl card-vital">
+            <div class="bg-blue-100 p-6 rounded-xl ">
               <p class="text-sm text-gray-600 font-medium mb-1">Peso</p>
               <p class="text-2xl font-bold text-gray-900">70</p>
               <p class="text-xs text-gray-500 mt-1">kg</p>
@@ -46,38 +46,124 @@
           </div>
         </div>
 
-        <!-- Separador -->
-        <div class="border-t border-gray-200 my-8"></div>
-
-        <!-- Recordatorios (una sola fila) -->
-        <div>
-          <div class="flex items-center gap-3 mb-6 recordatorios-header">
-            <div class="w-12 h-12 flex items-center justify-center icon-recordatorios">
+        <!-- Recordatorios Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 ">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 flex items-center justify-center">
               <i class="fa-solid fa-bell text-green-500 text-2xl"></i>
             </div>
-            <h2 class="text-3xl font-bold text-gray-800">Recordatorios</h2>
+
+            @if (recordatorios.length === 0) {
+              <div class="text-center py-8 text-gray-400">
+                <i class="fas fa-calendar-times text-4xl mb-3"></i>
+                <p>No hay recordatorios pendientes</p>
+              </div>
+            } @else {
+              <ul class="space-y-4">
+                @for (recordatorio of recordatorios; track recordatorio.id) {
+                  <li class="flex items-start gap-4 p-5 rounded-2xl hover:shadow-md transition-shadow"
+                      [class.bg-gradient-to-r]="!recordatorio.completado"
+                      [class.from-purple-50]="!recordatorio.completado"
+                      [class.to-pink-50]="!recordatorio.completado"
+                      [class.bg-gray-100]="recordatorio.completado"
+                      [class.opacity-60]="recordatorio.completado">
+                    
+                    <!-- Checkbox para completar -->
+                    <button (click)="toggleRecordatorio(recordatorio)"
+                            class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all"
+                            [class.bg-purple-100]="!recordatorio.completado"
+                            [class.bg-green-100]="recordatorio.completado">
+                      @if (!recordatorio.completado) {
+                        <i class="fa-solid fa-pills text-purple-600"></i>
+                      } @else {
+                        <i class="fa-solid fa-check text-green-600"></i>
+                      }
+                    </button>
+
+                    <div class="flex-1">
+                      <p class="font-semibold text-gray-800 text-lg"
+                         [class.line-through]="recordatorio.completado">
+                        {{ recordatorio.titulo }}
+                      </p>
+                      @if (recordatorio.subtitulo) {
+                        <p class="text-gray-600 text-sm">{{ recordatorio.subtitulo }}</p>
+                      }
+                      @if (recordatorio.fecha_recordatorio) {
+                        <p class="text-gray-500 text-xs mt-1">
+                          <i class="fas fa-clock mr-1"></i>
+                          {{ recordatorio.fecha_recordatorio | date:'d/MM/yyyy HH:mm' }}
+                        </p>
+                      }
+                    </div>
+
+                    <!-- Botón eliminar -->
+                    <button (click)="deleteRecordatorio(recordatorio)"
+                            class="text-red-500 hover:text-red-700 p-2 transition-colors">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </li>
+                }
+              </ul>
+            }
+          </section>
+
+      </div>
+
+      <!-- Columna Derecha: Sidebar -->
+      <div class="lg:col-span-1 space-y-6">
+        
+        <!-- Doctors Section -->
+        <section class="bg-white rounded-3xl shadow-lg p-6">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-gray-900">Doctores</h2>
+            <a href="#" class="text-sm text-blue-500 hover:text-blue-600 font-medium">Ver todos</a>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 recordatorios-list">
-            <div class="flex items-start gap-4 p-5 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl recordatorio-item">
+          <ul class="space-y-4">
+            <li
+              class="flex items-start gap-4 p-5 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl">
               <div>
                 <p class="font-semibold text-gray-800 text-lg">Paracetamol</p>
                 <p class="text-gray-600">500 mg cada 8 horas</p>
               </div>
-            </div>
+            </li>
 
-            <div class="flex items-start gap-4 p-5 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl recordatorio-item">
+            <li
+              class="flex items-start gap-4 p-5 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl">
               <div>
                 <p class="font-semibold text-gray-800 text-lg">Consulta Médica</p>
                 <p class="text-gray-600">Cada 6 meses</p>
               </div>
+            </li>
+          </ul>
+        </section>
+
+      </div>
+
+      <!-- Columna Derecha: Chat con Doctor -->
+      <!-- Chat temporalmente deshabilitado
+      <div class="lg:col-span-1">
+        <section class="bg-white rounded-2xl shadow-lg p-6 sticky top-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center">
+              <i class="fa-solid fa-comments text-blue-500 text-2xl"></i>
             </div>
+            <h2 class="text-2xl font-bold text-gray-800">Chat con Doctor</h2>
           </div>
-        </div>
+          <div class="bg-purple-50 to-indigo-50 rounded-xl ">
+            <app-chat></app-chat>
+          </div>
+        </section>
       </div>
 
     </div>
   </div>
+  }
+</div>
+
+<!-- Chat Flotante (Burbuja) -->
+<div class="fixed bottom-6 right-6 z-50">
+  <app-chat></app-chat>
 </div>
 
 <!-- Botón flotante Chat con Doctor -->

@@ -92,4 +92,23 @@ export class Dashboard implements OnInit {
       console.error('Error al cerrar sesión:', error);
     }
   }
+
+  navigateToEditProfile(): void {
+    this.router.navigate(['/perfil']);
+  }
+
+  getInitials(name: string): string {
+    if (!name) return '?';
+    const names = name.trim().split(' ');
+    if (names.length === 1) {
+      return names[0].substring(0, 2).toUpperCase();
+    }
+    return (names[0][0] + names[names.length - 1][0]).toUpperCase();
+  }
+
+  formatDate(date: string | null): string {
+    if (!date) return 'No especificado';
+    const d = new Date(date);
+    return d.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+  }
 }

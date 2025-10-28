@@ -1,43 +1,62 @@
-<nav class="bg-[#004b98] text-white">
-  <div class="container mx-auto flex items-center justify-between px-6 py-6">
+<nav class="bg-[#004b98] text-white shadow-lg sticky top-0 z-50">
+  <div class="container mx-auto flex items-center justify-between px-4 md:px-6 py-4">
     <div class="flex items-center gap-4">
       <!-- Logo -->
       <div class="flex items-center gap-2">
-        <i class="fa-solid fa-heart-pulse text-3xl" alt="Logo"> </i>
-        <h1>Telecuidado Mayor</h1>
+        <i class="fa-solid fa-heart-pulse text-2xl md:text-3xl" alt="Logo"> </i>
+        <h1 class="text-lg md:text-xl font-semibold">Telecuidado Mayor</h1>
       </div>
     </div>
 
     <!-- Centro: Menu principal -->
     <!-- Menú cuando está logueado -->
-    <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="isLogging()">
-      <li><a routerLink="/dashboard" class="hover:underline text-xl">Dashboard</a></li>
-      <li><a routerLink="/perfil" class="hover:underline text-xl">Perfil</a></li>
-      <li><a routerLink="/usuario" class="hover:underline text-xl">Salud</a></li>
+    <ul class="hidden md:flex items-center gap-6 text-sm font-medium" *ngIf="isLogging()">
+      <li><a routerLink="/dashboard" class="hover:bg-white/10 px-3 py-2 rounded-lg transition">Dashboard</a></li>
+      <li><a routerLink="/perfil" class="hover:bg-white/10 px-3 py-2 rounded-lg transition">Perfil</a></li>
+      <li><a routerLink="/usuario" class="hover:bg-white/10 px-3 py-2 rounded-lg transition">Salud</a></li>
+      
+      <!-- Botón de Chat -->
       <li>
-        <button (click)="logout()" class="hover:underline text-xl text-red-300 hover:text-red-100">
-          <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
+        <button (click)="toggleChat()" class="relative hover:bg-white/10 px-3 py-2 rounded-lg transition">
+          <i class="fas fa-comments mr-2"></i>Chat
+          <span *ngIf="unreadMessages > 0" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            {{unreadMessages}}
+          </span>
         </button>
       </li>
     </ul>
 
     <!-- Menú cuando NO está logueado -->
-    <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="!isLogging()">
+    <ul class="hidden md:flex items-center gap-6 text-sm font-medium" *ngIf="!isLogging()">
       <li>
-        <a routerLink="/home" class="hover:underline text-xl">Home</a>
+        <a routerLink="/inicio" class="hover:bg-white/10 px-3 py-2 rounded-lg transition">Home</a>
       </li>
       <li>
-        <a routerLink="/login" class="hover:underline text-xl">Iniciar sesión</a>
+        <a routerLink="/login" class="hover:bg-white/10 px-3 py-2 rounded-lg transition">Iniciar sesión</a>
       </li>
       <li>
-        <a routerLink="/register" class="hover:underline text-xl">Registrar Usuario</a>
+        <a routerLink="/register" class="hover:bg-white/10 px-3 py-2 rounded-lg transition">Registrar Usuario</a>
       </li>
     </ul>
 
 
-    <!-- Derecha: Buscar y controles -->
-    <div class="hidden md:flex items-center gap-3">
-      <button class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm">
+    <!-- Derecha: Controles -->
+    <div class="flex items-center gap-2 md:gap-3">
+      <!-- Usuario logueado -->
+      <div *ngIf="isLogging()" class="hidden md:flex items-center gap-3">
+        <div class="text-right">
+          <p class="text-sm font-medium">{{userName}}</p>
+          <p class="text-xs text-white/70">{{userRole}}</p>
+        </div>
+        <button (click)="logout()" 
+                class="px-3 py-2 bg-red-500 hover:bg-red-600 rounded-lg transition flex items-center gap-2 text-sm font-medium">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="hidden lg:inline">Salir</span>
+        </button>
+      </div>
+
+      <!-- Controles generales -->
+      <button title="Cambiar idioma" class="p-2 hover:bg-white/10 rounded-lg transition text-sm">
         <i class="fa-solid fa-language"></i>
       </button>
       <button 

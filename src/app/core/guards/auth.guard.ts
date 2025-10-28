@@ -1,28 +1,62 @@
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, CanActivateFn } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { SupabaseService } from '../services/supabase.service';
 
 /**
  * Guard de autenticación
  * Protege rutas que requieren que el usuario esté autenticado
+ * Ahora es asíncrono para verificar sesión de Supabase correctamente
  */
-export const authGuard = () => {
+export const authGuard: CanActivateFn = async (route, state) => {
   const authService = inject(AuthService);
+  const supabaseService = inject(SupabaseService);
   const router = inject(Router);
 
-  const isAuth = authService.isAuthenticated();
-  const user = authService.getCurrentUser();
-  
-  console.log('🛡️ AuthGuard - isAuthenticated:', isAuth, 'User:', user?.nombre_completo || 'null');
+  console.log('🛡️ AuthGuard - Verificando acceso a:', state.url);
 
-  if (isAuth) {
-    return true;
+  try {
+    // Primero verificar si hay sesión en Supabase
+    const { data: { session } } = await supabaseService.client.auth.getSession();
+    
+    if (session?.user) {
+      console.log('✅ AuthGuard - Sesión válida encontrada para:', session.user.email);
+      
+      // Verificar si el usuario ya está cargado en el servicio
+      let currentUser = authService.getCurrentUser();
+      
+      // Si no está cargado, esperar un momento para que el AuthService lo cargue
+      if (!currentUser) {
+        console.log('⏳ AuthGuard - Esperando carga de perfil...');
+        await new Promise(resolve => setTimeout(resolve, 500));
+        currentUser = authService.getCurrentUser();
+      }
+      
+      if (currentUser) {
+        console.log('✅ AuthGuard - Usuario autenticado:', currentUser.nombre_completo);
+        return true;
+      }
+      
+      console.warn('⚠️ AuthGuard - Sesión existe pero perfil no cargado, reintentando...');
+      // Dar un poco más de tiempo
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      currentUser = authService.getCurrentUser();
+      
+      if (currentUser) {
+        return true;
+      }
+    }
+
+    console.log('❌ AuthGuard - No hay sesión activa, redirigiendo a login');
+    router.navigate(['/login'], { 
+      queryParams: { returnUrl: state.url }
+    });
+    return false;
+  } catch (error) {
+    console.error('❌ AuthGuard - Error al verificar sesión:', error);
+    router.navigate(['/login']);
+    return false;
   }
-
-  // Redirigir al login si no está autenticado
-  console.log('❌ AuthGuard - Redirigiendo a /login');
-  router.navigate(['/login']);
-  return false;
 };
 
 /**
