@@ -1,24 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Sidebar }  from '../../components/sidebar/sidebar';
-import { Header }  from '../../components/header/header';
-import { Footer }  from '../../components/footer/footer';
+import { Sidebar } from '../../components/sidebar/sidebar';
+import { Header } from '../../components/header/header';
+import { Footer } from '../../components/footer/footer';
 import { Chat } from '../../components/chat/chat';
 import { ChatService } from '..//../../../core/services/chat.service';
-
+import { SupabaseService } from '..//../../../core/services/supabase.service';
 @Component({
   selector: 'app-usuario-doctor',
   imports: [CommonModule, FormsModule, Header, Footer, Sidebar, Chat],
   templateUrl: './usuario-doctor.html',
 })
-export class UsuarioDoctor {
-  // Lista de pacientes
-  pacientes = [
-    { id: 1, nombre: 'Usuario 1', ultimaConsulta: 'Hoy' },
-    { id: 2, nombre: 'Usuario 2', ultimaConsulta: 'Ayer' },
-    { id: 3, nombre: 'Usuario 3', ultimaConsulta: 'Hace 2 días' }
-  ];
+export class UsuarioDoctor implements OnInit {
+
+  constructor(private chatService: ChatService, private SupabaseService: SupabaseService) {}
+  pacientes: any[] = [];
+
+  async ngOnInit() {
+    this.pacientes = await this.SupabaseService.usuariosAsociadosADoctor('1'); 
+  }
+  
+
+
+
+
 
   pacienteSeleccionado: any = null;
   busqueda: string = '';
@@ -111,8 +117,15 @@ export class UsuarioDoctor {
     if (!this.busqueda) {
       return this.pacientes;
     }
-    return this.pacientes.filter(p => 
+    return this.pacientes.filter(p =>
       p.nombre.toLowerCase().includes(this.busqueda.toLowerCase())
     );
   }
+  cargarPacientesAsignadosADoctor(idDoctor: number) {
+    this.SupabaseService.usuariosAsociadosADoctor(idDoctor.toString())
+      .then((usuarios: any[]) => { // 👈 tipo explícito
+        this.pacientes = usuarios;
+      });
+  }
+
 }
