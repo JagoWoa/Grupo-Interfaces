@@ -1,46 +1,53 @@
-<nav class="bg-[#004b98] text-white font-bold">
+<nav class="bg-[#004b98] text-white">
   <div class="container mx-auto flex items-center justify-between px-6 py-6">
-    
-    <!-- Izquierda: Logo -->
-    <div class="flex items-center gap-2">
-      <i class="fa-solid fa-heart-pulse text-3xl"></i>
-      <h1 class="text-2xl">Telecuidado Mayor</h1>
+    <div class="flex items-center gap-4">
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-heart-pulse text-3xl" alt="Logo"> </i>
+        <h1>Telecuidado Mayor</h1>
+      </div>
     </div>
 
-    <!-- Centro: Menú principal -->
-    <ul class="hidden md:flex items-center gap-8 text-xl" *ngIf="!isLogging()">
-      <li><a routerLink="/home" class="hover:underline">Inicio</a></li>
-      <li><a routerLink="/perfil" class="hover:underline">Perfil</a></li>
-      <li><a routerLink="/usuario" class="hover:underline">Salud</a></li>
+    <!-- Centro: Menu principal -->
+    <!-- Menú cuando está logueado -->
+    <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="isLogging()">
+      <li><a routerLink="/dashboard" class="hover:underline text-xl">Dashboard</a></li>
+      <li><a routerLink="/perfil" class="hover:underline text-xl">Perfil</a></li>
+      <li><a routerLink="/usuario" class="hover:underline text-xl">Salud</a></li>
+      <li>
+        <button (click)="logout()" class="hover:underline text-xl text-red-300 hover:text-red-100">
+          <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
+        </button>
+      </li>
     </ul>
 
-    <ul class="hidden md:flex items-center gap-8 text-xl font-light" *ngIf="isLogging()">
-      <li><a routerLink="/login" class="hover:underline">Iniciar sesión</a></li>
-      <li><a routerLink="/register" class="hover:underline">Registrar Usuario</a></li>
+    <!-- Menú cuando NO está logueado -->
+    <ul class="hidden md:flex items-center gap-8 text-sm font-light" *ngIf="!isLogging()">
+      <li>
+        <a routerLink="/home" class="hover:underline text-xl">Home</a>
+      </li>
+      <li>
+        <a routerLink="/login" class="hover:underline text-xl">Iniciar sesión</a>
+      </li>
+      <li>
+        <a routerLink="/register" class="hover:underline text-xl">Registrar Usuario</a>
+      </li>
     </ul>
 
-    <!-- Derecha: Controles -->
+
+    <!-- Derecha: Buscar y controles -->
     <div class="hidden md:flex items-center gap-3">
-      <!-- Botón idioma -->
-      <button
-        (click)="toggleLanguage()"
-        class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm flex items-center space-x-2">
+      <button class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm">
         <i class="fa-solid fa-language"></i>
-        <span>{{ targetLang.toUpperCase() }}</span>
       </button>
-
-      <!-- Botón tema -->
-      <button
-        (click)="botonCambio()"
-        class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm">
+      <button 
+      (click)="botonCambio()"
+      class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm">
         <i class="fa-solid fa-palette"></i>
       </button>
-
-      <!-- Búsqueda -->
       <button class="hover:opacity-80 transition">
         <i class="fas fa-search text-xl"></i>
       </button>
     </div>
-
   </div>
 </nav>

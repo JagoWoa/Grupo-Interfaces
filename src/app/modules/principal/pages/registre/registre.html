@@ -5,7 +5,7 @@
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-none z-0"></div>
 
     <div class="relative z-20 w-full max-w-2xl pointer-events-auto">
-        <div class="bg-white rounded-2xl shadow-2xl p-8 space-y-6 card-registerAdultoMayor">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 space-y-6">
             <!-- Encabezado -->
             <div class="text-center space-y-2">
                 <h1 class="text-3xl font-bold text-gray-900">Crear Cuenta</h1>
@@ -19,6 +19,25 @@
             </div>
             }
 
+            <!-- Mensaje de éxito -->
+            @if (successMessage) {
+            <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
+                {{ successMessage }}
+                
+                <!-- Botón para reenviar email si es necesario -->
+                @if (showEmailVerificationMessage) {
+                <button type="button" (click)="resendVerificationEmail()" [disabled]="isLoading"
+                    class="mt-3 w-full bg-green-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                    @if (isLoading) {
+                        <span>Reenviando...</span>
+                    } @else {
+                        <span>Reenviar email de verificación</span>
+                    }
+                </button>
+                }
+            </div>
+            }
+
             <!-- Formulario -->
             <form (ngSubmit)="onSubmit()" class="space-y-5 relative z-40 pointer-events-auto">
                 <!-- Nombre y Apellidos -->
@@ -28,9 +47,13 @@
                             Nombre(s) *
                         </label>
                         <input type="text" id="nombre" name="nombre" [(ngModel)]="nombre" placeholder="Juan" required
+                            [class.border-red-500]="fieldErrors['nombre']"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
                   focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
                   placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                        @if (fieldErrors['nombre']) {
+                        <p class="text-xs text-red-600 mt-1">{{ fieldErrors['nombre'] }}</p>
+                        }
                     </div>
 
                     <div class="space-y-2">
@@ -38,9 +61,14 @@
                             Apellidos *
                         </label>
                         <input type="text" id="apellidos" name="apellidos" [(ngModel)]="apellidos"
-                            placeholder="Pérez García" required class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
+                            placeholder="Pérez García" required 
+                            [class.border-red-500]="fieldErrors['apellidos']"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
                   focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
                   placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                        @if (fieldErrors['apellidos']) {
+                        <p class="text-xs text-red-600 mt-1">{{ fieldErrors['apellidos'] }}</p>
+                        }
                     </div>
                 </div>
 
@@ -51,19 +79,32 @@
                             Correo electrónico *
                         </label>
                         <input type="email" id="email" name="email" [(ngModel)]="email" placeholder="ejemplo@correo.com"
-                            required class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
+                            required 
+                            [class.border-red-500]="fieldErrors['email']"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
                   focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
                   placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                        @if (fieldErrors['email']) {
+                        <p class="text-xs text-red-600 mt-1">{{ fieldErrors['email'] }}</p>
+                        }
                     </div>
 
                     <div class="space-y-2">
                         <label for="telefono" class="block text-sm font-medium text-gray-700">
                             Teléfono *
                         </label>
-                        <input type="tel" id="telefono" name="telefono" [(ngModel)]="telefono"
-                            placeholder="+593 000 000" required class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
+                        <input type="text" id="telefono" name="telefono" [(ngModel)]="telefono"
+                            (input)="onTelefonoInput($event)"
+                            placeholder="+593 0987654321" required maxlength="20"
+                            [class.border-red-500]="fieldErrors['telefono']"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
                   focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
                   placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                        @if (fieldErrors['telefono']) {
+                        <p class="text-xs text-red-600 mt-1">{{ fieldErrors['telefono'] }}</p>
+                        } @else {
+                        <p class="text-xs text-gray-500">Solo números y símbolos: + - ( ) espacios. Min 10 dígitos</p>
+                        }
                     </div>
                 </div>
 
@@ -72,10 +113,14 @@
                     <label for="fechaNacimiento" class="block text-sm font-medium text-gray-700">
                         Fecha de Nacimiento *
                     </label>
-                    <input type="text" id="fechaNacimiento" name="fechaNacimiento" [(ngModel)]="fechaNacimiento"
-                        placeholder="dd/mm/aaaa" required class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
-              focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
-              placeholder-gray-500 placeholder:font-medium placeholder:opacity-100" />
+                    <input type="date" id="fechaNacimiento" name="fechaNacimiento" [(ngModel)]="fechaNacimiento"
+                        required 
+                        [class.border-red-500]="fieldErrors['fechaNacimiento']"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
+              focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all" />
+                    @if (fieldErrors['fechaNacimiento']) {
+                    <p class="text-xs text-red-600 mt-1">{{ fieldErrors['fechaNacimiento'] }}</p>
+                    }
                 </div>
 
                 <!-- Contraseña -->
@@ -86,6 +131,7 @@
                     <div class="relative">
                         <input [type]="showPassword ? 'text' : 'password'" id="password" name="password"
                             [(ngModel)]="password" placeholder="Mínimo 6 caracteres" required
+                            [class.border-red-500]="fieldErrors['password']"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all placeholder-gray-500 placeholder:font-medium placeholder:opacity-100" />
                         <button type="button" (click)="togglePasswordVisibility()"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
@@ -104,6 +150,9 @@
                             }
                         </button>
                     </div>
+                    @if (fieldErrors['password']) {
+                    <p class="text-xs text-red-600 mt-1">{{ fieldErrors['password'] }}</p>
+                    }
                 </div>
 
                 <!-- Confirmar Contraseña -->
@@ -115,6 +164,7 @@
                         <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword"
                             name="confirmPassword" [(ngModel)]="confirmPassword" placeholder="Repite tu contraseña"
                             required
+                            [class.border-red-500]="fieldErrors['confirmPassword']"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all placeholder-gray-500 placeholder:font-medium placeholder:opacity-100" />
                         <button type="button" (click)="toggleConfirmPasswordVisibility()"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
@@ -133,26 +183,46 @@
                             }
                         </button>
                     </div>
+                    @if (fieldErrors['confirmPassword']) {
+                    <p class="text-xs text-red-600 mt-1">{{ fieldErrors['confirmPassword'] }}</p>
+                    }
                 </div>
 
                 <!-- Términos y condiciones -->
-               <div class="flex items-start gap-3">
-                    <input type="checkbox" id="terms" name="terms" [(ngModel)]="acceptTerms" required
-                        class="w-4 h-4 mt-1 text-[#004b98] border-gray-300 rounded focus:ring-[#004b98]" />
-                    <label for="terms" class="text-sm text-gray-600">
-                        Acepto los
-                        <a href="#" class="text-[#004b98] hover:underline font-medium">términos y condiciones</a>
-                        y la
-                        <a href="#" class="text-[#004b98] hover:underline font-medium">política de privacidad</a>
-                    </label>
+                <div class="space-y-2">
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="terms" name="terms" [(ngModel)]="acceptTerms" required
+                            [class.border-red-500]="fieldErrors['terms']"
+                            class="w-4 h-4 mt-1 text-[#004b98] border-gray-300 rounded focus:ring-[#004b98]" />
+                        <label for="terms" class="text-sm text-gray-600">
+                            Acepto los
+                            <a href="#" class="text-[#004b98] hover:underline font-medium">términos y condiciones</a>
+                            y la
+                            <a href="#" class="text-[#004b98] hover:underline font-medium">política de privacidad</a>
+                        </label>
+                    </div>
+                    @if (fieldErrors['terms']) {
+                    <p class="text-xs text-red-600">{{ fieldErrors['terms'] }}</p>
+                    }
                 </div>
 
                 <!-- Botón de envío -->
-                <button type="submit"
-                    class="w-full bg-[#004b98] text-white py-3 rounded-lg font-semibold hover:bg-[#004bbc] transition-all duration-300 shadow-lg hover:shadow-xl">
-                    Crear Cuenta
+                <button type="submit" [disabled]="isLoading"
+                    class="w-full bg-[#004b98] text-white py-3 rounded-lg font-semibold hover:bg-[#004bbc] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
+                    @if (isLoading) {
+                        <span>Registrando...</span>
+                    } @else {
+                        <span>Crear Cuenta</span>
+                    }
                 </button>
             </form>
+
+            <!-- Divider -->
+            <div class="relative">
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-4 bg-white text-gray-500">Inicia Sesion con</span><a routerLink="/login" class="text-[#004b98] hover:underline font-semibold ml-1">aquí</a>
+                </div>
+            </div>
 
             <!-- Botones de redes sociales -->
          <!--   <div class="grid grid-cols-2 gap-4">
@@ -182,12 +252,12 @@
             </div>-->
 
             <!-- Enlace a login -->
-           <div class="text-center text-sm">
+         <!--   <div class="text-center text-sm">
                 <span class="text-gray-600">¿Ya tienes una cuenta?</span>
                 <a routerLink="/login" class="text-[#004b98] hover:underline font-semibold ml-1">
                     Inicia sesión aquí
                 </a>
-            </div>
+            </div>-->
         </div>
     </div>
 </section>
