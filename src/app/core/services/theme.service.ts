@@ -25,7 +25,7 @@ export class ThemeService {
   toggleTheme(): void {
     const newValue = !this.darkModeSubject.value;
     this.darkModeSubject.next(newValue);
-    
+    console.log(this.darkModeSubject.value);
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       localStorage.setItem('darkMode', newValue.toString());
     }

@@ -1,0 +1,22 @@
+/* Autocompletado */
+
+
+/* ========== TRANSICIONES SUAVES ========== */
+:host-context(.dark-mode) * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+/* ========== OVERLAYS Y FONDOS CON IMAGEN ========== */
+:host-context(.dark-mode) .bg-black\/60 {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+/* ========== Login ========== */
+:host-context(.dark-mode) .card-login {
+  background-color: #f3eded ;
+  color: #030303 ;
+}
+:host-context(.dark-mode) .card-login div p, span {
+  color: #030303 ;
+}
+:host-context(.dark-mode) .card-login input {
+  border: 1px solid #030303 ;
+}

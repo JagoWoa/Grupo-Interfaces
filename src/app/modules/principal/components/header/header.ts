@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { Route } from '@angular/router';
 import { RouterLink } from '@angular/router';
@@ -12,8 +11,9 @@ import { ThemeService } from '../../../../core/services/theme.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './header.html'
+  imports: [CommonModule, RouterModule],
+  templateUrl: './header.html',
+  styleUrls: ['./header.css'],
 })
 export class Header implements OnInit, OnDestroy {
   searchQuery: string = '';
@@ -55,7 +55,9 @@ export class Header implements OnInit, OnDestroy {
 
   botonCambio(): void {
     this.themeService.toggleTheme();
+    console.log('🌗 Header - Modo oscuro:', this.isDarkMode);
   }
+
   ngOnInit() {
     // Suscribirse a cambios en el estado de autenticación
     this.authSubscription = this.authService.currentUser$.subscribe(user => {

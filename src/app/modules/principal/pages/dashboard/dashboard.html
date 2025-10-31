@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<section class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-8 px-4">
+<section class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-8 px-4 contenedor-dashboard">
     <div class="max-w-7xl mx-auto">
         @if (isLoading) {
             <div class="flex items-center justify-center min-h-[400px]">
@@ -12,16 +12,16 @@
         } @else {
             
             <!-- Sección de Perfil del Usuario -->
-            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden mb-8">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden  mb-8">
                 <!-- Banner con gradiente -->
-                <div class="h-32 bg-gradient-to-r from-[#004b98] to-[#0066cc]"></div>
+                <div class="h-32 bg-gradient-to-r from-[#004b98] to-[#0066cc] "></div>
                 
                 <!-- Contenido del perfil -->
-                <div class="px-6 sm:px-8 pb-8">
+                <div class="px-6 sm:px-8 pb-8 Contenido-dashboard">
                     <!-- Avatar y nombre -->
                     <div class="flex flex-col sm:flex-row items-center sm:items-end -mt-16 sm:-mt-12 mb-6">
-                        <div class="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold shadow-2xl ring-4 ring-white mb-4 sm:mb-0">
-                            {{ getInitials(userName) }}
+                        <div class="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold shadow-2xl ring-4 ring-white mb-4 sm:mb-0 ">
+                           <p class="nombre" >{{ getInitials(userName) }}</p> 
                         </div>
                         
                         <div class="sm:ml-6 text-center sm:text-left flex-1">
@@ -60,7 +60,7 @@
                                 <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0">
                                     <i class="fas fa-envelope text-white text-lg"></i>
                                 </div>
-                                <div class="overflow-hidden">
+                                <div class="overflow-hidden tarjeta">
                                     <p class="text-xs text-blue-600 font-medium mb-1">Correo Electrónico</p>
                                     <p class="text-sm font-semibold text-gray-900 truncate">{{ user?.email || 'No especificado' }}</p>
                                 </div>
@@ -73,7 +73,7 @@
                                 <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0">
                                     <i class="fas fa-phone text-white text-lg"></i>
                                 </div>
-                                <div class="overflow-hidden">
+                                <div class="overflow-hidden tarjeta">
                                     <p class="text-xs text-green-600 font-medium mb-1">Teléfono</p>
                                     <p class="text-sm font-semibold text-gray-900 truncate">{{ user?.telefono || 'No especificado' }}</p>
                                 </div>
@@ -86,7 +86,7 @@
                                 <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center flex-shrink-0">
                                     <i class="fas fa-calendar text-white text-lg"></i>
                                 </div>
-                                <div class="overflow-hidden">
+                                <div class="overflow-hidden tarjeta">
                                     <p class="text-xs text-purple-600 font-medium mb-1">Fecha de Nacimiento</p>
                                     <p class="text-sm font-semibold text-gray-900 truncate">{{ formatDate(user?.fecha_nacimiento) }}</p>
                                 </div>
@@ -100,7 +100,7 @@
                                     <div class="w-12 h-12 bg-indigo-500 rounded-xl flex items-center justify-center flex-shrink-0">
                                         <i class="fas fa-user-md text-white text-lg"></i>
                                     </div>
-                                    <div class="overflow-hidden">
+                                    <div class="overflow-hidden tarjeta">
                                         <p class="text-xs text-indigo-600 font-medium mb-1">Título</p>
                                         <p class="text-sm font-semibold text-gray-900 truncate">{{ user?.titulo_profesional || 'No especificado' }}</p>
                                     </div>
@@ -113,7 +113,7 @@
                                     <div class="w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center flex-shrink-0">
                                         <i class="fas fa-stethoscope text-white text-lg"></i>
                                     </div>
-                                    <div class="overflow-hidden">
+                                    <div class="overflow-hidden tarjeta">
                                         <p class="text-xs text-pink-600 font-medium mb-1">Especialidad</p>
                                         <p class="text-sm font-semibold text-gray-900 truncate">{{ user?.especialidad || 'No especificado' }}</p>
                                     </div>
@@ -126,7 +126,7 @@
                                     <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center flex-shrink-0">
                                         <i class="fas fa-id-card text-white text-lg"></i>
                                     </div>
-                                    <div class="overflow-hidden">
+                                    <div class="overflow-hidden tarjeta">
                                         <p class="text-xs text-orange-600 font-medium mb-1">Licencia Médica</p>
                                         <p class="text-sm font-semibold text-gray-900 truncate">{{ user?.licencia_medica || 'No especificado' }}</p>
                                     </div>
@@ -156,28 +156,15 @@
                         </div>
                     </a>
 
-                    <!-- Tarjeta Chat -->
-                    <a routerLink="/chat" 
-                       class="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 hover:scale-105 group">
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <i class="fas fa-comments text-white text-2xl"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-900">Mensajes</h3>
-                        </div>
-                        <p class="text-gray-600 mb-4">Consulta con tu médico en tiempo real</p>
-                        <div class="flex items-center text-blue-600 font-medium">
-                            <span>Abrir chat</span>
-                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
-                        </div>
-                    </a>
+                <!-- chat moved to fixed position (bottom-right) -->
+
                 }
 
                 @if (userRole === 'doctor') {
                     <!-- Tarjeta Mis Pacientes -->
                     <a routerLink="/usuariodoctor" 
-                       class="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 hover:scale-105 group">
-                        <div class="flex items-center gap-4 mb-4">
+                       class="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 hover:scale-105 group tarjeta-pacientes   ">
+                        <div class="flex items-center gap-4 mb-4 " >
                             <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
                                 <i class="fas fa-users text-white text-2xl"></i>
                             </div>
@@ -189,26 +176,21 @@
                             <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
                         </div>
                     </a>
+                    
+                      
 
-                    <!-- Tarjeta Chat -->
-                    <a routerLink="/chat" 
-                       class="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 hover:scale-105 group">
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <i class="fas fa-comments text-white text-2xl"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-900">Mensajes</h3>
-                        </div>
-                        <p class="text-gray-600 mb-4">Comunicación con pacientes</p>
-                        <div class="flex items-center text-blue-600 font-medium">
-                            <span>Abrir chat</span>
-                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
-                        </div>
-                    </a>
                 }
+                
             </div>
         }
+
     </div>
+
 </section>
 
 <app-footer></app-footer>
+
+<!-- Chat fixed in bottom-right corner (outside footer) -->
+<div class="fixed right-4 bottom-4 z-50">
+    <app-chat></app-chat>
+</div>

@@ -1,0 +1,45 @@
+
+/* NOTA: Este CSS es de un componente con encapsulación. 
+   Para que el modo oscuro funcione cuando se agrega la clase `dark-mode` al <body>,
+   usamos :host-context(.dark-mode) en lugar de seleccionar directamente `body.dark-mode`. */
+
+/* Autocompletado */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px rgb(232, 232, 232) inset !important; 
+  -webkit-text-fill-color: #000 !important; 
+  transition: background-color 5000s ease-in-out 0s; 
+}
+
+/* ========== TRANSICIONES SUAVES ========== */
+:host-context(.dark-mode) * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+/* ========== OVERLAYS Y FONDOS CON IMAGEN ========== */
+:host-context(.dark-mode) .bg-black\/60 {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+
+
+/* Welcome page */
+/* Presentación: adaptaciones para modo oscuro dentro del componente */
+:host-context(.dark-mode) .presentacion-div, :host-context(.dark-mode) span {
+  color: #f3f4f6 !important; /* gray-100 */
+  border-radius: 0.5rem !important;
+}
+:host-context(.dark-mode) .presentacion-div h2 {
+  color: #f3f4f6 !important;
+}
+:host-context(.dark-mode) .presentacion {
+  background-color: transparent !important; /* mantener overlay visible */
+  color: #f3f4f6 !important;
+}
+
+:host-context(.dark-mode) .presentacion p {
+  color: #d1d5db !important; /* gray-300 */
+  font-size: 18px;
+}
+:host-context(.dark-mode) .presentacion span {
+  color: #93c5fd !important; /* azul claro para destacar */
+  font-size: 25px;
+}

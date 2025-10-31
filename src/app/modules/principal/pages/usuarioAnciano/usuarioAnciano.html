@@ -104,21 +104,6 @@
             <a href="#" class="text-sm text-blue-500 hover:text-blue-600 font-medium">Ver todos</a>
           </div>
 
-          <ul class="space-y-4">
-            <li class="flex items-start gap-4 p-5 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl">
-              <div>
-                <p class="font-semibold text-gray-800 text-lg">Paracetamol</p>
-                <p class="text-gray-600">500 mg cada 8 horas</p>
-              </div>
-            </li>
-
-            <li class="flex items-start gap-4 p-5 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl">
-              <div>
-                <p class="font-semibold text-gray-800 text-lg">Consulta Médica</p>
-                <p class="text-gray-600">Cada 6 meses</p>
-              </div>
-            </li>
-          </ul>
         </section>
 
       </div>
@@ -126,30 +111,13 @@
     </div>
 
     <!-- Chat Flotante (Burbuja) y Botón flotante Chat con Doctor -->
-    <div class="fixed bottom-6 right-6 z-50 chat-floating-container" [class.chat-expanded]="chatExpanded">
-      <button *ngIf="!chatExpanded" (click)="toggleChat()"
-        class="w-16 h-16 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 chat-float-button"
-        title="Chat con Doctor">
-        <i class="fa-solid fa-comments text-2xl"></i>
-      </button>
-
-      <div *ngIf="chatExpanded" class="bg-white rounded-2xl shadow-2xl p-6 chat-expanded-box" style="width: 400px; max-height: 600px;">
-        <div class="flex items-center justify-between mb-4 chat-expanded-header">
-          <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
-            <i class="fa-solid fa-comments text-blue-500"></i>
-            Chat con Doctor
-          </h3>
-          <button (click)="toggleChat()" class="text-gray-500 hover:text-gray-700 transition" title="Cerrar">
-            <i class="fa-solid fa-times text-2xl"></i>
-          </button>
-        </div>
+    <div class="fixed bottom-6 right-6 chat-floating-container" [class.chat-expanded]="chatExpanded">
         <div class="border-t border-gray-200 pt-4 chat-expanded-content">
           <app-chat></app-chat>
         </div>
-      </div>
     </div>
 
-    <!-- Footer -->
-    <app-footer></app-footer>
   </div>
 </div>
+<!-- Footer -->
+<app-footer></app-footer>

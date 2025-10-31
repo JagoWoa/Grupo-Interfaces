@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-welcome-page',
   imports: [Header, Footer, CommonModule, RouterLink],
   templateUrl: './welcome-page.html',
+  styleUrls: ['./welcome-page.css'],
 })
 export class WelcomePage {
 

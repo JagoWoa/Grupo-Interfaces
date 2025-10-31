@@ -17,6 +17,7 @@ import { SignosVitalesService } from '../../../../core/services/signos-vitales.s
   standalone: true,
   imports: [CommonModule, FormsModule, Header, Footer, Chat],
   templateUrl: './usuarioAnciano.html',
+  styleUrls: ['./usuarioAnciano.css'],
 })
 
 export class UsuarioAnciano implements OnInit {
