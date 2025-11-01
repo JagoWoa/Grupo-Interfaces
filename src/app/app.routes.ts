@@ -9,6 +9,8 @@ import { UsuarioDoctor } from './modules/principal/pages/usuario-doctor/usuario-
 import { Perfil } from "./modules/principal/pages/perfil/perfil";
 import { Dashboard } from "./modules/principal/pages/dashboard/dashboard";
 import { ChatPage } from './modules/principal/pages/chat-page/chat-page';
+import { TerminosUsoComponent } from './modules/principal/pages/terminos-uso/terminos-uso';
+import { PoliticaPrivacidadComponent } from './modules/principal/pages/politica-privacidad/politica-privacidad';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -36,6 +38,16 @@ export const routes: Routes = [
 	{
 		path: 'registerdoctor',
 		component: RegisterDoctor,
+		pathMatch: 'full'
+	},
+	{
+		path: 'terminos-uso',
+		component: TerminosUsoComponent,
+		pathMatch: 'full'
+	},
+	{
+		path: 'politica-privacidad',
+		component: PoliticaPrivacidadComponent,
 		pathMatch: 'full'
 	},
 	

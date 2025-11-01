@@ -191,3 +191,17 @@
 :host-context(.dark-mode) .icono-header i {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
+
+@media (max-width: 480px) {
+  .chat-expanded-header h3 {
+    font-size: 1.125rem;
+  }
+
+  .chat-expanded-header h3 i {
+    font-size: 1.5rem;
+  }
+
+  .vitales-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

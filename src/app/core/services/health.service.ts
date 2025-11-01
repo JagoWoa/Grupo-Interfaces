@@ -300,6 +300,9 @@ export class HealthService {
           .single()
       ]);
 
+      console.log('📊 Signos vitales obtenidos:', signosVitales);
+      console.log('📌 Recordatorios obtenidos:', recordatorios?.length || 0);
+
       return {
         paciente: pacienteInfo.data,
         signosVitales: signosVitales || {
