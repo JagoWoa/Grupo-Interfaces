@@ -1,0 +1,139 @@
+/* Estilos para el perfil de usuario Anciano */
+
+/* Mejoras para el scroll horizontal de recordatorios */
+.overflow-x-auto {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.overflow-x-auto::-webkit-scrollbar {
+  height: 8px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+  border-radius: 10px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
+}
+
+/* Animación suave para hover en tarjetas */
+.hover\:shadow-md:hover,
+.hover\:shadow-lg:hover {
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+/* Estilos para el estado completado de recordatorios */
+.line-through {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* Mejora de contraste para mejor legibilidad */
+.bg-red-50,
+.bg-pink-50,
+.bg-orange-50,
+.bg-blue-50 {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Chat flotante */
+.chat-floating-container {
+  transition: all 0.3s ease;
+}
+
+/* Asegurar que el chat flotante esté siempre visible */
+.fixed.bottom-6.right-6.z-50 {
+  pointer-events: auto;
+}
+
+.chat-expanded {
+  width: 400px;
+  max-height: 600px;
+}
+
+.chat-expanded-content {
+  display: none;
+}
+
+.chat-expanded .chat-expanded-content {
+  display: block;
+}
+
+/* Animación de pulso para el indicador de scroll */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Mejoras de accesibilidad para botones */
+button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Transiciones suaves para todos los elementos interactivos */
+button, .rounded-xl, .rounded-2xl {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Estilos para tarjetas de signos vitales */
+.bg-red-50:hover,
+.bg-pink-50:hover,
+.bg-orange-50:hover,
+.bg-blue-50:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Espaciado mejorado para dispositivos móviles */
+@media (max-width: 768px) {
+  .overflow-x-auto {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .flex-shrink-0.w-80 {
+    width: 18rem;
+  }
+}
+
+/* Mejora de contraste para textos */
+.text-gray-900 {
+  color: #111827;
+}
+
+.text-gray-800 {
+  color: #1f2937;
+}
+
+.text-gray-700 {
+  color: #374151;
+}
+
+/* Iconos más prominentes */
+i.text-2xl, i.text-3xl {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
