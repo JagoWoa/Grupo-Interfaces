@@ -1,139 +1,193 @@
-/* Estilos para el perfil de usuario Anciano */
+/* ===================================
+   DARK MODE STYLES - Usuario Anciano
+   =================================== */
 
-/* Mejoras para el scroll horizontal de recordatorios */
-.overflow-x-auto {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+/* Contenedor Principal */
+:host-context(.dark-mode) .contenedor-usuario-anciano {
+  background: linear-gradient(to bottom right, #0F0F0F, #1a1a2e) !important;
 }
 
-.overflow-x-auto::-webkit-scrollbar {
-  height: 8px;
+/* ===================================
+   SECCIÓN SIGNOS VITALES
+   =================================== */
+
+:host-context(.dark-mode) .seccion-signos-vitales {
+  background-color: #302e2e;
+  transition: all 0.3s ease;
 }
 
-.overflow-x-auto::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 10px;
-}
-
-.overflow-x-auto::-webkit-scrollbar-thumb {
-  background: rgba(156, 163, 175, 0.5);
-  border-radius: 10px;
-}
-
-.overflow-x-auto::-webkit-scrollbar-thumb:hover {
-  background: rgba(156, 163, 175, 0.7);
-}
-
-/* Animación suave para hover en tarjetas */
-.hover\:shadow-md:hover,
-.hover\:shadow-lg:hover {
+:host-context(.dark-mode) .seccion-signos-vitales:hover {
   transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+:host-context(.dark-mode) .titulo-signos {
+  color: rgb(240, 240, 240) !important;
+}
+
+/* Tarjetas de Signos Vitales */
+:host-context(.dark-mode) .tarjeta-signo {
   transition: all 0.3s ease;
 }
 
-/* Estilos para el estado completado de recordatorios */
-.line-through {
-  text-decoration: line-through;
-  opacity: 0.7;
+:host-context(.dark-mode) .tarjeta-signo:hover {
+  transform: scale(1.05);
 }
 
-/* Mejora de contraste para mejor legibilidad */
-.bg-red-50,
-.bg-pink-50,
-.bg-orange-50,
-.bg-blue-50 {
-  border: 1px solid rgba(0, 0, 0, 0.05);
+/* Tarjeta Presión Arterial */
+:host-context(.dark-mode) .presion-card {
+  background: linear-gradient(to bottom right, #7f1d1d, #dc2626) !important;
+}
+:host-context(.dark-mode) .presion-card .label-signo {
+  color: #fecaca !important;
+}
+:host-context(.dark-mode) .presion-card .valor-signo {
+  color: white !important;
+}
+:host-context(.dark-mode) .presion-card .unidad-signo {
+  color: #fecaca !important;
 }
 
-/* Chat flotante */
-.chat-floating-container {
+/* Tarjeta Frecuencia Cardíaca */
+:host-context(.dark-mode) .frecuencia-card {
+  background: linear-gradient(to bottom right, #831843, #db2777) !important;
+}
+:host-context(.dark-mode) .frecuencia-card .label-signo {
+  color: #fbcfe8 !important;
+}
+:host-context(.dark-mode) .frecuencia-card .valor-signo {
+  color: white !important;
+}
+:host-context(.dark-mode) .frecuencia-card .unidad-signo {
+  color: #fbcfe8 !important;
+}
+
+/* Tarjeta Temperatura */
+:host-context(.dark-mode) .temperatura-card {
+  background: linear-gradient(to bottom right, #9a3412, #ea580c) !important;
+}
+:host-context(.dark-mode) .temperatura-card .label-signo {
+  color: #fed7aa !important;
+}
+:host-context(.dark-mode) .temperatura-card .valor-signo {
+  color: white !important;
+}
+:host-context(.dark-mode) .temperatura-card .unidad-signo {
+  color: #fed7aa !important;
+}
+
+/* Tarjeta Peso */
+:host-context(.dark-mode) .peso-card {
+  background: linear-gradient(to bottom right, #1e3a8a, #3b82f6) !important;
+}
+:host-context(.dark-mode) .peso-card .label-signo {
+  color: #bfdbfe !important;
+}
+:host-context(.dark-mode) .peso-card .valor-signo {
+  color: white !important;
+}
+:host-context(.dark-mode) .peso-card .unidad-signo {
+  color: #bfdbfe !important;
+}
+
+/* ===================================
+   SECCIÓN RECORDATORIOS
+   =================================== */
+
+:host-context(.dark-mode) .seccion-recordatorios {
+  background-color: #302e2e;
   transition: all 0.3s ease;
 }
 
-/* Asegurar que el chat flotante esté siempre visible */
-.fixed.bottom-6.right-6.z-50 {
-  pointer-events: auto;
+:host-context(.dark-mode) .seccion-recordatorios:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-.chat-expanded {
-  width: 400px;
-  max-height: 600px;
+:host-context(.dark-mode) .titulo-recordatorios {
+  color: rgb(240, 240, 240) !important;
 }
 
-.chat-expanded-content {
-  display: none;
+/* Mensaje vacío */
+:host-context(.dark-mode) .mensaje-vacio {
+  color: rgb(150, 150, 150) !important;
 }
 
-.chat-expanded .chat-expanded-content {
-  display: block;
+/* Tarjetas de Recordatorios */
+:host-context(.dark-mode) .tarjeta-recordatorio {
+  transition: all 0.3s ease;
 }
 
-/* Animación de pulso para el indicador de scroll */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+:host-context(.dark-mode) .tarjeta-recordatorio:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+/* Recordatorio no completado */
+:host-context(.dark-mode) .tarjeta-recordatorio.bg-gradient-to-br {
+  background: linear-gradient(to bottom right, #4c1d95, #7c3aed) !important;
+  border-color: #7c3aed !important;
 }
 
-/* Mejoras de accesibilidad para botones */
-button:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
+/* Recordatorio completado */
+:host-context(.dark-mode) .tarjeta-recordatorio.bg-gray-100 {
+  background-color: #1f1f1f !important;
+  border-color: #404040 !important;
 }
 
-button:focus:not(:focus-visible) {
-  outline: none;
+:host-context(.dark-mode) .titulo-recordatorio {
+  color: rgb(240, 240, 240) !important;
 }
 
-/* Transiciones suaves para todos los elementos interactivos */
-button, .rounded-xl, .rounded-2xl {
-  transition: all 0.2s ease-in-out;
+:host-context(.dark-mode) .subtitulo-recordatorio {
+  color: rgb(200, 200, 200) !important;
 }
 
-/* Estilos para tarjetas de signos vitales */
-.bg-red-50:hover,
-.bg-pink-50:hover,
-.bg-orange-50:hover,
-.bg-blue-50:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+:host-context(.dark-mode) .fecha-recordatorio {
+  color: rgb(180, 180, 180) !important;
+  border-color: #404040 !important;
 }
 
-/* Espaciado mejorado para dispositivos móviles */
-@media (max-width: 768px) {
-  .overflow-x-auto {
-    margin-left: -1.5rem;
-    margin-right: -1.5rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-  
-  .flex-shrink-0.w-80 {
-    width: 18rem;
-  }
+/* Botones en recordatorios */
+:host-context(.dark-mode) .boton-toggle-recordatorio {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Mejora de contraste para textos */
-.text-gray-900 {
-  color: #111827;
+:host-context(.dark-mode) .boton-toggle-recordatorio.bg-purple-200 {
+  background-color: #6b21a8 !important;
 }
 
-.text-gray-800 {
-  color: #1f2937;
+:host-context(.dark-mode) .boton-toggle-recordatorio.bg-green-200 {
+  background-color: #065f46 !important;
 }
 
-.text-gray-700 {
-  color: #374151;
+:host-context(.dark-mode) .boton-eliminar-recordatorio {
+  color: #f87171 !important;
 }
 
-/* Iconos más prominentes */
-i.text-2xl, i.text-3xl {
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+:host-context(.dark-mode) .boton-eliminar-recordatorio:hover {
+  color: #dc2626 !important;
+  background-color: #3f1f1f !important;
+}
+
+/* Indicador de scroll */
+:host-context(.dark-mode) .indicador-scroll {
+  color: rgb(150, 150, 150) !important;
+}
+
+/* ===================================
+   ANIMACIONES Y TRANSICIONES
+   =================================== */
+
+:host-context(.dark-mode) .tarjeta-signo,
+:host-context(.dark-mode) .tarjeta-recordatorio {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ===================================
+   ICONOS
+   =================================== */
+
+:host-context(.dark-mode) .icono-header i {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }

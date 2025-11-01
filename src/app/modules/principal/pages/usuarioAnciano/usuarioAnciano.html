@@ -1,95 +1,95 @@
 <!-- Header -->
 <app-header></app-header>
 
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 contenedor-usuario-anciano">
   <!-- Main Content -->
-  <div class="max-w-7xl mx-auto px-6 py-10">
+  <div class="max-w-7xl mx-auto px-6 py-10 contenido-principal">
     <!-- Contenedor de filas -->
-    <div class="space-y-8">
+    <div class="space-y-8 filas-container">
 
       <!-- FILA 1: Signos Vitales (Horizontal de izquierda a derecha) -->
-      <section class="bg-white rounded-2xl shadow-lg p-8">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 flex items-center justify-center">
+      <section class="bg-white rounded-2xl shadow-lg p-8 seccion-signos-vitales">
+        <div class="flex items-center gap-3 mb-6 header-signos">
+          <div class="w-12 h-12 flex items-center justify-center icono-header">
             <i class="fa-solid fa-heart text-red-500 text-2xl"></i>
           </div>
-          <h2 class="text-3xl font-bold text-gray-800">Signos Vitales</h2>
+          <h2 class="text-3xl font-bold text-gray-800 titulo-signos">Signos Vitales</h2>
         </div>
 
         <!-- Grid horizontal para signos vitales -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 grid-signos">
           <!-- Presión Arterial -->
-          <div class="bg-red-50 p-6 rounded-xl text-center hover:shadow-md transition-all">
-            <div class="flex justify-center mb-2">
+          <div class="bg-red-50 p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo presion-card">
+            <div class="flex justify-center mb-2 icono-signo">
               <i class="fa-solid fa-heart-pulse text-red-500 text-3xl"></i>
             </div>
-            <p class="text-sm text-gray-600 font-medium mb-2">Presión Arterial</p>
-            <p class="text-3xl font-bold text-gray-900">120/80</p>
-            <p class="text-xs text-gray-500 mt-1">mmHg</p>
+            <p class="text-sm text-gray-600 font-medium mb-2 label-signo">Presión Arterial</p>
+            <p class="text-3xl font-bold text-gray-900 valor-signo">120/80</p>
+            <p class="text-xs text-gray-500 mt-1 unidad-signo">mmHg</p>
           </div>
 
           <!-- Frecuencia Cardíaca -->
-          <div class="bg-pink-50 p-6 rounded-xl text-center hover:shadow-md transition-all">
-            <div class="flex justify-center mb-2">
+          <div class="bg-pink-50 p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo frecuencia-card">
+            <div class="flex justify-center mb-2 icono-signo">
               <i class="fa-solid fa-heartbeat text-pink-500 text-3xl"></i>
             </div>
-            <p class="text-sm text-gray-600 font-medium mb-2">Frecuencia Cardíaca</p>
-            <p class="text-3xl font-bold text-gray-900">72</p>
-            <p class="text-xs text-gray-500 mt-1">bpm</p>
+            <p class="text-sm text-gray-600 font-medium mb-2 label-signo">Frecuencia Cardíaca</p>
+            <p class="text-3xl font-bold text-gray-900 valor-signo">72</p>
+            <p class="text-xs text-gray-500 mt-1 unidad-signo">bpm</p>
           </div>
 
           <!-- Temperatura -->
-          <div class="bg-orange-50 p-6 rounded-xl text-center hover:shadow-md transition-all">
-            <div class="flex justify-center mb-2">
+          <div class="bg-orange-50 p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo temperatura-card">
+            <div class="flex justify-center mb-2 icono-signo">
               <i class="fa-solid fa-temperature-half text-orange-500 text-3xl"></i>
             </div>
-            <p class="text-sm text-gray-600 font-medium mb-2">Temperatura</p>
-            <p class="text-3xl font-bold text-gray-900">36.5</p>
-            <p class="text-xs text-gray-500 mt-1">°C</p>
+            <p class="text-sm text-gray-600 font-medium mb-2 label-signo">Temperatura</p>
+            <p class="text-3xl font-bold text-gray-900 valor-signo">36.5</p>
+            <p class="text-xs text-gray-500 mt-1 unidad-signo">°C</p>
           </div>
 
           <!-- Peso -->
-          <div class="bg-blue-50 p-6 rounded-xl text-center hover:shadow-md transition-all">
-            <div class="flex justify-center mb-2">
+          <div class="bg-blue-50 p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo peso-card">
+            <div class="flex justify-center mb-2 icono-signo">
               <i class="fa-solid fa-weight-scale text-blue-500 text-3xl"></i>
             </div>
-            <p class="text-sm text-gray-600 font-medium mb-2">Peso</p>
-            <p class="text-3xl font-bold text-gray-900">70</p>
-            <p class="text-xs text-gray-500 mt-1">kg</p>
+            <p class="text-sm text-gray-600 font-medium mb-2 label-signo">Peso</p>
+            <p class="text-3xl font-bold text-gray-900 valor-signo">70</p>
+            <p class="text-xs text-gray-500 mt-1 unidad-signo">kg</p>
           </div>
         </div>
       </section>
 
       <!-- FILA 2: Recordatorios (Horizontal de izquierda a derecha) -->
-      <section class="bg-white rounded-2xl shadow-lg p-8">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 flex items-center justify-center">
+      <section class="bg-white rounded-2xl shadow-lg p-8 seccion-recordatorios">
+        <div class="flex items-center gap-3 mb-6 header-recordatorios">
+          <div class="w-12 h-12 flex items-center justify-center icono-header">
             <i class="fa-solid fa-bell text-green-500 text-2xl"></i>
           </div>
-          <h2 class="text-3xl font-bold text-gray-800">Recordatorios</h2>
+          <h2 class="text-3xl font-bold text-gray-800 titulo-recordatorios">Recordatorios</h2>
         </div>
 
         <!-- Mensaje cuando no hay recordatorios -->
-        <div *ngIf="!(recordatorios?.length) || recordatorios.length === 0" class="text-center py-12 text-gray-400">
+        <div *ngIf="!(recordatorios?.length) || recordatorios.length === 0" class="text-center py-12 text-gray-400 mensaje-vacio">
           <i class="fas fa-calendar-times text-5xl mb-4"></i>
           <p class="text-lg">No hay recordatorios pendientes</p>
         </div>
 
         <!-- Lista horizontal de recordatorios -->
-        <div *ngIf="recordatorios?.length" class="overflow-x-auto">
-          <div class="flex gap-4 pb-4" style="min-width: min-content;">
+        <div *ngIf="recordatorios?.length" class="overflow-x-auto container-recordatorios">
+          <div class="flex gap-4 pb-4 lista-recordatorios" style="min-width: min-content;">
             <div *ngFor="let recordatorio of recordatorios; let i = index" 
-              class="flex-shrink-0 w-80 p-6 rounded-2xl hover:shadow-lg transition-all border-2"
+              class="flex-shrink-0 w-80 p-6 rounded-2xl hover:shadow-lg transition-all border-2 tarjeta-recordatorio"
               [ngClass]="{ 
                 'bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200': !recordatorio.completado, 
                 'bg-gray-100 opacity-60 border-gray-300': recordatorio.completado 
               }">
 
               <!-- Header del recordatorio -->
-              <div class="flex items-start justify-between mb-4">
+              <div class="flex items-start justify-between mb-4 recordatorio-header">
                 <!-- Checkbox para completar -->
                 <button (click)="toggleRecordatorio(recordatorio)"
-                  class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all shadow-sm"
+                  class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all shadow-sm boton-toggle-recordatorio"
                   [ngClass]="{ 
                     'bg-purple-200 hover:bg-purple-300': !recordatorio.completado, 
                     'bg-green-200 hover:bg-green-300': recordatorio.completado 
@@ -104,25 +104,25 @@
 
                 <!-- Botón eliminar -->
                 <button (click)="deleteRecordatorio(recordatorio)" 
-                  class="text-red-500 hover:text-red-700 hover:bg-red-100 p-2 rounded-lg transition-all">
+                  class="text-red-500 hover:text-red-700 hover:bg-red-100 p-2 rounded-lg transition-all boton-eliminar-recordatorio">
                   <i class="fas fa-trash text-lg"></i>
                 </button>
               </div>
 
               <!-- Contenido del recordatorio -->
-              <div class="space-y-2">
-                <p class="font-bold text-gray-900 text-xl leading-tight" 
+              <div class="space-y-2 recordatorio-contenido">
+                <p class="font-bold text-gray-900 text-xl leading-tight titulo-recordatorio" 
                   [class.line-through]="recordatorio.completado">
                   {{ recordatorio.titulo }}
                 </p>
                 
                 <p *ngIf="recordatorio.subtitulo" 
-                  class="text-gray-700 text-base leading-relaxed">
+                  class="text-gray-700 text-base leading-relaxed subtitulo-recordatorio">
                   {{ recordatorio.subtitulo }}
                 </p>
                 
                 <div *ngIf="recordatorio.fecha_recordatorio" 
-                  class="flex items-center gap-2 text-gray-600 text-sm mt-3 pt-3 border-t border-gray-200">
+                  class="flex items-center gap-2 text-gray-600 text-sm mt-3 pt-3 border-t border-gray-200 fecha-recordatorio">
                   <i class="fas fa-clock"></i>
                   <span class="font-medium">{{ recordatorio.fecha_recordatorio | date:'d/MM/yyyy HH:mm' }}</span>
                 </div>
@@ -132,7 +132,7 @@
         </div>
 
         <!-- Indicador de scroll si hay muchos recordatorios -->
-        <div *ngIf="recordatorios && recordatorios.length > 3" class="text-center mt-4 text-gray-400 text-sm">
+        <div *ngIf="recordatorios && recordatorios.length > 3" class="text-center mt-4 text-gray-400 text-sm indicador-scroll">
           <i class="fas fa-arrow-right animate-pulse"></i>
           <span class="ml-2">Desliza para ver más recordatorios</span>
         </div>
