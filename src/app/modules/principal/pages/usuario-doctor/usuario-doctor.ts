@@ -8,7 +8,6 @@ import { Chat } from '../../components/chat/chat';
 import { ChatService } from '..//../../../core/services/chat.service';
 import { HealthService, SignosVitales } from '../../../../core/services/health.service';
 import { AuthService } from '../../../../core/services/auth.service';
-import { Chat } from '../../components/chat/chat';
 import { SupabaseService } from '..//../../../core/services/supabase.service';
 @Component({
   selector: 'app-usuario-doctor',
@@ -23,7 +22,7 @@ export class UsuarioDoctor implements OnInit {
   
   // Estado de carga
   isLoading = true;
-  doctorId: string = '';
+  doctorId: string = '';  
   doctorName: string = '';
 
   // Lista de pacientes
