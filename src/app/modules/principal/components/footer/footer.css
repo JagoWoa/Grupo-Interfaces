@@ -1,0 +1,22 @@
+/* ========== TRANSICIONES SUAVES ========== */
+:host-context(.dark-mode) * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ========== FOOTER ========== */
+:host-context(.dark-mode) footer {
+  background-color: #0a0a0a !important;
+  border-top: 1px solid #2a2a2a;
+}
+
+:host-context(.dark-mode) footer .bg-gray-800 {
+  background-color: #1a1a1a !important;
+}
+
+:host-context(.dark-mode) footer .bg-gray-800:hover {
+  background-color: #1565c0 !important;
+}
+:host-context(.dark-mode) footer p, h1, h2, h3, span, a {
+  color: #fdfdfd !important;
+}
+

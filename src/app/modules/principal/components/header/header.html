@@ -4,38 +4,30 @@
       <!-- Logo -->
       <div class="flex items-center gap-2">
         <i class="fa-solid fa-heart-pulse text-2xl md:text-3xl" alt="Logo"> </i>
-        <h1 class="text-lg md:text-xl font-semibold">Telecuidado Mayor</h1>
+        <h1 class="text-lg md:text-xl font-semibold text-white-500">Telecuidado Mayor</h1>
       </div>
     </div>
 
     <!-- Centro: Menu principal -->
     <!-- Menú cuando está logueado -->
     <ul class="hidden md:flex items-center gap-6 text-sm font-medium" *ngIf="isLogging()">
-      <li><a routerLink="/dashboard" class="hover:bg-white/10 px-3 py-2 rounded-lg transition">Dashboard</a></li>
-      <li><a routerLink="/perfil" class="hover:bg-white/10 px-3 py-2 rounded-lg transition">Perfil</a></li>
-      <li><a routerLink="/usuario" class="hover:bg-white/10 px-3 py-2 rounded-lg transition">Salud</a></li>
+      <li><a routerLink="/dashboard" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-magnifying-glass"></i> Dashboard</a></li>
+      <li><a routerLink="/perfil" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-circle-user"></i> Perfil</a></li>
+      <li><a routerLink="/usuario" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-heart"></i> Salud</a></li>
       
-      <!-- Botón de Chat -->
-      <li>
-        <button (click)="toggleChat()" class="relative hover:bg-white/10 px-3 py-2 rounded-lg transition">
-          <i class="fas fa-comments mr-2"></i>Chat
-          <span *ngIf="unreadMessages > 0" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-            {{unreadMessages}}
-          </span>
-        </button>
-      </li>
+      
     </ul>
 
     <!-- Menú cuando NO está logueado -->
     <ul class="hidden md:flex items-center gap-6 text-sm font-medium" *ngIf="!isLogging()">
       <li>
-        <a routerLink="/inicio" class="hover:bg-white/10 px-3 py-2 rounded-lg transition">Home</a>
+        <a routerLink="/inicio" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-house"></i> Inicio</a>
       </li>
       <li>
-        <a routerLink="/login" class="hover:bg-white/10 px-3 py-2 rounded-lg transition">Iniciar sesión</a>
+        <a routerLink="/login" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</a>
       </li>
       <li>
-        <a routerLink="/register" class="hover:bg-white/10 px-3 py-2 rounded-lg transition">Registrar Usuario</a>
+        <a routerLink="/register" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-user-plus"></i> Registrar Usuario</a>
       </li>
     </ul>
 
@@ -59,8 +51,13 @@
       <button title="Cambiar idioma" class="p-2 hover:bg-white/10 rounded-lg transition text-sm">
         <i class="fa-solid fa-language"></i>
       </button>
-      <button title="Menú" class="md:hidden p-2 hover:bg-white/10 rounded-lg transition">
-        <i class="fas fa-bars text-xl"></i>
+      <button 
+      (click)="botonCambio()"
+      class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm">
+        <i class="fa-solid fa-palette"></i>
+      </button>
+      <button class="hover:opacity-80 transition">
+        <i class="fas fa-search text-xl"></i>
       </button>
     </div>
   </div>

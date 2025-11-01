@@ -10,6 +10,7 @@ import { AuthService } from '../../../../core/services/auth.service';
   selector: 'app-register-doctor',
   imports: [CommonModule, FormsModule, RouterModule, Header, Footer],
   templateUrl: './register-doctor.html',
+  styleUrls: ['./register-doctor.css'],
 })
 export class RegisterDoctor {
   // Datos del formulario

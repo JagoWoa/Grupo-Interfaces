@@ -1,189 +1,141 @@
-/* Botón flotante Chat con Doctor */
-.chat-floating-container {
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  animation: slideIn 0.3s ease-out;
+/* Estilos para el perfil de usuario Anciano */
+
+/* Mejoras para el scroll horizontal de recordatorios */
+.overflow-x-auto {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.overflow-x-auto::-webkit-scrollbar {
+  height: 8px;
 }
 
-/* Loading animation delays */
-.loading-dot-1 {
-  animation: bounce 1s infinite;
-  animation-delay: 0ms;
-}
-
-.loading-dot-2 {
-  animation: bounce 1s infinite;
-  animation-delay: 150ms;
-}
-
-.loading-dot-3 {
-  animation: bounce 1s infinite;
-  animation-delay: 300ms;
-}
-
-@keyframes bounce {
-  0%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-8px);
-  }
-}
-
-.chat-float-button {
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-  }
-  50% {
-    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.6);
-  }
-}
-
-.chat-float-button:hover {
-  animation: none;
-  transform: scale(1.1);
-  transition: transform 0.3s ease;
-}
-
-/* Overlay oscuro */
-.chat-overlay {
-  animation: fadeInOverlay 0.3s ease-out;
-}
-
-@keyframes fadeInOverlay {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Chat expandido fullscreen */
-.chat-expanded-fullscreen {
-  width: 100%;
-  max-width: 600px;
-  animation: slideInFromRight 0.4s ease-out;
-  display: flex;
-  flex-direction: column;
-}
-
-@keyframes slideInFromRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.chat-expanded-header {
-  background: white;
-  padding: 1.5rem;
-  flex-shrink: 0;
-}
-
-.chat-expanded-header button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s ease;
-}
-
-.chat-expanded-header button:hover {
-  color: #1f2937;
-}
-
-.chat-expanded-content-fullscreen {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1.5rem;
-  background: #f9fafb;
-}
-
-/* Scrollbar personalizado */
-.chat-expanded-content-fullscreen::-webkit-scrollbar {
-  width: 8px;
-}
-
-.chat-expanded-content-fullscreen::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-
-.chat-expanded-content-fullscreen::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: transparent;
   border-radius: 10px;
 }
 
-.chat-expanded-content-fullscreen::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+  border-radius: 10px;
 }
 
-/* Contenedor unificado */
-.unified-section {
-  animation: fadeIn 0.5s ease-out;
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
+/* Animación suave para hover en tarjetas */
+.hover\:shadow-md:hover,
+.hover\:shadow-lg:hover {
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+/* Estilos para el estado completado de recordatorios */
+.line-through {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* Mejora de contraste para mejor legibilidad */
+.bg-red-50,
+.bg-pink-50,
+.bg-orange-50,
+.bg-blue-50 {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Chat flotante */
+.chat-floating-container {
+  transition: all 0.3s ease;
+}
+
+/* Asegurar que el chat flotante esté siempre visible */
+.fixed.bottom-6.right-6.z-50 {
+  pointer-events: auto;
+}
+
+.chat-expanded {
+  width: 400px;
+  max-height: 600px;
+}
+
+.chat-expanded-content {
+  display: none;
+}
+
+.chat-expanded .chat-expanded-content {
+  display: block;
+}
+
+/* Animación de pulso para el indicador de scroll */
+@keyframes pulse {
+  0%, 100% {
     opacity: 1;
-    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.5;
   }
 }
 
-/* Responsive para móviles */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Mejoras de accesibilidad para botones */
+button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Transiciones suaves para todos los elementos interactivos */
+button, .rounded-xl, .rounded-2xl {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Estilos para tarjetas de signos vitales */
+.bg-red-50:hover,
+.bg-pink-50:hover,
+.bg-orange-50:hover,
+.bg-blue-50:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Espaciado mejorado para dispositivos móviles */
 @media (max-width: 768px) {
-  .chat-expanded-fullscreen {
-    max-width: 100%;
-    width: 100%;
+  .overflow-x-auto {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
+  
+  .flex-shrink-0.w-80 {
+    width: 18rem;
+  }
+}
 
-  .chat-expanded-header {
-    padding: 1rem;
-  }
+/* Mejora de contraste para textos */
+.text-gray-900 {
+  color: #111827;
+}
 
-  .chat-expanded-header h3 {
-    font-size: 1.25rem;
-  }
+.text-gray-800 {
+  color: #1f2937;
+}
 
-  .chat-expanded-content-fullscreen {
-    padding: 1rem;
-  }
+.text-gray-700 {
+  color: #374151;
+}
 
-  .vitales-grid {
-    grid-template-columns: 1fr 1fr !important;
-  }
-
-  .recordatorios-list {
-    grid-template-columns: 1fr !important;
-  }
+/* Iconos más prominentes */
+i.text-2xl, i.text-3xl {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
 @media (max-width: 480px) {

@@ -9,7 +9,8 @@ import { AuthService } from '../../../../core/services/auth.service';
 @Component({
   selector: 'app-registre',
   imports: [CommonModule, FormsModule, RouterModule, Header, Footer],
-  templateUrl: './registre.html'
+  templateUrl: './registre.html',
+  styleUrls: ['./registre.css'],
 })
 export class Registre {
   // Datos del formulario

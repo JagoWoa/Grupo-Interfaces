@@ -1,359 +1,151 @@
 <!-- Header -->
 <app-header></app-header>
 
-<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-6 py-10">
+    <!-- Contenedor de filas -->
+    <div class="space-y-8">
 
-  <!-- Loading State -->
-  @if (isLoading) {
-    <div class="flex items-center justify-center min-h-[calc(100vh-80px)]">
-      <div class="text-center">
-        <!-- Animated pulse circle -->
-        <div class="relative inline-flex items-center justify-center mb-6">
-          <div class="absolute w-24 h-24 bg-blue-400 rounded-full opacity-75 animate-ping"></div>
-          <div class="absolute w-20 h-20 bg-blue-500 rounded-full opacity-75 animate-pulse"></div>
-          <div class="relative w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
-            <svg class="w-8 h-8 text-white animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
-              </path>
-            </svg>
+      <!-- FILA 1: Signos Vitales (Horizontal de izquierda a derecha) -->
+      <section class="bg-white rounded-2xl shadow-lg p-8">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 flex items-center justify-center">
+            <i class="fa-solid fa-heart text-red-500 text-2xl"></i>
+          </div>
+          <h2 class="text-3xl font-bold text-gray-800">Signos Vitales</h2>
+        </div>
+
+        <!-- Grid horizontal para signos vitales -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <!-- Presión Arterial -->
+          <div class="bg-red-50 p-6 rounded-xl text-center hover:shadow-md transition-all">
+            <div class="flex justify-center mb-2">
+              <i class="fa-solid fa-heart-pulse text-red-500 text-3xl"></i>
+            </div>
+            <p class="text-sm text-gray-600 font-medium mb-2">Presión Arterial</p>
+            <p class="text-3xl font-bold text-gray-900">120/80</p>
+            <p class="text-xs text-gray-500 mt-1">mmHg</p>
+          </div>
+
+          <!-- Frecuencia Cardíaca -->
+          <div class="bg-pink-50 p-6 rounded-xl text-center hover:shadow-md transition-all">
+            <div class="flex justify-center mb-2">
+              <i class="fa-solid fa-heartbeat text-pink-500 text-3xl"></i>
+            </div>
+            <p class="text-sm text-gray-600 font-medium mb-2">Frecuencia Cardíaca</p>
+            <p class="text-3xl font-bold text-gray-900">72</p>
+            <p class="text-xs text-gray-500 mt-1">bpm</p>
+          </div>
+
+          <!-- Temperatura -->
+          <div class="bg-orange-50 p-6 rounded-xl text-center hover:shadow-md transition-all">
+            <div class="flex justify-center mb-2">
+              <i class="fa-solid fa-temperature-half text-orange-500 text-3xl"></i>
+            </div>
+            <p class="text-sm text-gray-600 font-medium mb-2">Temperatura</p>
+            <p class="text-3xl font-bold text-gray-900">36.5</p>
+            <p class="text-xs text-gray-500 mt-1">°C</p>
+          </div>
+
+          <!-- Peso -->
+          <div class="bg-blue-50 p-6 rounded-xl text-center hover:shadow-md transition-all">
+            <div class="flex justify-center mb-2">
+              <i class="fa-solid fa-weight-scale text-blue-500 text-3xl"></i>
+            </div>
+            <p class="text-sm text-gray-600 font-medium mb-2">Peso</p>
+            <p class="text-3xl font-bold text-gray-900">70</p>
+            <p class="text-xs text-gray-500 mt-1">kg</p>
           </div>
         </div>
-        
-        <h2 class="text-2xl font-bold text-gray-800 mb-2 animate-pulse">Cargando tu salud...</h2>
-        <p class="text-gray-600 mb-4">Obteniendo tus datos vitales</p>
-        
-        <!-- Loading dots animation -->
-        <div class="flex justify-center gap-1">
-          <div class="w-2 h-2 bg-blue-500 rounded-full loading-dot-1"></div>
-          <div class="w-2 h-2 bg-blue-500 rounded-full loading-dot-2"></div>
-          <div class="w-2 h-2 bg-blue-500 rounded-full loading-dot-3"></div>
-        </div>
-        
-        <p class="mt-6 text-sm text-gray-400">Si esto tarda mucho, revisa la consola del navegador (F12)</p>
-      </div>
-    </div>
-  } @else {
-    <!-- Main Content -->
-    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
-      
-      <!-- Dashboard Header -->
-      <div class="mb-6 sm:mb-8">
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Dashboard de Salud</h1>
-        <div class="flex items-center gap-3 text-gray-600 text-sm sm:text-base">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-          </svg>
-          <span>{{ currentDate | date:'d MMMM yyyy' }}</span>
-        </div>
-      </div>
+      </section>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+      <!-- FILA 2: Recordatorios (Horizontal de izquierda a derecha) -->
+      <section class="bg-white rounded-2xl shadow-lg p-8">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 flex items-center justify-center">
+            <i class="fa-solid fa-bell text-green-500 text-2xl"></i>
+          </div>
+          <h2 class="text-3xl font-bold text-gray-800">Recordatorios</h2>
+        </div>
 
-        <!-- Columna Izquierda y Central: Main Dashboard -->
-        <div class="lg:col-span-2 space-y-4 sm:space-y-6">
-          
-          <!-- Signos Vitales Cards -->
-          <div class="bg-white rounded-3xl shadow-lg p-6">
-            <div class="flex items-center justify-between mb-6">
-              <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <i class="fas fa-heartbeat text-red-500"></i>
-                Signos Vitales
-              </h2>
-              @if (!editingVitalSigns) {
-                <button (click)="toggleEditVitalSigns()" 
-                        class="px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors flex items-center gap-2">
-                  <i class="fas fa-edit"></i>
-                  Editar
+        <!-- Mensaje cuando no hay recordatorios -->
+        <div *ngIf="!(recordatorios?.length) || recordatorios.length === 0" class="text-center py-12 text-gray-400">
+          <i class="fas fa-calendar-times text-5xl mb-4"></i>
+          <p class="text-lg">No hay recordatorios pendientes</p>
+        </div>
+
+        <!-- Lista horizontal de recordatorios -->
+        <div *ngIf="recordatorios?.length" class="overflow-x-auto">
+          <div class="flex gap-4 pb-4" style="min-width: min-content;">
+            <div *ngFor="let recordatorio of recordatorios; let i = index" 
+              class="flex-shrink-0 w-80 p-6 rounded-2xl hover:shadow-lg transition-all border-2"
+              [ngClass]="{ 
+                'bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200': !recordatorio.completado, 
+                'bg-gray-100 opacity-60 border-gray-300': recordatorio.completado 
+              }">
+
+              <!-- Header del recordatorio -->
+              <div class="flex items-start justify-between mb-4">
+                <!-- Checkbox para completar -->
+                <button (click)="toggleRecordatorio(recordatorio)"
+                  class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all shadow-sm"
+                  [ngClass]="{ 
+                    'bg-purple-200 hover:bg-purple-300': !recordatorio.completado, 
+                    'bg-green-200 hover:bg-green-300': recordatorio.completado 
+                  }">
+                  <ng-container *ngIf="!recordatorio.completado">
+                    <i class="fa-solid fa-pills text-purple-700 text-xl"></i>
+                  </ng-container>
+                  <ng-container *ngIf="recordatorio.completado">
+                    <i class="fa-solid fa-check text-green-700 text-xl"></i>
+                  </ng-container>
                 </button>
-              } @else {
-                <div class="flex gap-2">
-                  <button (click)="saveVitalSigns()" 
-                          class="px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors flex items-center gap-2">
-                    <i class="fas fa-save"></i>
-                    Guardar
-                  </button>
-                  <button (click)="cancelEditVitalSigns()" 
-                          class="px-4 py-2 bg-gray-300 text-gray-700 rounded-xl hover:bg-gray-400 transition-colors">
-                    Cancelar
-                  </button>
+
+                <!-- Botón eliminar -->
+                <button (click)="deleteRecordatorio(recordatorio)" 
+                  class="text-red-500 hover:text-red-700 hover:bg-red-100 p-2 rounded-lg transition-all">
+                  <i class="fas fa-trash text-lg"></i>
+                </button>
+              </div>
+
+              <!-- Contenido del recordatorio -->
+              <div class="space-y-2">
+                <p class="font-bold text-gray-900 text-xl leading-tight" 
+                  [class.line-through]="recordatorio.completado">
+                  {{ recordatorio.titulo }}
+                </p>
+                
+                <p *ngIf="recordatorio.subtitulo" 
+                  class="text-gray-700 text-base leading-relaxed">
+                  {{ recordatorio.subtitulo }}
+                </p>
+                
+                <div *ngIf="recordatorio.fecha_recordatorio" 
+                  class="flex items-center gap-2 text-gray-600 text-sm mt-3 pt-3 border-t border-gray-200">
+                  <i class="fas fa-clock"></i>
+                  <span class="font-medium">{{ recordatorio.fecha_recordatorio | date:'d/MM/yyyy HH:mm' }}</span>
                 </div>
-              }
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <!-- Presión Arterial -->
-              <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-5 shadow-md">
-                <div class="flex items-start justify-between mb-3">
-                  <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-md">
-                    <i class="fas fa-heartbeat text-red-500 text-xl"></i>
-                  </div>
-                </div>
-                <h3 class="text-gray-600 text-sm font-medium mb-2">Presión Arterial</h3>
-                @if (!editingVitalSigns) {
-                  <p class="text-3xl font-bold text-gray-900 mb-1">{{ signosVitales.presion_arterial }} <span class="text-lg font-normal text-gray-600">mmHg</span></p>
-                } @else {
-                  <input 
-                    type="text" 
-                    [(ngModel)]="signosVitales.presion_arterial"
-                    placeholder="120/80"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                }
-                <p class="text-xs text-gray-500 mt-1">Normal: 120/80 mmHg</p>
               </div>
-
-              <!-- Frecuencia Cardíaca -->
-              <div class="bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-5 shadow-md">
-                <div class="flex items-start justify-between mb-3">
-                  <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-md">
-                    <i class="fas fa-heart text-pink-500 text-xl"></i>
-                  </div>
-                </div>
-                <h3 class="text-gray-600 text-sm font-medium mb-2">Frecuencia Cardíaca</h3>
-                @if (!editingVitalSigns) {
-                  <p class="text-3xl font-bold text-gray-900 mb-1">{{ signosVitales.frecuencia_cardiaca }} <span class="text-lg font-normal text-gray-600">BPM</span></p>
-                } @else {
-                  <input 
-                    type="text" 
-                    [(ngModel)]="signosVitales.frecuencia_cardiaca"
-                    placeholder="75"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                }
-                <p class="text-xs text-gray-500 mt-1">Normal: 60-100 BPM</p>
-              </div>
-
-              <!-- Temperatura -->
-              <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-5 shadow-md">
-                <div class="flex items-start justify-between mb-3">
-                  <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-md">
-                    <i class="fas fa-thermometer-half text-orange-500 text-xl"></i>
-                  </div>
-                </div>
-                <h3 class="text-gray-600 text-sm font-medium mb-2">Temperatura</h3>
-                @if (!editingVitalSigns) {
-                  <p class="text-3xl font-bold text-gray-900 mb-1">{{ signosVitales.temperatura }} <span class="text-lg font-normal text-gray-600">°C</span></p>
-                } @else {
-                  <input 
-                    type="text" 
-                    [(ngModel)]="signosVitales.temperatura"
-                    placeholder="36.5"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                }
-                <p class="text-xs text-gray-500 mt-1">Normal: 36-37°C</p>
-              </div>
-
-              <!-- Glucosa -->
-              <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-5 shadow-md">
-                <div class="flex items-start justify-between mb-3">
-                  <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-md">
-                    <i class="fas fa-tint text-purple-500 text-xl"></i>
-                  </div>
-                </div>
-                <h3 class="text-gray-600 text-sm font-medium mb-2">Nivel de Glucosa</h3>
-                @if (!editingVitalSigns) {
-                  <p class="text-3xl font-bold text-gray-900 mb-1">{{ signosVitales.glucosa }} <span class="text-lg font-normal text-gray-600">mg/dL</span></p>
-                } @else {
-                  <input 
-                    type="text" 
-                    [(ngModel)]="signosVitales.glucosa"
-                    placeholder="95"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                }
-                <p class="text-xs text-gray-500 mt-1">Normal: 70-100 mg/dL</p>
-              </div>
-            </div>
-
-            @if (signosVitales.ultima_medicion) {
-              <p class="text-sm text-gray-500 mt-4 text-center">
-                <i class="fas fa-clock mr-1"></i>
-                Última actualización: {{ signosVitales.ultima_medicion | date:'d/MM/yyyy HH:mm' }}
-              </p>
-            }
-          </div>
-
-        <!-- Activity Chart Section -->
-        <section class="bg-white rounded-3xl shadow-lg p-8">
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-gray-900">Actividad</h2>
-            <div class="flex gap-2">
-              <button class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">Semanal</button>
-              <button class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg shadow-md">Mensual</button>
-              <button class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">Anual</button>
             </div>
           </div>
-          
-          <!-- Placeholder para gráfico - Puedes integrar Chart.js aquí más tarde -->
-          <div class="h-64 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl flex items-center justify-center">
-            <div class="text-center text-gray-400">
-              <svg class="w-16 h-16 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-              </svg>
-              <p class="text-sm">Gráfico de actividad (próximamente)</p>
-            </div>
-          </div>
-        </section>
+        </div>
 
-          <!-- Recordatorios Section -->
-          <section class="bg-white rounded-3xl shadow-lg p-8">
-            <div class="flex items-center gap-3 mb-6">
-              <div class="w-10 h-10 flex items-center justify-center">
-                <i class="fa-solid fa-bell text-purple-500 text-2xl"></i>
-              </div>
-              <h2 class="text-2xl font-bold text-gray-800">Recordatorios</h2>
-            </div>
-
-            @if (recordatorios.length === 0) {
-              <div class="text-center py-8 text-gray-400">
-                <i class="fas fa-calendar-times text-4xl mb-3"></i>
-                <p>No hay recordatorios pendientes</p>
-              </div>
-            } @else {
-              <ul class="space-y-4">
-                @for (recordatorio of recordatorios; track recordatorio.id) {
-                  <li class="flex items-start gap-4 p-5 rounded-2xl hover:shadow-md transition-shadow"
-                      [class.bg-gradient-to-r]="!recordatorio.completado"
-                      [class.from-purple-50]="!recordatorio.completado"
-                      [class.to-pink-50]="!recordatorio.completado"
-                      [class.bg-gray-100]="recordatorio.completado"
-                      [class.opacity-60]="recordatorio.completado">
-                    
-                    <!-- Checkbox para completar -->
-                    <button (click)="toggleRecordatorio(recordatorio)"
-                            class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all"
-                            [class.bg-purple-100]="!recordatorio.completado"
-                            [class.bg-green-100]="recordatorio.completado">
-                      @if (!recordatorio.completado) {
-                        <i class="fa-solid fa-pills text-purple-600"></i>
-                      } @else {
-                        <i class="fa-solid fa-check text-green-600"></i>
-                      }
-                    </button>
-
-                    <div class="flex-1">
-                      <p class="font-semibold text-gray-800 text-lg"
-                         [class.line-through]="recordatorio.completado">
-                        {{ recordatorio.titulo }}
-                      </p>
-                      @if (recordatorio.subtitulo) {
-                        <p class="text-gray-600 text-sm">{{ recordatorio.subtitulo }}</p>
-                      }
-                      @if (recordatorio.fecha_recordatorio) {
-                        <p class="text-gray-500 text-xs mt-1">
-                          <i class="fas fa-clock mr-1"></i>
-                          {{ recordatorio.fecha_recordatorio | date:'d/MM/yyyy HH:mm' }}
-                        </p>
-                      }
-                    </div>
-
-                    <!-- Botón eliminar -->
-                    <button (click)="deleteRecordatorio(recordatorio)"
-                            class="text-red-500 hover:text-red-700 p-2 transition-colors">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </li>
-                }
-              </ul>
-            }
-          </section>
-
-      </div>
-
-      <!-- Columna Derecha: Sidebar -->
-      <div class="lg:col-span-1 space-y-6">
-        
-        <!-- Doctors Section -->
-        <section class="bg-white rounded-3xl shadow-lg p-6">
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl font-bold text-gray-900">Doctores</h2>
-            <a href="#" class="text-sm text-blue-500 hover:text-blue-600 font-medium">Ver todos</a>
-          </div>
-          
-          <div class="flex gap-3 overflow-x-auto pb-2">
-            <div class="flex flex-col items-center gap-2 min-w-[70px]">
-              <div class="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg">
-                JD
-              </div>
-              <span class="text-xs text-gray-600 text-center">Dr. Juan</span>
-            </div>
-            <div class="flex flex-col items-center gap-2 min-w-[70px]">
-              <div class="w-14 h-14 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg">
-                MR
-              </div>
-              <span class="text-xs text-gray-600 text-center">Dra. María</span>
-            </div>
-            <div class="flex flex-col items-center gap-2 min-w-[70px]">
-              <div class="w-14 h-14 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg">
-                CP
-              </div>
-              <span class="text-xs text-gray-600 text-center">Dr. Carlos</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- Details Section -->
-        <section class="bg-white rounded-3xl shadow-lg p-6">
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl font-bold text-gray-900">Detalles</h2>
-            <a href="#" class="text-sm text-blue-500 hover:text-blue-600 font-medium">Ver todos</a>
-          </div>
-          
-          <div class="space-y-4">
-            <div>
-              <p class="text-sm text-gray-500 mb-1">Tipo de Sangre</p>
-              <p class="text-lg font-bold text-gray-900">A+</p>
-            </div>
-            <div>
-              <p class="text-sm text-gray-500 mb-1">Altura</p>
-              <p class="text-lg font-bold text-gray-900">170 cm</p>
-            </div>
-            <div>
-              <p class="text-sm text-gray-500 mb-1">Peso</p>
-              <p class="text-lg font-bold text-gray-900">70 kg</p>
-            </div>
-          </div>
-        </section>
-
-      </div>
+        <!-- Indicador de scroll si hay muchos recordatorios -->
+        <div *ngIf="recordatorios && recordatorios.length > 3" class="text-center mt-4 text-gray-400 text-sm">
+          <i class="fas fa-arrow-right animate-pulse"></i>
+          <span class="ml-2">Desliza para ver más recordatorios</span>
+        </div>
+      </section>
 
     </div>
+
   </div>
-  }
-</div>
 
-<!-- Botón flotante Chat con Doctor -->
-<div class="fixed bottom-6 right-6 z-50 chat-floating-container" [class.chat-expanded]="chatExpanded">
-  <button
-    *ngIf="!chatExpanded"
-    (click)="toggleChat()"
-    class="w-16 h-16 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 chat-float-button"
-    title="Chat con Doctor">
-    <i class="fa-solid fa-comments text-2xl"></i>
-  </button>
-  
-  <div *ngIf="chatExpanded" class="fixed inset-0 bg-black bg-opacity-50 z-40 chat-overlay" (click)="toggleChat()"></div>
-  
-  <div *ngIf="chatExpanded" class="fixed bottom-0 right-0 top-0 bg-white shadow-2xl chat-expanded-fullscreen">
-    <div class="flex items-center justify-between p-6 chat-expanded-header border-b border-gray-200">
-      <h3 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
-        <i class="fa-solid fa-comments text-blue-500"></i>
-        Chat con Doctor
-      </h3>
-      <button
-        (click)="toggleChat()"
-        class="text-gray-500 hover:text-gray-700 transition p-2"
-        title="Cerrar">
-        <i class="fa-solid fa-times text-3xl"></i>
-      </button>
-    </div>
-    <div class="chat-expanded-content-fullscreen overflow-y-auto">
-      <app-chat></app-chat>
-    </div>
+  <!-- Chat Flotante (Burbuja) -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <app-chat></app-chat>
   </div>
-<!-- Chat Flotante (Burbuja) -->
-<div class="fixed bottom-6 right-6 z-50">
-  <app-chat></app-chat>
 </div>
 
 <!-- Footer -->

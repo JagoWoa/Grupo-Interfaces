@@ -20,7 +20,7 @@ export class SignosVitalesService {
   constructor(
     private supabase: SupabaseService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   /**
    * Obtener signos vitales del usuario actual
@@ -28,6 +28,7 @@ export class SignosVitalesService {
   async getSignosVitales(): Promise<{ success: boolean; data?: SignosVitales; error?: string }> {
     try {
       const userId = this.authService.getCurrentUserId();
+      console.log('🔍 Obteniendo signos vitales para el usuario ID:', userId);
       if (!userId) {
         return { success: false, error: 'Usuario no autenticado' };
       }
@@ -38,7 +39,7 @@ export class SignosVitalesService {
         .eq('adulto_mayor_id', userId)
         .order('ultima_medicion', { ascending: false })
         .limit(1)
-        .single();
+        .maybeSingle(); // <- en lugar de .single()
 
       if (error && error.code !== 'PGRST116') { // PGRST116 = no rows found
         throw error;

@@ -1,0 +1,16 @@
+/* Autocompletado */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px rgb(232, 232, 232) inset !important; 
+  -webkit-text-fill-color: #000 !important; 
+  transition: background-color 5000s ease-in-out 0s; 
+}
+
+/* ========== TRANSICIONES SUAVES ========== */
+:host-context(.dark-mode) * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+/* ========== OVERLAYS Y FONDOS CON IMAGEN ========== */
+:host-context(.dark-mode) .bg-black\/60 {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+

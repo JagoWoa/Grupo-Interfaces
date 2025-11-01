@@ -1,3 +1,4 @@
+
 import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,13 +8,16 @@ import { Chat } from '../../components/chat/chat';
 import { ChatService } from '..//../../../core/services/chat.service';
 import { HealthService, SignosVitales } from '../../../../core/services/health.service';
 import { AuthService } from '../../../../core/services/auth.service';
-
+import { Chat } from '../../components/chat/chat';
+import { SupabaseService } from '..//../../../core/services/supabase.service';
 @Component({
   selector: 'app-usuario-doctor',
   imports: [CommonModule, FormsModule, Header, Footer, Chat],
   templateUrl: './usuario-doctor.html',
+  styleUrls: ['./usuario-doctor.css']
 })
 export class UsuarioDoctor implements OnInit {
+
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
   
@@ -42,7 +46,8 @@ export class UsuarioDoctor implements OnInit {
 
   constructor(
     private healthService: HealthService,
-    private authService: AuthService
+    private authService: AuthService,
+  private supabaseService: SupabaseService
   ) {}
 
   ngOnInit() {
@@ -273,9 +278,17 @@ export class UsuarioDoctor implements OnInit {
     if (!this.busqueda) {
       return this.pacientes;
     }
+
     return this.pacientes.filter(p => 
       p.nombre.toLowerCase().includes(this.busqueda.toLowerCase()) ||
       p.email?.toLowerCase().includes(this.busqueda.toLowerCase())
     );
   }
+  cargarPacientesAsignadosADoctor(idDoctor: number) {
+    this.supabaseService.usuariosAsociadosADoctor(idDoctor.toString())
+      .then((usuarios: any[]) => { // 👈 tipo explícito
+        this.pacientes = usuarios;
+      });
+  }
+
 }

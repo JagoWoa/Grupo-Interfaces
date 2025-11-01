@@ -1,18 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { Route } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ChatService } from '../../../../core/services/chat.service';
 import { Subscription } from 'rxjs';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './header.html'
+  imports: [CommonModule, RouterModule],
+  templateUrl: './header.html',
+  styleUrls: ['./header.css'],
 })
 export class Header implements OnInit, OnDestroy {
   searchQuery: string = '';
@@ -23,9 +24,12 @@ export class Header implements OnInit, OnDestroy {
   userName: string = '';
   userRole: string = '';
   unreadMessages: number = 0;
+  isChatOpen: boolean = false; // ✅ Cambiado de toggleChat a isChatOpen
   private authSubscription?: Subscription;
   private messagesSubscription?: Subscription;
-  
+  isDarkMode: boolean = false;
+
+
   languages = [
     { code: 'es', name: 'Español', flag: '🇪🇸' },
     { code: 'en', name: 'English', flag: '🇺🇸' }
@@ -37,11 +41,22 @@ export class Header implements OnInit, OnDestroy {
     { id: 'screenReader', label: 'Lector de Pantalla', icon: 'fas fa-volume-up' }
   ];
 
-  constructor(
-    private authService: AuthService,
-    private chatService: ChatService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService, private themeService: ThemeService, private chatService: ChatService) { }
+
+  toggleChat(): void {
+    this.isChatOpen = !this.isChatOpen;
+    // Aquí puedes emitir un evento o llamar al servicio de chat
+    if (this.isChatOpen) {
+      this.chatService.openChat();
+    } else {
+      this.chatService.closeChat();
+    }
+  }
+
+  botonCambio(): void {
+    this.themeService.toggleTheme();
+    console.log('🌗 Header - Modo oscuro:', this.isDarkMode);
+  }
 
   ngOnInit() {
     // Suscribirse a cambios en el estado de autenticación
@@ -64,6 +79,16 @@ export class Header implements OnInit, OnDestroy {
         this.unreadMessages = messages.filter(m => !m.leido && m.emisor_tipo !== this.getUserEmitterType()).length;
       }
     });
+    // Suscribirse al estado del tema
+    this.themeService.darkMode$.subscribe(isDark => {
+      this.isDarkMode = isDark;
+    });
+  }
+  getUserEmitterType(): 'doctor' | 'adulto_mayor' | null {
+    const role = "doctor";
+    if (role === 'doctor') return 'doctor';
+    if (role === 'adulto_mayor') return 'adulto_mayor';
+    return null;
   }
 
   ngOnDestroy() {
@@ -72,7 +97,7 @@ export class Header implements OnInit, OnDestroy {
     this.messagesSubscription?.unsubscribe();
   }
 
-  isLogging(){
+  isLogging() {
     return this.isAuthenticated;
   }
 
@@ -80,13 +105,4 @@ export class Header implements OnInit, OnDestroy {
     this.authService.logout();
   }
 
-  toggleChat() {
-    // Navegar a la página de chat
-    this.router.navigate(['/chat']);
-  }
-
-  private getUserEmitterType(): 'doctor' | 'adulto_mayor' {
-    const user = this.authService.getCurrentUser();
-    return user?.rol === 'doctor' ? 'doctor' : 'adulto_mayor';
-  }
 }
