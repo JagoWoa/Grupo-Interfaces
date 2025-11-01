@@ -1,1 +1,91 @@
-/* Dashboard styles */
+/* Ejemplo */
+:host-context(.dark-mode) .perfil-card {
+  transition: all 0.3s ease;
+}
+
+:host-context(.dark-mode) .perfil-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Avatar */
+:host-context(.dark-mode) .avatar-perfil {
+  font-size: 2.5rem;
+}
+
+/* Tarjetas info */
+:host-context(.dark-mode) .info-card {
+  transition: all 0.3s ease;
+}
+
+:host-context(.dark-mode) .info-card:hover {
+  transform: scale(1.02);
+}
+
+/* Tarjeta Correo */
+:host-context(.dark-mode) .info-card.email-card {
+  background: linear-gradient(to bottom right, #1e3a8a, #3b82f6) !important;
+}
+:host-context(.dark-mode) .email-card .label-info {
+  color: #bfdbfe !important;
+}
+:host-context(.dark-mode) .email-card .valor-info {
+  color: white !important;
+}
+
+/* Tarjeta Teléfono */
+:host-context(.dark-mode) .info-card.telefono-card {
+  background: linear-gradient(to bottom right, #065f46, #10b981) !important;
+}
+:host-context(.dark-mode) .telefono-card .label-info {
+  color: #a7f3d0 !important;
+}
+:host-context(.dark-mode) .telefono-card .valor-info {
+  color: white !important;
+}
+
+/* Tarjeta Fecha */
+:host-context(.dark-mode) .info-card.fecha-card {
+  background: linear-gradient(to bottom right, #6b21a8, #a855f7) !important;
+}
+:host-context(.dark-mode) .fecha-card .label-info {
+  color: #e9d5ff !important;
+}
+:host-context(.dark-mode) .fecha-card .valor-info {
+  color: white !important;
+}
+:host-context(.dark-mode) .contenedor-dashboard {
+  background-color: #0F0F0F;
+}
+:host-context(.dark-mode) .perfil-contenido {
+  background-color: #302e2e;
+}
+:host-context(.dark-mode) .nombre-usuario {
+  color: rgb(240, 240, 240);
+}
+:host-context(.dark-mode) .tarjeta-salud {
+  background-color: #302e2e;
+}
+:host-context(.dark-mode) .tarjeta-salud .titulo-salud {
+  color: rgb(240, 240, 240) !important;
+}
+:host-context(.dark-mode) .tarjeta-salud .descripcion-salud {
+  color: rgb(200, 200, 200) !important;
+}
+:host-context(.dark-mode) .tarjeta-salud span {
+  color: rgb(240, 240, 240) !important;
+}
+
+/* Tarjeta Pacientes (Doctor) */
+:host-context(.dark-mode) .tarjeta-pacientes {
+  background-color: #302e2e;
+}
+:host-context(.dark-mode) .tarjeta-pacientes h3 {
+  color: rgb(240, 240, 240) !important;
+}
+:host-context(.dark-mode) .tarjeta-pacientes p {
+  color: rgb(200, 200, 200) !important;
+}
+:host-context(.dark-mode) .tarjeta-pacientes span {
+  color: rgb(240, 240, 240) !important;
+}
+

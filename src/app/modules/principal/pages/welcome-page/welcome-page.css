@@ -4,11 +4,11 @@
    usamos :host-context(.dark-mode) en lugar de seleccionar directamente `body.dark-mode`. */
 
 /* Autocompletado */
-input:-webkit-autofill {
+/* input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px rgb(232, 232, 232) inset !important; 
   -webkit-text-fill-color: #000 !important; 
   transition: background-color 5000s ease-in-out 0s; 
-}
+}*/
 
 /* ========== TRANSICIONES SUAVES ========== */
 :host-context(.dark-mode) * {

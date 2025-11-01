@@ -12,59 +12,21 @@
 
 
 
-/* ========== registerDoctor ========== */
-body.dark-mode .card-registerDoctor {
-  background-color: #f3eded ;
-  color: #030303 ;
-}
-body.dark-mode .card-registerDoctor div p, span {
-  color: #030303 ;
-}
-body.dark-mode .card-registerDoctor input {
-  border: 1px solid #030303 ;
-}
 
-/* ========== UsuarioDoctor ========== */
-body.dark-mode .card-usuarioDoctor {
-  background-color: #f3eded ;
-  color: #030303 ;
-}
-body.dark-mode .card-usuarioDoctor div p, span {
-  color: #030303 ;
-}
-body.dark-mode .card-usuarioDoctor input {
-  border: 1px solid #030303 ;
-}
-
-
-/* ========== FOOTER ========== */
-body.dark-mode footer {
-  background-color: #0a0a0a !important;
-  border-top: 1px solid #2a2a2a;
-}
-
-body.dark-mode footer .bg-gray-800 {
-  background-color: #1a1a1a !important;
-}
-
-body.dark-mode footer .bg-gray-800:hover {
-  background-color: #1565c0 !important;
-}
-body.dark-mode footer p, h1, h2, h3, span, a {
-  color: #fdfdfd !important;
-}
 
 
 
 /* dashboard */
-
+/*
 body.dark-mode .Contenido-dashboard {
   background-color: #1f2937 !important;
   color: #f3f4f6 !important;
 }
-/*body.dark-mode .Contenido-dashboard  p, h1{
+
+body.dark-mode .Contenido-dashboard  p, h1{
   color: #0f53b4 !important;
-}*/
+
+
 body.dark-mode .nombre{
   color: #ffffff !important;
 }
@@ -81,4 +43,5 @@ body.dark-mode .tarjeta-pacientes p, h3{
 body.dark-mode .contenedor-dashboard{
   background-color: #1f2937 !important;
 }
+*/
 

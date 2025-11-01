@@ -93,7 +93,7 @@ export class Dashboard implements OnInit {
     }
   }
 
-  navigateToEditProfile(): void {
+  navegarAPerfil(): void {
     this.router.navigate(['/perfil']);
   }
 

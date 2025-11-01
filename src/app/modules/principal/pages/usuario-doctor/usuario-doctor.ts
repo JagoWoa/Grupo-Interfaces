@@ -13,6 +13,7 @@ import { SupabaseService } from '..//../../../core/services/supabase.service';
   selector: 'app-usuario-doctor',
   imports: [CommonModule, FormsModule, Header, Footer, Chat],
   templateUrl: './usuario-doctor.html',
+  styleUrls: ['./usuario-doctor.css']
 })
 export class UsuarioDoctor implements OnInit {
 
