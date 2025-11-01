@@ -17,8 +17,15 @@ export class Login {
   password: string = '';
   showPassword: boolean = false;
   errorMessage: string = '';
+  successMessage: string = '';
   isLoading: boolean = false;
   needsEmailVerification: boolean = false;
+  rememberMe: boolean = false;
+  
+  // Validaciones en tiempo real
+  emailError: string = '';
+  emailValid: boolean = false;
+  passwordError: string = '';
 
   constructor(
     private router: Router,
@@ -89,5 +96,43 @@ export class Login {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  /**
+   * Validación de email en tiempo real
+   */
+  validateEmail() {
+    this.emailError = '';
+    this.emailValid = false;
+
+    if (!this.email) {
+      this.emailError = 'Por favor, ingresa tu correo electrónico';
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email)) {
+      this.emailError = 'Por favor, ingresa un correo válido (ejemplo: usuario@correo.com)';
+      return;
+    }
+
+    this.emailValid = true;
+  }
+
+  /**
+   * Validación de contraseña en tiempo real
+   */
+  validatePassword() {
+    this.passwordError = '';
+
+    if (!this.password) {
+      this.passwordError = 'Por favor, ingresa tu contraseña';
+      return;
+    }
+
+    if (this.password.length < 6) {
+      this.passwordError = 'La contraseña debe tener al menos 6 caracteres';
+      return;
+    }
   }
 }

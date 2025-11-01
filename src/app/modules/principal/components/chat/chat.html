@@ -7,7 +7,7 @@
     class="w-16 h-16 bg-gradient-to-r from-[#004b98] to-[#0066cc] hover:from-[#003d7a] hover:to-[#0052a3] 
            rounded-full shadow-2xl flex items-center justify-center text-white transition-all duration-300 
            hover:scale-110 relative group"
-    title="Abrir chat con doctor"
+    [title]="userRole === 'doctor' ? 'Abrir chat con paciente' : 'Abrir chat con doctor'"
   >
     <i class="fa-solid fa-comments text-2xl"></i>
     <!-- Badge de mensajes no leídos -->
@@ -21,7 +21,7 @@
     <!-- Tooltip -->
     <span class="absolute bottom-full mb-2 right-0 bg-gray-900 text-white text-xs px-3 py-1 rounded-lg 
                  opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-      Chat con Doctor
+      {{ userRole === 'doctor' ? 'Chat con Paciente' : 'Chat con Doctor' }}
     </span>
   </button>
 
@@ -34,7 +34,9 @@
     <!-- Header del chat -->
     <div class="bg-gradient-to-r from-[#004b98] to-[#0066cc] text-white px-4 py-4 flex items-center gap-3 relative">
       <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-        <i class="fa-solid fa-user-doctor text-white text-xl"></i>
+        <!-- Ícono según el rol del usuario -->
+        <i *ngIf="userRole === 'adulto_mayor'" class="fa-solid fa-user-doctor text-white text-xl"></i>
+        <i *ngIf="userRole === 'doctor'" class="fa-solid fa-user text-white text-xl"></i>
       </div>
       <div class="flex-1">
         <p class="font-semibold text-base">{{ getNombreDoctor() }}</p>
@@ -83,10 +85,12 @@
 
       <!-- Lista de mensajes -->
       <div *ngFor="let message of messages">
-        <!-- Mensaje del doctor -->
+        <!-- Mensaje del otro usuario (no es el mío) -->
         <div *ngIf="!esMiMensaje(message)" class="flex gap-3 mb-4 animate-fade-in">
           <div class="w-8 h-8 bg-gradient-to-br from-[#004b98] to-[#0066cc] rounded-full flex items-center justify-center flex-shrink-0">
-            <i class="fa-solid fa-user-doctor text-white text-sm"></i>
+            <!-- Si soy doctor, el otro es paciente (user icon). Si soy paciente, el otro es doctor (user-doctor icon) -->
+            <i *ngIf="userRole === 'adulto_mayor'" class="fa-solid fa-user-doctor text-white text-sm"></i>
+            <i *ngIf="userRole === 'doctor'" class="fa-solid fa-user text-white text-sm"></i>
           </div>
           <div class="flex-1 max-w-[85%]">
             <div class="bg-white rounded-2xl rounded-tl-none p-3 shadow-sm">

@@ -86,6 +86,12 @@ export class ChatService {
 
       console.log(`📋 Conversaciones del doctor cargadas: ${conversaciones.length}`);
       this.conversations$.next(conversaciones);
+      
+      // Seleccionar automáticamente la primera conversación si existe
+      if (conversaciones.length > 0) {
+        console.log('🔄 Seleccionando primera conversación automáticamente');
+        await this.seleccionarConversacion(conversaciones[0].id);
+      }
     } catch (error) {
       console.error('Error cargando conversaciones del doctor:', error);
     } finally {
@@ -161,6 +167,8 @@ export class ChatService {
    */
   async seleccionarConversacion(conversacionId: string): Promise<void> {
     try {
+      console.log('🔍 Seleccionando conversación:', conversacionId);
+      
       // Cancelar suscripción anterior si existe
       if (this.subscription) {
         this.subscription.unsubscribe();
@@ -170,9 +178,14 @@ export class ChatService {
       
       // Buscar la conversación en la lista
       const conversaciones = this.conversations$.value;
+      console.log('📋 Conversaciones disponibles:', conversaciones.length);
       const conversacion = conversaciones.find(c => c.id === conversacionId);
+      
       if (conversacion) {
+        console.log('✅ Conversación encontrada y establecida:', conversacion);
         this.currentConversation$.next(conversacion);
+      } else {
+        console.warn('⚠️ No se encontró la conversación en la lista');
       }
 
       // Cargar mensajes
@@ -184,7 +197,7 @@ export class ChatService {
       // Marcar como leídos
       await this.marcarMensajesComoLeidos();
     } catch (error) {
-      console.error('Error seleccionando conversación:', error);
+      console.error('❌ Error seleccionando conversación:', error);
     }
   }
 
@@ -192,9 +205,13 @@ export class ChatService {
    * Cargar mensajes de la conversación actual
    */
   private async cargarMensajes(): Promise<void> {
-    if (!this.currentConversationId) return;
+    if (!this.currentConversationId) {
+      console.warn('⚠️ No hay conversación actual para cargar mensajes');
+      return;
+    }
 
     try {
+      console.log('📨 Cargando mensajes para conversación:', this.currentConversationId);
       const supabase = this.supabaseService.client;
       const { data, error } = await supabase
         .from('mensajes')
@@ -202,12 +219,16 @@ export class ChatService {
         .eq('conversacion_id', this.currentConversationId)
         .order('creado_en', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Error en query de mensajes:', error);
+        throw error;
+      }
 
       this.messages = data || [];
+      console.log(`✅ Mensajes cargados: ${this.messages.length}`);
       this.messages$.next(this.messages);
     } catch (error) {
-      console.error('Error cargando mensajes:', error);
+      console.error('❌ Error cargando mensajes:', error);
     }
   }
 

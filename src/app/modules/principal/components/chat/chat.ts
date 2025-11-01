@@ -157,6 +157,12 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   getNombreDoctor(): string {
+    // Si el usuario actual es doctor, mostrar el nombre del paciente
+    if (this.userRole === 'doctor') {
+      return this.conversacionActual?.paciente_nombre || 'Paciente';
+    }
+    
+    // Si el usuario actual es paciente, mostrar el nombre del doctor
     if (this.conversacionActual?.doctor_titulo) {
       return `${this.conversacionActual.doctor_titulo} ${this.conversacionActual.doctor_nombre}`;
     }
@@ -164,6 +170,12 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   getEspecialidadDoctor(): string {
+    // Si el usuario es doctor, mostrar "Paciente" como rol
+    if (this.userRole === 'doctor') {
+      return 'Paciente';
+    }
+    
+    // Si es paciente, mostrar la especialidad del doctor
     return this.conversacionActual?.doctor_especialidad || 'Medicina General';
   }
 
