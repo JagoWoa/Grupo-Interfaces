@@ -7,7 +7,7 @@
       <div class="flex items-center justify-center min-h-[400px] loader-wrapper">
         <div class="text-center loader-box">
           <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#004b98] loader-icon"></div>
-          <p class="mt-4 text-gray-600 loader-text">Cargando...</p>
+          <p class="mt-4 text-gray-600 loader-text">{{ 'DASHBOARD.LOADING' | translate }}</p>
         </div>
       </div>
     } @else {
@@ -51,7 +51,7 @@
                   (click)="navegarAPerfil()"
                   class="mt-4 sm:mt-0 px-6 py-3 bg-gradient-to-r from-[#004b98] to-[#0066cc] text-white rounded-xl hover:shadow-lg transition-all duration-300 flex items-center gap-2 hover:scale-105 boton-editar-perfil">
                   <i class="fas fa-edit"></i>
-                  <span>Editar Perfil</span>
+                  <span>{{ 'DASHBOARD.EDIT_PROFILE' | translate }}</span>
                 </button>
               </div>
             </div>
@@ -67,7 +67,7 @@
                   <i class="fas fa-envelope text-white text-lg"></i>
                 </div>
                 <div class="overflow-hidden tarjeta">
-                  <p class="text-xs text-blue-600 font-medium mb-1 label-info">Correo Electrónico</p>
+                  <p class="text-xs text-blue-600 font-medium mb-1 label-info">{{ 'DASHBOARD.EMAIL' | translate }}</p>
                   <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ user?.email || 'No especificado' }}</p>
                 </div>
               </div>
@@ -80,7 +80,7 @@
                   <i class="fas fa-phone text-white text-lg"></i>
                 </div>
                 <div class="overflow-hidden tarjeta">
-                  <p class="text-xs text-green-600 font-medium mb-1 label-info">Teléfono</p>
+                  <p class="text-xs text-green-600 font-medium mb-1 label-info">{{ 'DASHBOARD.PHONE' | translate }}</p>
                   <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ user?.telefono || 'No especificado' }}</p>
                 </div>
               </div>
@@ -93,7 +93,7 @@
                   <i class="fas fa-calendar text-white text-lg"></i>
                 </div>
                 <div class="overflow-hidden tarjeta">
-                  <p class="text-xs text-purple-600 font-medium mb-1 label-info">Fecha de Nacimiento</p>
+                  <p class="text-xs text-purple-600 font-medium mb-1 label-info">{{ 'DASHBOARD.BIRTH_DATE' | translate }}</p>
                   <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ formatDate(user?.fecha_nacimiento) }}</p>
                 </div>
               </div>
@@ -151,11 +151,11 @@
               <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
                 <i class="fas fa-heartbeat text-white text-2xl"></i>
               </div>
-              <h3 class="text-2xl font-bold text-gray-900 titulo-salud">Mi Salud</h3>
+              <h3 class="text-2xl font-bold text-gray-900 titulo-salud">{{ 'DASHBOARD.MY_HEALTH' | translate }}</h3>
             </div>
-            <p class="text-gray-600 mb-4 descripcion-salud">Signos vitales y seguimiento médico</p>
+            <p class="text-gray-600 mb-4 descripcion-salud">{{ 'DASHBOARD.MY_HEALTH_DESC' | translate }}</p>
             <div class="flex items-center text-green-600 font-medium">
-              <span>Ver detalles</span>
+              <span>{{ 'DASHBOARD.VIEW_DETAILS' | translate }}</span>
               <i class="fas fa-arrow-right ml-2"></i>
             </div>
           </a>
@@ -167,11 +167,11 @@
               <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
                 <i class="fas fa-users text-white text-2xl"></i>
               </div>
-              <h3 class="text-2xl font-bold text-gray-900">Mis Pacientes</h3>
+              <h3 class="text-2xl font-bold text-gray-900">{{ 'DASHBOARD.MY_PATIENTS' | translate }}</h3>
             </div>
-            <p class="text-gray-600 mb-4">Gestionar pacientes</p>
+            <p class="text-gray-600 mb-4">{{ 'DASHBOARD.MY_PATIENTS_DESC' | translate }}</p>
             <div class="flex items-center text-green-600 font-medium">
-              <span>Ver pacientes</span>
+              <span>{{ 'DASHBOARD.VIEW_PATIENTS' | translate }}</span>
               <i class="fas fa-arrow-right ml-2"></i>
             </div>
           </a>

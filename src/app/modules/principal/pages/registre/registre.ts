@@ -5,10 +5,11 @@ import { Router, RouterModule } from '@angular/router';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { AuthService } from '../../../../core/services/auth.service';
+import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 
 @Component({
   selector: 'app-registre',
-  imports: [CommonModule, FormsModule, RouterModule, Header, Footer],
+  imports: [CommonModule, FormsModule, RouterModule, Header, Footer, TranslatePipe],
   templateUrl: './registre.html',
   styleUrls: ['./registre.css'],
 })

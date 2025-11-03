@@ -5,10 +5,11 @@ import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { SupabaseService } from '../../../../core/services/supabase.service';
 import { Chat } from '../../components/chat/chat';
+import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, Header, Footer, Chat],
+  imports: [CommonModule, RouterModule, Header, Footer, Chat, TranslatePipe],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
