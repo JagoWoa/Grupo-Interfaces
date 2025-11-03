@@ -148,7 +148,7 @@
       </div>
 
       <!-- Controles generales Desktop -->
-      <button class="hidden md:block hover:opacity-80 transition" [appSpeakOnHover]="'HEADER.SEARCH' | translate">
+      <button (click)="toggleSearch()" class="hidden md:block hover:opacity-80 transition" [appSpeakOnHover]="'HEADER.SEARCH' | translate">
         <i class="fas fa-search text-xl"></i>
       </button>
 
@@ -318,4 +318,105 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal de Búsqueda Universal -->
+  <div *ngIf="isSearchOpen" class="fixed inset-0 bg-black/50 z-[100] flex items-start justify-center pt-20" (click)="closeSearch()">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl mx-4 overflow-hidden" (click)="$event.stopPropagation()">
+      
+      <!-- Input de búsqueda -->
+      <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="relative">
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <input 
+            id="search-input"
+            type="text" 
+            [(ngModel)]="searchQuery"
+            (input)="performSearch()"
+            [placeholder]="'SEARCH.PLACEHOLDER' | translate"
+            class="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border-0 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#004b98]">
+          <div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+            <span class="text-xs text-gray-400 bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Ctrl+K</span>
+            <span class="text-xs text-gray-400 bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Esc</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resultados -->
+      <div class="max-h-96 overflow-y-auto p-4">
+        
+        @if (searchResults.length === 0) {
+          <div class="text-center py-12 text-gray-500 dark:text-gray-400">
+            <i class="fas fa-search text-4xl mb-3"></i>
+            <p class="text-lg">{{ 'SEARCH.NO_RESULTS' | translate }}</p>
+          </div>
+        } @else {
+          
+          <!-- Navegación -->
+          @if (getCategoryResults('navigation').length > 0) {
+            <div class="mb-4">
+              <h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2 px-2">
+                {{ searchQuery ? ('SEARCH.NAVIGATION' | translate) : ('SEARCH.QUICK_ACCESS' | translate) }}
+              </h3>
+              <div class="space-y-1">
+                @for (item of getCategoryResults('navigation'); track $index) {
+                  <button 
+                    (click)="selectSearchResult(item)"
+                    [class.bg-blue-50]="selectedResultIndex === searchResults.indexOf(item)"
+                    [class.dark:bg-blue-900/30]="selectedResultIndex === searchResults.indexOf(item)"
+                    class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition text-left">
+                    <i [class]="item.icon + ' text-[#004b98] dark:text-blue-400 text-xl w-6'"></i>
+                    <div class="flex-1">
+                      <p class="font-medium text-gray-900 dark:text-white">{{ item.title }}</p>
+                      @if (item.subtitle) {
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ item.subtitle }}</p>
+                      }
+                    </div>
+                    <i class="fas fa-arrow-right text-gray-400 text-sm"></i>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Ayuda -->
+          @if (getCategoryResults('help').length > 0) {
+            <div class="mb-4">
+              <h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2 px-2">
+                {{ 'SEARCH.HELP' | translate }}
+              </h3>
+              <div class="space-y-1">
+                @for (item of getCategoryResults('help'); track $index) {
+                  <button 
+                    (click)="selectSearchResult(item)"
+                    [class.bg-blue-50]="selectedResultIndex === searchResults.indexOf(item)"
+                    [class.dark:bg-blue-900/30]="selectedResultIndex === searchResults.indexOf(item)"
+                    class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition text-left">
+                    <i [class]="item.icon + ' text-green-600 dark:text-green-400 text-xl w-6'"></i>
+                    <div class="flex-1">
+                      <p class="font-medium text-gray-900 dark:text-white">{{ item.title }}</p>
+                      @if (item.subtitle) {
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ item.subtitle }}</p>
+                      }
+                    </div>
+                    <i class="fas fa-question-circle text-gray-400 text-sm"></i>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+        }
+      </div>
+
+      <!-- Footer del modal -->
+      <div class="px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border-t border-gray-200 dark:border-gray-600 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+        <div class="flex items-center gap-4">
+          <span><kbd class="px-2 py-1 bg-white dark:bg-gray-600 rounded">↑↓</kbd> Navegar</span>
+          <span><kbd class="px-2 py-1 bg-white dark:bg-gray-600 rounded">Enter</kbd> {{ 'SEARCH.PRESS_TO_SELECT' | translate }}</span>
+        </div>
+        <span><kbd class="px-2 py-1 bg-white dark:bg-gray-600 rounded">Esc</kbd> {{ 'SEARCH.PRESS_TO_CLOSE' | translate }}</span>
+      </div>
+    </div>
+  </div>
+
 </nav>
