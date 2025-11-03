@@ -33,7 +33,7 @@
           </label>
           <input type="email" id="email" name="email" [(ngModel)]="email" (blur)="validateEmail()"
             placeholder="ejemplo@correo.com" required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:ring-2 focus:ring-blue-500" />
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400" />
         </div>
 
         <!-- Password -->
@@ -49,7 +49,7 @@
             <input [type]="showPassword ? 'text' : 'password'" id="password" name="password"
               [(ngModel)]="password" (blur)="validatePassword()"
               placeholder="••••••••" required [class.border-red-500]="passwordError"
-              class="w-full px-4 py-3 pr-12 border-gray-300 rounded-lg transition-all text-black focus:ring-2 focus:ring-blue-500" />
+              class="w-full px-4 py-3 pr-12 border-gray-300 rounded-lg transition-all text-black focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400" />
 
             <button type="button" (click)="togglePasswordVisibility()" 
               class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"

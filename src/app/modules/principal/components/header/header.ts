@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { Route } from '@angular/router';
@@ -20,6 +20,7 @@ export class Header implements OnInit, OnDestroy {
   selectedLanguage: string = 'es';
   currentPage: string = 'Inicio';
   isAccessibilityMenuOpen: boolean = false;
+  isAccessibilityDropdownOpen: boolean = false;
   isAuthenticated: boolean = false;
   userName: string = '';
   userRole: string = '';
@@ -43,6 +44,17 @@ export class Header implements OnInit, OnDestroy {
 
   constructor(private authService: AuthService, private themeService: ThemeService, private chatService: ChatService) { }
 
+  // ⌨️ Atajo de teclado: Ctrl + Shift + T para cambiar el tema
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    // Ctrl + Shift + Z (la tecla se detecta en mayúscula cuando se usa Shift)
+    if (event.ctrlKey && event.shiftKey && (event.key === 'Z' || event.key === 'z')) {
+      event.preventDefault();
+      this.botonCambio();
+      console.log('⌨️ Atajo de teclado activado: Ctrl + Shift + Z');
+    }
+  }
+
   toggleChat(): void {
     this.isChatOpen = !this.isChatOpen;
     // Aquí puedes emitir un evento o llamar al servicio de chat
@@ -56,6 +68,16 @@ export class Header implements OnInit, OnDestroy {
   botonCambio(): void {
     this.themeService.toggleTheme();
     console.log('🌗 Header - Modo oscuro:', this.isDarkMode);
+  }
+
+  toggleAccessibilityDropdown(): void {
+    this.isAccessibilityDropdownOpen = !this.isAccessibilityDropdownOpen;
+  }
+
+  changeLanguage(): void {
+    // Aquí puedes implementar la lógica para cambiar el idioma
+    this.selectedLanguage = this.selectedLanguage === 'es' ? 'en' : 'es';
+    console.log('🌐 Idioma cambiado a:', this.selectedLanguage);
   }
 
   ngOnInit() {
