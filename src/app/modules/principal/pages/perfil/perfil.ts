@@ -13,6 +13,7 @@ import { SupabaseService } from '../../../../core/services/supabase.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, Header, Footer],
   templateUrl: './perfil.html',
+  styleUrls: ['./perfil.css']
 })
 export class Perfil implements OnInit, OnDestroy {
   loading: boolean = true;

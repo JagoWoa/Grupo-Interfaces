@@ -2,14 +2,289 @@
 :host-context(.dark-mode) * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
-/* ========== UsuarioDoctor ========== */
-:host-context(.dark-mode) .card-usuarioDoctor {
-  background-color: #f3eded ;
-  color: #030303 ;
+
+/* ========== CONTENEDOR PRINCIPAL ========== */
+:host-context(.dark-mode) .contenedor-doctor {
+  background: linear-gradient(to bottom right, #0f0f0f, #1a1a2e, #16213e) !important;
 }
-:host-context(.dark-mode) .card-usuarioDoctor div p, span {
-  color: #030303 ;
+
+/* ========== LOADER ========== */
+:host-context(.dark-mode) .loader-wrapper {
+  background: linear-gradient(to bottom right, #0f0f0f, #1a1a2e, #16213e) !important;
 }
-:host-context(.dark-mode) .card-usuarioDoctor input {
-  border: 1px solid #030303 ;
+
+:host-context(.dark-mode) .loader-text {
+  color: rgb(200, 200, 200) !important;
+}
+
+:host-context(.dark-mode) .border-blue-600 {
+  border-color: #0066cc !important;
+}
+
+/* ========== HEADER TÍTULO ========== */
+:host-context(.dark-mode) .header-doctor h1 {
+  color: rgb(240, 240, 240) !important;
+}
+
+:host-context(.dark-mode) .header-doctor p {
+  color: rgb(200, 200, 200) !important;
+}
+
+/* ========== TARJETAS BLANCAS ========== */
+:host-context(.dark-mode) .bg-white {
+  background-color: #302e2e !important;
+}
+
+/* ========== SECCIÓN PACIENTES ========== */
+:host-context(.dark-mode) .seccion-pacientes h2 {
+  color: rgb(240, 240, 240) !important;
+}
+
+:host-context(.dark-mode) .busqueda-pacientes {
+  background-color: #1f1f1f !important;
+  border-color: #404040 !important;
+  color: rgb(240, 240, 240) !important;
+}
+
+:host-context(.dark-mode) .busqueda-pacientes::placeholder {
+  color: rgb(150, 150, 150) !important;
+}
+
+:host-context(.dark-mode) .busqueda-pacientes:focus {
+  border-color: #0066cc !important;
+  outline: 2px solid #0066cc !important;
+  outline-offset: 0px !important;
+}
+
+/* Items de pacientes */
+:host-context(.dark-mode) .item-paciente {
+  background-color: #262626 !important;
+  color: rgb(240, 240, 240) !important;
+}
+
+:host-context(.dark-mode) .item-paciente:hover {
+  background-color: #1e3a8a !important;
+}
+
+:host-context(.dark-mode) .item-paciente-seleccionado {
+  background-color: #1e40af !important;
+}
+
+:host-context(.dark-mode) .item-paciente p {
+  color: rgb(220, 220, 220) !important;
+}
+
+:host-context(.dark-mode) .item-paciente .ultima-consulta {
+  color: rgb(180, 180, 180) !important;
+}
+
+/* ========== SIGNOS VITALES ========== */
+:host-context(.dark-mode) .seccion-signos h2 {
+  color: rgb(240, 240, 240) !important;
+}
+
+/* Tarjeta Presión Arterial */
+:host-context(.dark-mode) .card-presion {
+  background: linear-gradient(to bottom right, #991b1b, #dc2626) !important;
+}
+
+:host-context(.dark-mode) .card-presion label {
+  color: #fecaca !important;
+  font-weight: 700 !important;
+}
+
+:host-context(.dark-mode) .card-presion input {
+  background-color: #450a0a !important;
+  border-color: #ef4444 !important;
+  border-width: 2px !important;
+  color: #fecaca !important;
+  font-weight: 700 !important;
+}
+
+:host-context(.dark-mode) .card-presion input::placeholder {
+  color: #9ca3af !important;
+  opacity: 0.8 !important;
+}
+
+:host-context(.dark-mode) .card-presion p {
+  color: #fca5a5 !important;
+  font-weight: 600 !important;
+}
+
+/* Tarjeta Frecuencia Cardíaca */
+:host-context(.dark-mode) .card-frecuencia {
+  background: linear-gradient(to bottom right, #9f1239, #db2777) !important;
+}
+
+:host-context(.dark-mode) .card-frecuencia label {
+  color: #fbcfe8 !important;
+  font-weight: 700 !important;
+}
+
+:host-context(.dark-mode) .card-frecuencia input {
+  background-color: #500724 !important;
+  border-color: #f472b6 !important;
+  border-width: 2px !important;
+  color: #fbcfe8 !important;
+  font-weight: 700 !important;
+}
+
+:host-context(.dark-mode) .card-frecuencia input::placeholder {
+  color: #9ca3af !important;
+  opacity: 0.8 !important;
+}
+
+:host-context(.dark-mode) .card-frecuencia p {
+  color: #f9a8d4 !important;
+  font-weight: 600 !important;
+}
+
+/* Tarjeta Temperatura */
+:host-context(.dark-mode) .card-temperatura {
+  background: linear-gradient(to bottom right, #9a3412, #ea580c) !important;
+}
+
+:host-context(.dark-mode) .card-temperatura label {
+  color: #fed7aa !important;
+  font-weight: 700 !important;
+}
+
+:host-context(.dark-mode) .card-temperatura input {
+  background-color: #431407 !important;
+  border-color: #fb923c !important;
+  border-width: 2px !important;
+  color: #fed7aa !important;
+  font-weight: 700 !important;
+}
+
+:host-context(.dark-mode) .card-temperatura input::placeholder {
+  color: #9ca3af !important;
+  opacity: 0.8 !important;
+}
+
+:host-context(.dark-mode) .card-temperatura p {
+  color: #fdba74 !important;
+  font-weight: 600 !important;
+}
+
+/* Tarjeta Peso */
+:host-context(.dark-mode) .card-peso {
+  background: linear-gradient(to bottom right, #1e40af, #3b82f6) !important;
+}
+
+:host-context(.dark-mode) .card-peso label {
+  color: #bfdbfe !important;
+  font-weight: 700 !important;
+}
+
+:host-context(.dark-mode) .card-peso input {
+  background-color: #1e3a8a !important;
+  border-color: #60a5fa !important;
+  border-width: 2px !important;
+  color: #bfdbfe !important;
+  font-weight: 700 !important;
+}
+
+:host-context(.dark-mode) .card-peso input::placeholder {
+  color: #9ca3af !important;
+  opacity: 0.8 !important;
+}
+
+:host-context(.dark-mode) .card-peso p {
+  color: #93c5fd !important;
+  font-weight: 600 !important;
+}
+
+/* Botón actualizar signos vitales */
+:host-context(.dark-mode) .boton-actualizar-signos {
+  /* Mantener el gradiente azul para destacar */
+  background: linear-gradient(to right, #004b98, #0066cc) !important;
+}
+
+:host-context(.dark-mode) .boton-actualizar-signos:hover {
+  box-shadow: 0 10px 25px rgba(0, 102, 204, 0.3) !important;
+}
+
+/* ========== RECORDATORIOS ========== */
+:host-context(.dark-mode) .seccion-recordatorios h2 {
+  color: rgb(240, 240, 240) !important;
+}
+
+:host-context(.dark-mode) .input-recordatorio {
+  background-color: #1f1f1f !important;
+  border-color: #404040 !important;
+  color: rgb(240, 240, 240) !important;
+}
+
+:host-context(.dark-mode) .input-recordatorio::placeholder {
+  color: rgb(150, 150, 150) !important;
+}
+
+:host-context(.dark-mode) .input-recordatorio:focus {
+  border-color: #10b981 !important;
+}
+
+:host-context(.dark-mode) .boton-agregar-recordatorio {
+  background-color: #047857 !important;
+}
+
+:host-context(.dark-mode) .boton-agregar-recordatorio:hover {
+  background-color: #059669 !important;
+}
+
+:host-context(.dark-mode) .item-recordatorio {
+  background: linear-gradient(to bottom right, #064e3b, #10b981) !important;
+}
+
+:host-context(.dark-mode) .item-recordatorio .titulo-recordatorio {
+  color: white !important;
+  font-weight: 700 !important;
+  font-size: 1.125rem !important;
+}
+
+:host-context(.dark-mode) .item-recordatorio .subtitulo-recordatorio {
+  color: #d1fae5 !important;
+}
+
+:host-context(.dark-mode) .boton-eliminar-recordatorio {
+  color: #fca5a5 !important;
+}
+
+:host-context(.dark-mode) .boton-eliminar-recordatorio:hover {
+  color: #ef4444 !important;
+}
+
+:host-context(.dark-mode) .sin-recordatorios {
+  color: rgb(160, 160, 160) !important;
+}
+
+/* ========== SECCIÓN CHAT ========== */
+:host-context(.dark-mode) .seccion-chat h2 {
+  color: rgb(240, 240, 240) !important;
+}
+
+/* ========== ICONOS ========== */
+:host-context(.dark-mode) .fa-users {
+  color: #60a5fa !important;
+}
+
+:host-context(.dark-mode) .fa-heart {
+  color: #f87171 !important;
+}
+
+:host-context(.dark-mode) .fa-bell {
+  color: #34d399 !important;
+}
+
+:host-context(.dark-mode) .fa-comments {
+  color: #60a5fa !important;
+}
+
+/* ========== EFECTOS HOVER ========== */
+:host-context(.dark-mode) .item-paciente {
+  transition: all 0.3s ease;
+}
+
+:host-context(.dark-mode) .item-recordatorio {
+  transition: all 0.3s ease;
 }

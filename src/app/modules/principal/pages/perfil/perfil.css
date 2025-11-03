@@ -1,0 +1,170 @@
+/* Modo oscuro para perfil */
+
+/* Contenedor principal */
+:host-context(.dark-mode) section {
+  background: linear-gradient(to bottom right, #0f0f0f, #1a1a2e, #16213e) !important;
+}
+
+/* Loader */
+:host-context(.dark-mode) .loader-box {
+  color: rgb(240, 240, 240);
+}
+
+:host-context(.dark-mode) .loader-text {
+  color: rgb(200, 200, 200);
+}
+
+/* Header con título */
+:host-context(.dark-mode) h1 {
+  color: rgb(240, 240, 240);
+}
+
+:host-context(.dark-mode) p {
+  color: rgb(200, 200, 200);
+}
+
+:host-context(.dark-mode) a {
+  color: rgb(200, 200, 200);
+}
+
+:host-context(.dark-mode) a:hover {
+  color: #0066cc;
+}
+
+/* Mensajes */
+:host-context(.dark-mode) .bg-red-50 {
+  background-color: #3d1f1f !important;
+}
+
+:host-context(.dark-mode) .text-red-700 {
+  color: #ff6b6b !important;
+}
+
+:host-context(.dark-mode) .bg-green-50 {
+  background-color: #1f3d2a !important;
+}
+
+:host-context(.dark-mode) .text-green-700 {
+  color: #51cf66 !important;
+}
+
+/* Formulario principal */
+:host-context(.dark-mode) .bg-white {
+  background-color: #302e2e !important;
+}
+
+:host-context(.dark-mode) form {
+  color: rgb(240, 240, 240);
+}
+
+/* Títulos de sección */
+:host-context(.dark-mode) h2 {
+  color: rgb(240, 240, 240);
+}
+
+/* Labels */
+:host-context(.dark-mode) label {
+  color: rgb(220, 220, 220);
+}
+
+/* Inputs y textareas */
+:host-context(.dark-mode) input[type="text"],
+:host-context(.dark-mode) input[type="tel"],
+:host-context(.dark-mode) input[type="date"],
+:host-context(.dark-mode) input[type="number"],
+:host-context(.dark-mode) textarea {
+  background-color: #1f1f1f !important;
+  border-color: #404040 !important;
+  color: rgb(240, 240, 240) !important;
+}
+
+:host-context(.dark-mode) input[type="text"]:focus,
+:host-context(.dark-mode) input[type="tel"]:focus,
+:host-context(.dark-mode) input[type="date"]:focus,
+:host-context(.dark-mode) input[type="number"]:focus,
+:host-context(.dark-mode) textarea:focus {
+  border-color: #0066cc !important;
+  outline: 2px solid #0066cc !important;
+  outline-offset: 0px !important;
+}
+
+:host-context(.dark-mode) input::placeholder,
+:host-context(.dark-mode) textarea::placeholder {
+  color: rgb(150, 150, 150) !important;
+}
+
+/* Input deshabilitado (email) */
+:host-context(.dark-mode) input:disabled {
+  background-color: #262626 !important;
+  border-color: #333333 !important;
+  color: rgb(160, 160, 160) !important;
+}
+
+/* Botón cancelar */
+:host-context(.dark-mode) button[type="button"] {
+  background-color: #404040 !important;
+  color: rgb(240, 240, 240) !important;
+}
+
+:host-context(.dark-mode) button[type="button"]:hover {
+  background-color: #505050 !important;
+}
+
+/* Botón guardar - mantener el gradiente azul para destacar en modo oscuro */
+
+/* Bordes de separación */
+:host-context(.dark-mode) .border-t {
+  border-color: #404040 !important;
+}
+
+/* Iconos en los labels */
+:host-context(.dark-mode) .fa-user {
+  color: #60a5fa !important;
+}
+
+:host-context(.dark-mode) .fa-envelope {
+  color: #34d399 !important;
+}
+
+:host-context(.dark-mode) .fa-phone {
+  color: #a78bfa !important;
+}
+
+:host-context(.dark-mode) .fa-calendar {
+  color: #f472b6 !important;
+}
+
+:host-context(.dark-mode) .fa-map-marker-alt {
+  color: #ef4444 !important;
+}
+
+:host-context(.dark-mode) .fa-user-md {
+  color: #60a5fa !important;
+}
+
+:host-context(.dark-mode) .fa-graduation-cap {
+  color: #818cf8 !important;
+}
+
+:host-context(.dark-mode) .fa-stethoscope {
+  color: #2dd4bf !important;
+}
+
+:host-context(.dark-mode) .fa-id-card {
+  color: #fb923c !important;
+}
+
+:host-context(.dark-mode) .fa-calendar-check {
+  color: #22d3ee !important;
+}
+
+:host-context(.dark-mode) .fa-file-alt {
+  color: #9ca3af !important;
+}
+
+/* Transiciones suaves */
+:host-context(.dark-mode) input,
+:host-context(.dark-mode) textarea,
+:host-context(.dark-mode) button {
+  transition: all 0.3s ease;
+}

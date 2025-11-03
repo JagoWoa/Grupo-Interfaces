@@ -3,8 +3,10 @@
     <div class="flex items-center gap-4">
       <!-- Logo -->
       <div class="flex items-center gap-2">
-        <i class="fa-solid fa-heart-pulse text-2xl md:text-3xl" alt="Logo"> </i>
-        <h1 class="text-lg md:text-xl font-semibold text-white-500">Telecuidado Mayor</h1>
+        <a href="/inicio" class="flex items-center gap-2">
+          <i class="fa-solid fa-heart-pulse text-2xl md:text-3xl" alt="Logo"> </i>
+          <h1 class="text-lg md:text-xl font-semibold text-white-500">Telecuidado Mayor</h1>
+        </a>
       </div>
     </div>
 
@@ -15,6 +17,39 @@
       <li><a routerLink="/perfil" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-circle-user"></i> Perfil</a></li>
       <li><a routerLink="/usuario" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-heart"></i> Salud</a></li>
       
+      <!-- Accesibilidad con menú desplegable -->
+      <li class="relative">
+        <button 
+          (click)="toggleAccessibilityDropdown()"
+          class="hover:bg-white/10 px-3 py-2 rounded-lg transition flex items-center gap-2">
+          <i class="fa-solid fa-universal-access"></i>
+          <span>Accesibilidad</span>
+          <i class="fa-solid fa-chevron-down text-xs transition-transform" [class.rotate-180]="isAccessibilityDropdownOpen"></i>
+        </button>
+        
+        <!-- Menú desplegable -->
+        <div 
+          *ngIf="isAccessibilityDropdownOpen"
+          class="absolute left-0 mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-lg py-2 z-50">
+          
+          <!-- Opción Tema -->
+          <button 
+            (click)="botonCambio()"
+            class="w-full px-4 py-2 hover:bg-gray-100 transition flex items-center gap-3 text-left">
+            <i class="fa-solid fa-palette text-[#004b98]"></i>
+            <span class="font-medium">Tema</span>
+            <span class="ml-auto text-xs text-gray-400">Ctrl+Shift+Z</span>
+          </button>
+          
+          <!-- Opción Idioma -->
+          <button 
+            (click)="changeLanguage()"
+            class="w-full px-4 py-2 hover:bg-gray-100 transition flex items-center gap-3 text-left">
+            <i class="fa-solid fa-language text-[#004b98]"></i>
+            <span class="font-medium">Idioma</span>
+          </button>
+        </div>
+      </li>
       
     </ul>
 
@@ -28,6 +63,40 @@
       </li>
       <li>
         <a routerLink="/register" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-user-plus"></i> Registrar Usuario</a>
+      </li>
+      
+      <!-- Accesibilidad con menú desplegable -->
+      <li class="relative">
+        <button 
+          (click)="toggleAccessibilityDropdown()"
+          class="hover:bg-white/10 px-3 py-2 rounded-lg transition flex items-center gap-2">
+          <i class="fa-solid fa-universal-access"></i>
+          <span>Accesibilidad</span>
+          <i class="fa-solid fa-chevron-down text-xs transition-transform" [class.rotate-180]="isAccessibilityDropdownOpen"></i>
+        </button>
+        
+        <!-- Menú desplegable -->
+        <div 
+          *ngIf="isAccessibilityDropdownOpen"
+          class="absolute left-0 mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-lg py-2 z-50">
+          
+          <!-- Opción Tema -->
+          <button 
+            (click)="botonCambio()"
+            class="w-full px-4 py-2 hover:bg-gray-100 transition flex items-center gap-3 text-left">
+            <i class="fa-solid fa-palette text-[#004b98]"></i>
+            <span class="font-medium">Tema</span>
+            <span class="ml-auto text-xs text-gray-400">Ctrl+Shift+Z</span>
+          </button>
+          
+          <!-- Opción Idioma -->
+          <button 
+            (click)="changeLanguage()"
+            class="w-full px-4 py-2 hover:bg-gray-100 transition flex items-center gap-3 text-left">
+            <i class="fa-solid fa-language text-[#004b98]"></i>
+            <span class="font-medium">Idioma</span>
+          </button>
+        </div>
       </li>
     </ul>
 
@@ -48,14 +117,6 @@
       </div>
 
       <!-- Controles generales -->
-      <button title="Cambiar idioma" class="p-2 hover:bg-white/10 rounded-lg transition text-sm">
-        <i class="fa-solid fa-language"></i>
-      </button>
-      <button 
-      (click)="botonCambio()"
-      class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm">
-        <i class="fa-solid fa-palette"></i>
-      </button>
       <button class="hover:opacity-80 transition">
         <i class="fas fa-search text-xl"></i>
       </button>
