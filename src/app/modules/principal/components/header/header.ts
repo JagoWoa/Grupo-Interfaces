@@ -7,11 +7,15 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { ChatService } from '../../../../core/services/chat.service';
 import { Subscription } from 'rxjs';
 import { ThemeService } from '../../../../core/services/theme.service';
+import { SpeakOnHoverDirective } from '../../../../core/directives/speak-on-hover.directive';
+import { TextToSpeechService } from '../../../../core/services/text-to-speech.service';
+import { LanguageService } from '../../../../core/services/language.service';
+import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SpeakOnHoverDirective, TranslatePipe],
   templateUrl: './header.html',
   styleUrls: ['./header.css'],
 })
@@ -21,6 +25,7 @@ export class Header implements OnInit, OnDestroy {
   currentPage: string = 'Inicio';
   isAccessibilityMenuOpen: boolean = false;
   isAccessibilityDropdownOpen: boolean = false;
+  isMobileMenuOpen: boolean = false;
   isAuthenticated: boolean = false;
   userName: string = '';
   userRole: string = '';
@@ -42,16 +47,23 @@ export class Header implements OnInit, OnDestroy {
     { id: 'screenReader', label: 'Lector de Pantalla', icon: 'fas fa-volume-up' }
   ];
 
-  constructor(private authService: AuthService, private themeService: ThemeService, private chatService: ChatService) { }
+  constructor(private authService: AuthService, private themeService: ThemeService, private chatService: ChatService, private ttsService: TextToSpeechService, private languageService: LanguageService) { }
 
   // ⌨️ Atajo de teclado: Ctrl + Shift + T para cambiar el tema
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    // Ctrl + Shift + Z (la tecla se detecta en mayúscula cuando se usa Shift)
+    // Ctrl + Shift + Z para cambiar el tema
     if (event.ctrlKey && event.shiftKey && (event.key === 'Z' || event.key === 'z')) {
       event.preventDefault();
       this.botonCambio();
-      console.log('⌨️ Atajo de teclado activado: Ctrl + Shift + Z');
+      console.log('⌨️ Atajo de teclado activado: Ctrl + Shift + Z (Tema)');
+    }
+    
+    // Ctrl + Shift + L para cambiar el idioma
+    if (event.ctrlKey && event.shiftKey && (event.key === 'L' || event.key === 'l')) {
+      event.preventDefault();
+      this.changeLanguage();
+      console.log('⌨️ Atajo de teclado activado: Ctrl + Shift + L (Idioma)');
     }
   }
 
@@ -74,10 +86,38 @@ export class Header implements OnInit, OnDestroy {
     this.isAccessibilityDropdownOpen = !this.isAccessibilityDropdownOpen;
   }
 
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
+    this.isAccessibilityDropdownOpen = false;
+  }
+
   changeLanguage(): void {
-    // Aquí puedes implementar la lógica para cambiar el idioma
-    this.selectedLanguage = this.selectedLanguage === 'es' ? 'en' : 'es';
-    console.log('🌐 Idioma cambiado a:', this.selectedLanguage);
+    const currentLang = this.languageService.getCurrentLanguage();
+    const newLang = currentLang === 'es' ? 'en' : 'es';
+    this.languageService.setLanguage(newLang);
+    
+    // Actualizar idioma del TTS
+    const ttsLang = newLang === 'es' ? 'es-ES' : 'en-US';
+    this.ttsService.setLanguage(ttsLang);
+    
+    console.log('🌐 Idioma cambiado a:', newLang);
+  }
+
+  getCurrentLanguage(): string {
+    return this.languageService.getCurrentLanguage();
+  }
+
+  toggleSpeakOnHover(): void {
+    this.ttsService.toggle();
+    console.log('🔊 Lectura por voz:', this.ttsService.isEnabled() ? 'activada' : 'desactivada');
+  }
+
+  isSpeakOnHoverEnabled(): boolean {
+    return this.ttsService.isEnabled();
   }
 
   ngOnInit() {

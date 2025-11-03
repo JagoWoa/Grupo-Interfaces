@@ -6,12 +6,13 @@ import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { AuthService } from '../../../../core/services/auth.service';
 import { SupabaseService } from '../../../../core/services/supabase.service';
+import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, Header, Footer],
+  imports: [CommonModule, FormsModule, RouterModule, Header, Footer, TranslatePipe],
   templateUrl: './perfil.html',
   styleUrls: ['./perfil.css']
 })

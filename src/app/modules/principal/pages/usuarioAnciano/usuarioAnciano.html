@@ -13,7 +13,7 @@
           <div class="w-12 h-12 flex items-center justify-center icono-header">
             <i class="fa-solid fa-heart text-red-500 text-2xl"></i>
           </div>
-          <h2 class="text-3xl font-bold text-gray-800 titulo-signos">Signos Vitales</h2>
+          <h2 class="text-3xl font-bold text-gray-800 titulo-signos">{{ 'PATIENT.VITAL_SIGNS' | translate }}</h2>
         </div>
 
         <!-- Grid horizontal para signos vitales -->
@@ -23,7 +23,7 @@
             <div class="flex justify-center mb-2 icono-signo">
               <i class="fa-solid fa-heart-pulse text-red-500 text-3xl"></i>
             </div>
-            <p class="text-sm text-gray-600 font-medium mb-2 label-signo">Presión Arterial</p>
+            <p class="text-sm text-gray-600 font-medium mb-2 label-signo">{{ 'PATIENT.BLOOD_PRESSURE' | translate }}</p>
             <p class="text-3xl font-bold text-gray-900 valor-signo">120/80</p>
             <p class="text-xs text-gray-500 mt-1 unidad-signo">mmHg</p>
           </div>
@@ -33,7 +33,7 @@
             <div class="flex justify-center mb-2 icono-signo">
               <i class="fa-solid fa-heartbeat text-pink-500 text-3xl"></i>
             </div>
-            <p class="text-sm text-gray-600 font-medium mb-2 label-signo">Frecuencia Cardíaca</p>
+            <p class="text-sm text-gray-600 font-medium mb-2 label-signo">{{ 'PATIENT.HEART_RATE' | translate }}</p>
             <p class="text-3xl font-bold text-gray-900 valor-signo">72</p>
             <p class="text-xs text-gray-500 mt-1 unidad-signo">bpm</p>
           </div>
@@ -43,7 +43,7 @@
             <div class="flex justify-center mb-2 icono-signo">
               <i class="fa-solid fa-temperature-half text-orange-500 text-3xl"></i>
             </div>
-            <p class="text-sm text-gray-600 font-medium mb-2 label-signo">Temperatura</p>
+            <p class="text-sm text-gray-600 font-medium mb-2 label-signo">{{ 'PATIENT.TEMPERATURE' | translate }}</p>
             <p class="text-3xl font-bold text-gray-900 valor-signo">36.5</p>
             <p class="text-xs text-gray-500 mt-1 unidad-signo">°C</p>
           </div>
@@ -53,7 +53,7 @@
             <div class="flex justify-center mb-2 icono-signo">
               <i class="fa-solid fa-weight-scale text-blue-500 text-3xl"></i>
             </div>
-            <p class="text-sm text-gray-600 font-medium mb-2 label-signo">Peso</p>
+            <p class="text-sm text-gray-600 font-medium mb-2 label-signo">{{ 'PATIENT.WEIGHT' | translate }}</p>
             <p class="text-3xl font-bold text-gray-900 valor-signo">70</p>
             <p class="text-xs text-gray-500 mt-1 unidad-signo">kg</p>
           </div>
@@ -66,13 +66,13 @@
           <div class="w-12 h-12 flex items-center justify-center icono-header">
             <i class="fa-solid fa-bell text-green-500 text-2xl"></i>
           </div>
-          <h2 class="text-3xl font-bold text-gray-800 titulo-recordatorios">Recordatorios</h2>
+          <h2 class="text-3xl font-bold text-gray-800 titulo-recordatorios">{{ 'PATIENT.REMINDERS' | translate }}</h2>
         </div>
 
         <!-- Mensaje cuando no hay recordatorios -->
         <div *ngIf="!(recordatorios?.length) || recordatorios.length === 0" class="text-center py-12 text-gray-400 mensaje-vacio">
           <i class="fas fa-calendar-times text-5xl mb-4"></i>
-          <p class="text-lg">No hay recordatorios pendientes</p>
+          <p class="text-lg">{{ 'PATIENT.NO_REMINDERS' | translate }}</p>
         </div>
 
         <!-- Lista horizontal de recordatorios -->
@@ -134,7 +134,7 @@
         <!-- Indicador de scroll si hay muchos recordatorios -->
         <div *ngIf="recordatorios && recordatorios.length > 3" class="text-center mt-4 text-gray-400 text-sm indicador-scroll">
           <i class="fas fa-arrow-right animate-pulse"></i>
-          <span class="ml-2">Desliza para ver más recordatorios</span>
+          <span class="ml-2">{{ 'PATIENT.SCROLL_MORE' | translate }}</span>
         </div>
       </section>
 

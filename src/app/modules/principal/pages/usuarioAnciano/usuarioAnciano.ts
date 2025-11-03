@@ -11,11 +11,12 @@ import { HealthService, SignosVitales, Recordatorio } from '../../../../core/ser
 import { AuthService } from '../../../../core/services/auth.service';
 
 import { SignosVitalesService } from '../../../../core/services/signos-vitales.service';
+import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 
 @Component({
   selector: 'app-usuarioAnciano',
   standalone: true,
-  imports: [CommonModule, FormsModule, Header, Footer, Chat],
+  imports: [CommonModule, FormsModule, Header, Footer, Chat, TranslatePipe],
   templateUrl: './usuarioAnciano.html',
   styleUrls: ['./usuarioAnciano.css'],
 })

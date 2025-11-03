@@ -1,4 +1,42 @@
 {
-  "TITLE": "Bienvenido",
-  "GREETING": "Hola {{name}}"
+  "HEADER": {
+    "TITLE": "Telecuidado Mayor",
+    "DASHBOARD": "Dashboard",
+    "PROFILE": "Perfil",
+    "HEALTH": "Salud",
+    "ACCESSIBILITY": "Accesibilidad",
+    "THEME": "Tema",
+    "LANGUAGE": "Idioma",
+    "VOICE_READING": "Lectura por Voz",
+    "LOGOUT": "Cerrar Sesión",
+    "EXIT": "Salir",
+    "SEARCH": "Buscar",
+    "MENU": "Menú"
+  },
+  "AUTH": {
+    "LOGIN": "Iniciar Sesión",
+    "REGISTER": "Registrar Usuario",
+    "HOME": "Inicio"
+  },
+  "COMMON": {
+    "ON": "ENCENDIDO",
+    "OFF": "APAGADO",
+    "DOCTOR": "Doctor",
+    "PATIENT": "Paciente"
+  },
+  "SHORTCUTS": {
+    "THEME_SHORTCUT": "Ctrl+Shift+Z",
+    "LANGUAGE_SHORTCUT": "Ctrl+Shift+L"
+  },
+  "WELCOME": {
+    "HERO_TITLE": "¡Bienvenido a Telecuidado Mayor!",
+    "HERO_DESCRIPTION": "Tu salud en buenas manos. Gestiona citas, consulta tu historial médico y mantén un seguimiento completo de tu bienestar.",
+    "LOGIN_BUTTON": "Iniciar Sesión",
+    "ABOUT_TITLE": "Telecuidado Mayor",
+    "ABOUT_DESCRIPTION": "Gestiona tu salud integral gratis con nuestra plataforma de teleasistencia para adultos mayores. Agenda citas, recibe recordatorios, chatea con un doctor y monitorea tu bienestar. Todo en un solo lugar, con un diseño accesible y fácil de usar.",
+    "START_BUTTON": "Comenzar ahora",
+    "WORK_TITLE": "Trabaja con nosotros",
+    "WORK_DESCRIPTION": "Te invita a formar parte de un proyecto que está cambiando la forma en que los adultos mayores gestionan su bienestar. Hemos creado una plataforma de teleasistencia integral y gratuita que les devuelve el control sobre su salud.",
+    "REGISTER_PROFESSIONAL": "Registrarse como profesional"
+  }
 }
