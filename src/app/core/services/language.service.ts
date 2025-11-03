@@ -18,6 +18,23 @@ const TRANSLATIONS = {
       "SEARCH": "Buscar",
       "MENU": "Menú"
     },
+    "SEARCH": {
+      "PLACEHOLDER": "Buscar páginas, pacientes, ayuda...",
+      "QUICK_ACCESS": "ACCESOS RÁPIDOS",
+      "NAVIGATION": "NAVEGACIÓN",
+      "PATIENTS": "PACIENTES",
+      "HELP": "AYUDA",
+      "NO_RESULTS": "No se encontraron resultados",
+      "PRESS_TO_SELECT": "Enter para seleccionar",
+      "PRESS_TO_CLOSE": "Esc para cerrar",
+      "MY_PATIENTS": "Mis Pacientes",
+      "CHAT": "Chat",
+      "SETTINGS": "Configuración",
+      "HELP_CHANGE_LANGUAGE": "¿Cómo cambiar el idioma?",
+      "HELP_ADD_REMINDER": "¿Cómo agregar un recordatorio?",
+      "HELP_CHANGE_THEME": "¿Cómo cambiar el tema?",
+      "LAST_VISIT": "Última visita"
+    },
     "AUTH": {
       "LOGIN": "Iniciar Sesión",
       "REGISTER": "Registrar Usuario",
@@ -228,6 +245,23 @@ const TRANSLATIONS = {
       "EXIT": "Exit",
       "SEARCH": "Search",
       "MENU": "Menu"
+    },
+    "SEARCH": {
+      "PLACEHOLDER": "Search pages, patients, help...",
+      "QUICK_ACCESS": "QUICK ACCESS",
+      "NAVIGATION": "NAVIGATION",
+      "PATIENTS": "PATIENTS",
+      "HELP": "HELP",
+      "NO_RESULTS": "No results found",
+      "PRESS_TO_SELECT": "Enter to select",
+      "PRESS_TO_CLOSE": "Esc to close",
+      "MY_PATIENTS": "My Patients",
+      "CHAT": "Chat",
+      "SETTINGS": "Settings",
+      "HELP_CHANGE_LANGUAGE": "How to change language?",
+      "HELP_ADD_REMINDER": "How to add a reminder?",
+      "HELP_CHANGE_THEME": "How to change theme?",
+      "LAST_VISIT": "Last visit"
     },
     "AUTH": {
       "LOGIN": "Login",
