@@ -9,6 +9,7 @@ import { Perfil } from "./modules/principal/pages/perfil/perfil";
 import { Dashboard } from "./modules/principal/pages/dashboard/dashboard";
 import { ChatPage } from './modules/principal/pages/chat-page/chat-page';
 import { authGuard } from './core/guards/auth.guard';
+import { RecuperarContrasena } from './modules/principal/pages/recuperar-contrasena/recuperar-contrasena';
 
 export const routes: Routes = [
 	// Rutas públicas (accesibles sin login)
@@ -30,6 +31,11 @@ export const routes: Routes = [
 	{
 		path: 'login',
 		component: Login,
+		pathMatch: 'full'
+	},
+	{
+		path: 'recuperar-contrasena',
+		component: RecuperarContrasena,
 		pathMatch: 'full'
 	},
 	{

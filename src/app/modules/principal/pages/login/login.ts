@@ -9,6 +9,7 @@ import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, Header, Footer, TranslatePipe],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
