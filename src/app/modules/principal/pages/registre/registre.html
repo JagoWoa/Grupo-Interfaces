@@ -195,7 +195,10 @@
                             [class.border-red-500]="fieldErrors['terms']"
                             class="w-4 h-4 mt-1 text-[#004b98] border-gray-300 rounded focus:ring-[#004b98]" />
                         <label for="terms" class="text-sm text-gray-600">
-                            {{ 'REGISTER.TERMS' | translate }}
+                            Acepto los 
+                            <a routerLink="/terminos-condiciones" class="text-[#004b98] hover:underline font-medium" target="_blank">Términos y Condiciones</a>
+                            y la 
+                            <a routerLink="/politica-privacidad" class="text-[#004b98] hover:underline font-medium" target="_blank">Política de Privacidad</a>
                         </label>
                     </div>
                     @if (fieldErrors['terms']) {
@@ -205,10 +208,12 @@
 
                 <!-- Botón de envío -->
                 <button type="submit" [disabled]="isLoading"
-                    class="w-full bg-[#004b98] text-white py-3 rounded-lg font-semibold hover:bg-[#004bbc] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed boton-register">
+                    class="w-full bg-[#004b98] text-white py-3 rounded-lg font-semibold hover:bg-[#004bbc] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed boton-register flex items-center justify-center gap-2">
                     @if (isLoading) {
+                        <span class="animate-spin">🔄</span>
                         <span>{{ 'REGISTER.REGISTERING' | translate }}</span>
                     } @else {
+                        <span>✨</span>
                         <span>{{ 'REGISTER.REGISTER_BUTTON' | translate }}</span>
                     }
                 </button>
