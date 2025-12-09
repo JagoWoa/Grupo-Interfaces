@@ -182,9 +182,7 @@ export class UsuarioDoctor implements OnInit {
           presion_arterial: this.presionArterial,
           frecuencia_cardiaca: this.frecuenciaCardiaca,
           temperatura: this.temperatura,
-          peso: this.peso,
-          glucosa: this.glucosa,
-          saturacion_oxigeno: this.saturacionOxigeno
+          peso: this.peso
         }
       );
 
