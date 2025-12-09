@@ -6,10 +6,12 @@ import { Footer } from '../../components/footer/footer';
 import { SupabaseService } from '../../../../core/services/supabase.service';
 import { Chat } from '../../components/chat/chat';
 import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
+import { SpeakOnHoverDirective } from '../../../../core/directives/speak-on-hover.directive';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, Header, Footer, Chat, TranslatePipe],
+  imports: [CommonModule, RouterModule, Header, Footer, Chat, TranslatePipe, SpeakOnHoverDirective],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })

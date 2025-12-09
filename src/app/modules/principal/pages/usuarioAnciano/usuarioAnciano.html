@@ -13,13 +13,15 @@
           <div class="w-12 h-12 flex items-center justify-center icono-header">
             <i class="fa-solid fa-heart text-red-500 text-2xl"></i>
           </div>
-          <h2 class="text-3xl font-bold text-gray-800 titulo-signos">{{ 'PATIENT.VITAL_SIGNS' | translate }}</h2>
+          <h2 class="text-3xl font-bold text-gray-800 titulo-signos" 
+              [appSpeakOnHover]="'PATIENT.VITAL_SIGNS' | translate">{{ 'PATIENT.VITAL_SIGNS' | translate }}</h2>
         </div>
 
         <!-- Grid horizontal para signos vitales -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 grid-signos">
           <!-- Presión Arterial -->
-          <div class="bg-red-50 p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo presion-card">
+          <div class="bg-red-50 p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo presion-card"
+               [appSpeakOnHover]="'Presión Arterial: ' + (signosVitales.presion_arterial || 'sin dato') + ' milímetros de mercurio'">
             <div class="flex justify-center mb-2 icono-signo">
               <i class="fa-solid fa-heart-pulse text-red-500 text-3xl"></i>
             </div>
@@ -29,7 +31,8 @@
           </div>
 
           <!-- Frecuencia Cardíaca -->
-          <div class="bg-pink-50 p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo frecuencia-card">
+          <div class="bg-pink-50 p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo frecuencia-card"
+               [appSpeakOnHover]="'Frecuencia Cardíaca: ' + (signosVitales.frecuencia_cardiaca || 'sin dato') + ' latidos por minuto'">
             <div class="flex justify-center mb-2 icono-signo">
               <i class="fa-solid fa-heartbeat text-pink-500 text-3xl"></i>
             </div>
