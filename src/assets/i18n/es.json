@@ -89,10 +89,18 @@
     "SAVE": "Guardar"
   },
   "SEARCH": {
-    "CHAT": "Chat"
+    "CHAT": "Chat",
+    "PLACEHOLDER": "Buscar en la aplicación...",
+    "QUICK_ACCESS": "Acceso Rápido",
+    "NO_RESULTS": "No se encontraron resultados",
+    "HELP_VITAL_SIGNS": "Ver signos vitales",
+    "HELP_ADD_REMINDER": "Agregar recordatorio"
   },
   "CHAT": {
-    "TITLE_DOCTOR": "Chatea con tu doctor"
+    "TITLE_DOCTOR": "Chatea con tu doctor",
+    "TITLE_PATIENT": "Chat con tu paciente",
+    "SEND": "Enviar",
+    "TYPE_MESSAGE": "Escribe un mensaje..."
   },
   "FOOTER": {
     "BRAND": "Telecuidado Mayor",

@@ -89,10 +89,18 @@
     "SAVE": "Save"
   },
   "SEARCH": {
-    "CHAT": "Chat"
+    "CHAT": "Chat",
+    "PLACEHOLDER": "Search in the app...",
+    "QUICK_ACCESS": "Quick Access",
+    "NO_RESULTS": "No results found",
+    "HELP_VITAL_SIGNS": "View vital signs",
+    "HELP_ADD_REMINDER": "Add reminder"
   },
   "CHAT": {
-    "TITLE_DOCTOR": "Chat with your doctor"
+    "TITLE_DOCTOR": "Chat with your doctor",
+    "TITLE_PATIENT": "Chat with your patient",
+    "SEND": "Send",
+    "TYPE_MESSAGE": "Type a message..."
   },
   "FOOTER": {
     "BRAND": "Elder Telecare",
