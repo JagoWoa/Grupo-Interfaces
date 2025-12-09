@@ -73,43 +73,69 @@ export class HealthService {
   }
 
   async updateSignosVitales(pacienteId: string, signos: Partial<SignosVitales>): Promise<boolean> {
+    console.log('💾 HealthService.updateSignosVitales - Iniciando actualización');
+    console.log('📋 Paciente ID:', pacienteId);
+    console.log('📊 Signos a guardar:', signos);
+    
     try {
       // Verificar si ya existe un registro
-      const { data: existing } = await this.supabase.client
+      const { data: existing, error: selectError } = await this.supabase.client
         .from('signos_vitales')
         .select('id')
         .eq('adulto_mayor_id', pacienteId)
         .maybeSingle();
 
+      if (selectError) {
+        console.error('❌ Error al buscar registro existente:', selectError);
+        throw selectError;
+      }
+
+      console.log('🔍 Registro existente:', existing);
+
       if (existing) {
         // Actualizar registro existente
-        const { error } = await this.supabase.client
+        console.log('📝 Actualizando registro existente con ID:', existing.id);
+        const { data: updateData, error: updateError } = await this.supabase.client
           .from('signos_vitales')
           .update({
             ...signos,
             ultima_medicion: new Date().toISOString()
           })
-          .eq('id', existing.id);
+          .eq('id', existing.id)
+          .select();
 
-        if (error) throw error;
+        if (updateError) {
+          console.error('❌ Error al actualizar signos vitales:', updateError);
+          throw updateError;
+        }
+        console.log('✅ Actualización exitosa:', updateData);
       } else {
         // Crear nuevo registro
-        const { error } = await this.supabase.client
+        console.log('➕ Creando nuevo registro de signos vitales');
+        const { data: insertData, error: insertError } = await this.supabase.client
           .from('signos_vitales')
           .insert({
             adulto_mayor_id: pacienteId,
             ...signos,
             ultima_medicion: new Date().toISOString()
-          });
+          })
+          .select();
 
-        if (error) throw error;
+        if (insertError) {
+          console.error('❌ Error al insertar signos vitales:', insertError);
+          throw insertError;
+        }
+        console.log('✅ Inserción exitosa:', insertData);
       }
 
       // Recargar datos
       await this.getSignosVitales(pacienteId);
       return true;
-    } catch (error) {
-      console.error('Error al actualizar signos vitales:', error);
+    } catch (error: any) {
+      console.error('❌ Error al actualizar signos vitales:', error);
+      console.error('📌 Mensaje de error:', error?.message);
+      console.error('📌 Código de error:', error?.code);
+      console.error('📌 Detalles:', error?.details);
       return false;
     }
   }

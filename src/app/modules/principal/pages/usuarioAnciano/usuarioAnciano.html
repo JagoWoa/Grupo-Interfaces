@@ -24,7 +24,7 @@
               <i class="fa-solid fa-heart-pulse text-red-500 text-3xl"></i>
             </div>
             <p class="text-sm text-gray-600 font-medium mb-2 label-signo">{{ 'PATIENT.BLOOD_PRESSURE' | translate }}</p>
-            <p class="text-3xl font-bold text-gray-900 valor-signo">120/80</p>
+            <p class="text-3xl font-bold text-gray-900 valor-signo">{{ signosVitales.presion_arterial || '---' }}</p>
             <p class="text-xs text-gray-500 mt-1 unidad-signo">mmHg</p>
           </div>
 
@@ -34,7 +34,7 @@
               <i class="fa-solid fa-heartbeat text-pink-500 text-3xl"></i>
             </div>
             <p class="text-sm text-gray-600 font-medium mb-2 label-signo">{{ 'PATIENT.HEART_RATE' | translate }}</p>
-            <p class="text-3xl font-bold text-gray-900 valor-signo">72</p>
+            <p class="text-3xl font-bold text-gray-900 valor-signo">{{ signosVitales.frecuencia_cardiaca || '---' }}</p>
             <p class="text-xs text-gray-500 mt-1 unidad-signo">bpm</p>
           </div>
 
@@ -44,7 +44,7 @@
               <i class="fa-solid fa-temperature-half text-orange-500 text-3xl"></i>
             </div>
             <p class="text-sm text-gray-600 font-medium mb-2 label-signo">{{ 'PATIENT.TEMPERATURE' | translate }}</p>
-            <p class="text-3xl font-bold text-gray-900 valor-signo">36.5</p>
+            <p class="text-3xl font-bold text-gray-900 valor-signo">{{ signosVitales.temperatura || '---' }}</p>
             <p class="text-xs text-gray-500 mt-1 unidad-signo">°C</p>
           </div>
 
@@ -54,7 +54,7 @@
               <i class="fa-solid fa-weight-scale text-blue-500 text-3xl"></i>
             </div>
             <p class="text-sm text-gray-600 font-medium mb-2 label-signo">{{ 'PATIENT.WEIGHT' | translate }}</p>
-            <p class="text-3xl font-bold text-gray-900 valor-signo">70</p>
+            <p class="text-3xl font-bold text-gray-900 valor-signo">{{ signosVitales.peso || '---' }}</p>
             <p class="text-xs text-gray-500 mt-1 unidad-signo">kg</p>
           </div>
         </div>
