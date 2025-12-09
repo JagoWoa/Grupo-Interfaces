@@ -13,11 +13,12 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { SignosVitalesService } from '../../../../core/services/signos-vitales.service';
 import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 import { SpeakOnHoverDirective } from '../../../../core/directives/speak-on-hover.directive';
+import { AutoSpeakDirective } from '../../../../core/directives/auto-speak.directive';
 
 @Component({
   selector: 'app-usuarioAnciano',
   standalone: true,
-  imports: [CommonModule, FormsModule, Header, Footer, Chat, TranslatePipe, SpeakOnHoverDirective],
+  imports: [CommonModule, FormsModule, Header, Footer, Chat, TranslatePipe, SpeakOnHoverDirective, AutoSpeakDirective],
   templateUrl: './usuarioAnciano.html',
   styleUrls: ['./usuarioAnciano.css'],
 })

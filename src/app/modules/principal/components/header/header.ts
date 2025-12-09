@@ -96,6 +96,20 @@ export class Header implements OnInit, OnDestroy {
       console.log('⌨️ Atajo de teclado activado: Ctrl + K (Búsqueda)');
     }
 
+    // Ctrl + Shift + V para activar/desactivar lectura por voz (accesibilidad)
+    if (event.ctrlKey && event.shiftKey && (event.key === 'V' || event.key === 'v')) {
+      event.preventDefault();
+      this.toggleSpeakOnHover();
+      // Anunciar estado aunque esté desactivado para confirmar acción
+      const wasEnabled = this.ttsService.isEnabled();
+      const message = wasEnabled ? 'Lectura por voz activada' : 'Lectura por voz desactivada';
+      // Forzar anuncio temporal
+      if (wasEnabled) {
+        this.ttsService.speak(message);
+      }
+      console.log('⌨️ Atajo de teclado activado: Ctrl + Shift + V (Lectura por Voz)');
+    }
+
     // Navegación con flechas en búsqueda
     if (this.isSearchOpen) {
       if (event.key === 'ArrowDown') {

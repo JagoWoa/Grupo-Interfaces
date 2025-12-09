@@ -26,7 +26,9 @@
   },
   "SHORTCUTS": {
     "THEME_SHORTCUT": "Ctrl+Shift+Z",
-    "LANGUAGE_SHORTCUT": "Ctrl+Shift+L"
+    "LANGUAGE_SHORTCUT": "Ctrl+Shift+L",
+    "VOICE_SHORTCUT": "Ctrl+Shift+V",
+    "SEARCH_SHORTCUT": "Ctrl+K"
   },
   "WELCOME": {
     "HERO_TITLE": "Welcome to Elder Telecare!",
