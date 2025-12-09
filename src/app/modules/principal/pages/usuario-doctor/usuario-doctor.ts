@@ -44,6 +44,9 @@ export class UsuarioDoctor implements OnInit {
   nuevoRecordatorioTitulo: string = '';
   nuevoRecordatorioDescripcion: string = '';
 
+  // Estado de guardado para feedback visual
+  isSaving: boolean = false;
+
   constructor(
     private healthService: HealthService,
     private authService: AuthService,
@@ -170,6 +173,7 @@ export class UsuarioDoctor implements OnInit {
     }
 
     console.log('💾 Actualizando signos vitales del paciente:', this.pacienteSeleccionado.id);
+    this.isSaving = true;
 
     try {
       const success = await this.healthService.updateSignosVitales(
@@ -192,6 +196,8 @@ export class UsuarioDoctor implements OnInit {
     } catch (error) {
       console.error('❌ Error:', error);
       alert('Error al actualizar los signos vitales');
+    } finally {
+      this.isSaving = false;
     }
   }
 
@@ -207,6 +213,7 @@ export class UsuarioDoctor implements OnInit {
     }
 
     console.log('➕ Agregando recordatorio para:', this.pacienteSeleccionado.id);
+    this.isSaving = true;
 
     try {
       const success = await this.healthService.crearRecordatorioParaPaciente(
@@ -230,6 +237,8 @@ export class UsuarioDoctor implements OnInit {
     } catch (error) {
       console.error('❌ Error:', error);
       alert('Error al agregar el recordatorio');
+    } finally {
+      this.isSaving = false;
     }
   }
 
@@ -289,6 +298,22 @@ export class UsuarioDoctor implements OnInit {
       .then((usuarios: any[]) => { // 👈 tipo explícito
         this.pacientes = usuarios;
       });
+  }
+
+  // Método para limpiar formulario de signos vitales
+  limpiarSignosVitales() {
+    this.presionArterial = '';
+    this.frecuenciaCardiaca = '';
+    this.temperatura = '';
+    this.peso = '';
+    this.glucosa = '';
+    this.saturacionOxigeno = '';
+  }
+
+  // Método para limpiar formulario de recordatorio
+  limpiarFormularioRecordatorio() {
+    this.nuevoRecordatorioTitulo = '';
+    this.nuevoRecordatorioDescripcion = '';
   }
 
 }
