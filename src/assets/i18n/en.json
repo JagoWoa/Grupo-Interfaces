@@ -94,7 +94,10 @@
     "QUICK_ACCESS": "Quick Access",
     "NO_RESULTS": "No results found",
     "HELP_VITAL_SIGNS": "View vital signs",
-    "HELP_ADD_REMINDER": "Add reminder"
+    "HELP_ADD_REMINDER": "Add reminder",
+    "PRESS_TO_SELECT": "to select",
+    "PRESS_TO_CLOSE": "to close",
+    "NAVIGATE": "Navigate"
   },
   "CHAT": {
     "TITLE_DOCTOR": "Chat with your doctor",
