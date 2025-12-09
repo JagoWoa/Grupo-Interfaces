@@ -10,6 +10,9 @@ import { Dashboard } from "./modules/principal/pages/dashboard/dashboard";
 import { ChatPage } from './modules/principal/pages/chat-page/chat-page';
 import { authGuard } from './core/guards/auth.guard';
 import { RecuperarContrasena } from './modules/principal/pages/recuperar-contrasena/recuperar-contrasena';
+import { ResetPassword } from './modules/principal/pages/reset-password/reset-password';
+import { TerminosCondiciones } from './modules/principal/pages/terminos-condiciones/terminos-condiciones';
+import { PoliticaPrivacidad } from './modules/principal/pages/politica-privacidad/politica-privacidad';
 
 export const routes: Routes = [
 	// Rutas públicas (accesibles sin login)
@@ -39,8 +42,23 @@ export const routes: Routes = [
 		pathMatch: 'full'
 	},
 	{
+		path: 'reset-password',
+		component: ResetPassword,
+		pathMatch: 'full'
+	},
+	{
 		path: 'registerdoctor',
 		component: RegisterDoctor,
+		pathMatch: 'full'
+	},
+	{
+		path: 'terminos-condiciones',
+		component: TerminosCondiciones,
+		pathMatch: 'full'
+	},
+	{
+		path: 'politica-privacidad',
+		component: PoliticaPrivacidad,
 		pathMatch: 'full'
 	},
 	// Rutas protegidas (requieren autenticación)

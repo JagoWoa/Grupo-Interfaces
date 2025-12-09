@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -20,7 +20,11 @@ export class RecuperarContrasena {
   errorMessage = '';
   successMessage = '';
 
-  constructor(private auth: AuthService, private supabase: SupabaseService) {}
+  constructor(
+    private auth: AuthService, 
+    private supabase: SupabaseService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   async onSubmit() {
     this.errorMessage = '';
@@ -39,34 +43,23 @@ export class RecuperarContrasena {
 
     this.isLoading = true;
     try {
-      // Verificar existencia en la tabla usuarios (incluye pacientes y doctores)
-      const { data, error } = await this.supabase.client
-        .from('usuarios')
-        .select('id, email, rol')
-        .ilike('email', email)
-        .maybeSingle();
-
-      if (error) {
-        throw error;
-      }
-
-      if (!data) {
-        this.errorMessage = 'No existe un usuario registrado con ese correo.';
-        return;
-      }
-
-      // Usar el flujo seguro de Supabase: enviar email para restablecer
+      // Enviar solicitud de recuperación directamente a Supabase Auth
+      // Por seguridad, Supabase no revela si el email existe o no
+      // Si el email existe, se envía el correo; si no, simplemente no pasa nada
       const res = await this.auth.resetPassword(email);
+      
       if (!res.success) {
         this.errorMessage = res.error || 'No se pudo enviar el correo de recuperación.';
         return;
       }
 
-      this.successMessage = 'Hemos enviado un correo para restablecer tu contraseña.';
+      // Mensaje genérico por seguridad (no revelar si el email existe)
+      this.successMessage = 'Si el correo está registrado, recibirás un enlace para restablecer tu contraseña.';
     } catch (err: any) {
       this.errorMessage = err.message || 'Ocurrió un error al procesar la solicitud.';
     } finally {
       this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 }
