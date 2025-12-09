@@ -9,9 +9,10 @@ import { ChatService } from '..//../../../core/services/chat.service';
 import { HealthService, SignosVitales } from '../../../../core/services/health.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { SupabaseService } from '..//../../../core/services/supabase.service';
+import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 @Component({
   selector: 'app-usuario-doctor',
-  imports: [CommonModule, FormsModule, Header, Footer, Chat],
+  imports: [CommonModule, FormsModule, Header, Footer, Chat, TranslatePipe],
   templateUrl: './usuario-doctor.html',
   styleUrls: ['./usuario-doctor.css']
 })

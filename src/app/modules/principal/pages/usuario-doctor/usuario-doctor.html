@@ -3,158 +3,148 @@
 
 <!-- Loading Spinner -->
 @if (isLoading) {
-  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center">
-    <div class="text-center">
-      <div class="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
-      <p class="mt-4 text-gray-600 text-lg">Cargando datos del doctor...</p>
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center loader-wrapper">
+  <div class="text-center loader-box">
+    <div class="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 loader-icon">
     </div>
+    <p class="mt-4 text-gray-600 text-lg loader-text">{{ 'DOCTOR.LOADING' | translate }}</p>
   </div>
+</div>
 } @else {
-  <section class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
-    <div class="max-w-7xl mx-auto">
+<section class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6 contenedor-doctor">
+  <div class="max-w-7xl mx-auto contenido-doctor">
 
-      <!-- Título -->
-      <div class="mb-6">
-        <h1 class="text-3xl font-bold text-gray-800">Panel del Doctor</h1>
-        <p class="text-gray-600">Bienvenido, {{ doctorName }}</p>
-      </div>
+    <!-- Título -->
+    <div class="mb-6 header-doctor">
+      <h1 class="text-3xl font-bold text-gray-800 titulo-doctor">{{ 'DOCTOR.PANEL_TITLE' | translate }}</h1>
+      <p class="text-gray-600 subtitulo-doctor">{{ 'DOCTOR.WELCOME' | translate }}, {{ doctorName }}</p>
+    </div>
 
-      <!-- Grid principal -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- Grid principal -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 grid-principal">
 
-        <!-- Pacientes -->
-        <section class="lg:col-span-3 bg-white rounded-2xl shadow-lg p-6">
-          <div class="mb-4">
-            <input 
-              type="text"
-              [(ngModel)]="busqueda"
-              placeholder="Buscar pacientes..." 
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            />
+      <!-- Pacientes -->
+      <section class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6 seccion-pacientes">
+        <div class="mb-4 contenedor-busqueda">
+          <input type="text" [(ngModel)]="busqueda" [placeholder]="'DOCTOR.SEARCH_PATIENTS' | translate"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 busqueda-pacientes" />
+        </div>
+
+        <div class="flex items-center gap-3 mb-4 titulo-seccion-pacientes">
+          <i class="fa-solid fa-users text-blue-500 text-xl icono-pacientes"></i>
+          <h2 class="text-xl font-bold text-gray-800">{{ 'DOCTOR.PATIENTS' | translate }}</h2>
+        </div>
+
+        <ul class="space-y-3 max-h-[calc(100vh-280px)] overflow-y-auto lista-pacientes">
+          <li *ngFor="let paciente of pacientesFiltrados" (click)="seleccionarPaciente(paciente)"
+            class="p-4 rounded-lg cursor-pointer transition item-paciente"
+            [class.bg-blue-100]="pacienteSeleccionado?.id === paciente.id"
+            [class.bg-gray-50]="pacienteSeleccionado?.id !== paciente.id"
+            [class.hover:bg-blue-50]="pacienteSeleccionado?.id !== paciente.id"
+            [class.item-paciente-seleccionado]="pacienteSeleccionado?.id === paciente.id">
+            <p class="font-medium text-gray-700 nombre-paciente">{{ paciente.nombre }}</p>
+            <p class="text-sm text-gray-500 ultima-consulta">{{ 'DOCTOR.LAST_VISIT' | translate }}: {{ paciente.ultimaConsulta }}</p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Columna central -->
+      <div class="lg:col-span-8 space-y-6 columna-central">
+
+        <!-- Signos vitales -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 seccion-signos">
+          <div class="flex items-center gap-3 mb-8 titulo-seccion-signos">
+            <i class="fa-solid fa-heart text-red-500 text-3xl icono-signos"></i>
+            <h2 class="text-3xl font-bold text-gray-800">{{ 'DOCTOR.VITAL_SIGNS' | translate }}</h2>
           </div>
 
-          <div class="flex items-center gap-3 mb-4">
-            <i class="fa-solid fa-users text-blue-500 text-xl"></i>
-            <h2 class="text-xl font-bold text-gray-800">Pacientes</h2>
+          <div class="grid grid-cols-2 gap-6 grid-signos">
+            <!-- Presión -->
+            <div class="bg-red-50 p-6 rounded-xl card-signo card-presion">
+              <label class="block text-base text-red-800 font-bold mb-2 label-signo">{{ 'DOCTOR.BLOOD_PRESSURE' | translate }}</label>
+              <input type="text" [(ngModel)]="presionArterial" placeholder="120/80"
+                class="w-full px-4 py-3 text-xl font-bold border-2 border-red-300 rounded-lg focus:ring-red-500 input-signo text-red-900 bg-white placeholder-gray-400">
+              <p class="text-sm text-red-700 mt-2 font-semibold unidad-signo">mmHg</p>
+            </div>
+
+            <!-- FC -->
+            <div class="bg-pink-50 p-6 rounded-xl card-signo card-frecuencia">
+              <label class="block text-base text-pink-800 font-bold mb-2 label-signo">{{ 'DOCTOR.HEART_RATE' | translate }}</label>
+              <input type="number" [(ngModel)]="frecuenciaCardiaca" placeholder="72"
+                class="w-full px-4 py-3 text-xl font-bold border-2 border-pink-300 rounded-lg focus:ring-pink-500 input-signo text-pink-900 bg-white placeholder-gray-400">
+              <p class="text-sm text-pink-700 mt-2 font-semibold unidad-signo">bpm</p>
+            </div>
+
+            <!-- Temp -->
+            <div class="bg-orange-50 p-6 rounded-xl card-signo card-temperatura">
+              <label class="block text-base text-orange-800 font-bold mb-2 label-signo">{{ 'DOCTOR.TEMPERATURE' | translate }}</label>
+              <input type="number" step="0.1" [(ngModel)]="temperatura" placeholder="36.5"
+                class="w-full px-4 py-3 text-xl font-bold border-2 border-orange-300 rounded-lg focus:ring-orange-500 input-signo text-orange-900 bg-white placeholder-gray-400">
+              <p class="text-sm text-orange-700 mt-2 font-semibold unidad-signo">°C</p>
+            </div>
+
+            <!-- Peso -->
+            <div class="bg-blue-100 p-6 rounded-xl card-signo card-peso">
+              <label class="block text-base text-blue-800 font-bold mb-2 label-signo">{{ 'DOCTOR.WEIGHT' | translate }}</label>
+              <input type="number" step="0.1" [(ngModel)]="peso" placeholder="70"
+                class="w-full px-4 py-3 text-xl font-bold border-2 border-blue-300 rounded-lg focus:ring-blue-500 input-signo text-blue-900 bg-white placeholder-gray-400">
+              <p class="text-sm text-blue-700 mt-2 font-semibold unidad-signo">kg</p>
+            </div>
           </div>
 
-          <ul class="space-y-3 max-h-[calc(100vh-280px)] overflow-y-auto">
-            <li 
-              *ngFor="let paciente of pacientesFiltrados"
-              (click)="seleccionarPaciente(paciente)"
-              class="p-3 rounded-lg cursor-pointer transition"
-              [class.bg-blue-100]="pacienteSeleccionado?.id === paciente.id"
-              [class.bg-gray-50]="pacienteSeleccionado?.id !== paciente.id"
-              [class.hover:bg-blue-50]="pacienteSeleccionado?.id !== paciente.id"
-            >
-              <p class="font-medium text-gray-700">{{ paciente.nombre }}</p>
-              <p class="text-sm text-gray-500">Última consulta: {{ paciente.ultimaConsulta }}</p>
-            </li>
-          </ul>
+          <button (click)="actualizarSignosVitales()"
+            class="w-full mt-8 bg-blue-600 text-white py-4 rounded-lg hover:bg-blue-700 transition text-lg font-semibold boton-actualizar-signos">
+            {{ 'DOCTOR.UPDATE_VITAL_SIGNS' | translate }}
+          </button>
         </section>
 
-        <!-- Columna central -->
-        <div class="lg:col-span-6 space-y-6">
+        <!-- Recordatorios -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 seccion-recordatorios">
+          <div class="flex items-center gap-3 mb-6 titulo-seccion-recordatorios">
+            <i class="fa-solid fa-bell text-green-500 text-3xl icono-recordatorios"></i>
+            <h2 class="text-3xl font-bold text-gray-800">{{ 'DOCTOR.REMINDERS' | translate }}</h2>
+          </div>
 
-          <!-- Signos vitales -->
-          <section class="bg-white rounded-2xl shadow-lg p-6">
-            <div class="flex items-center gap-3 mb-6">
-              <i class="fa-solid fa-heart text-red-500 text-2xl"></i>
-              <h2 class="text-2xl font-bold text-gray-800">Signos Vitales</h2>
-            </div>
+          <div class="mb-6 formulario-recordatorios">
+            <input type="text" [(ngModel)]="nuevoRecordatorioTitulo" [placeholder]="'DOCTOR.REMINDER_TITLE' | translate" class="w-full px-4 py-3 border rounded-lg mb-3 focus:ring-green-500 text-base
+         input-recordatorio placeholder-gray-500 placeholder:font-medium placeholder:text-base">
 
-            <div class="grid grid-cols-2 gap-4">
-              <!-- Presión -->
-              <div class="bg-red-50 p-4 rounded-xl">
-                <label class="block text-sm text-gray-600 font-medium mb-1">Presión Arterial</label>
-                <input type="text" [(ngModel)]="presionArterial" placeholder="120/80"
-                  class="w-full px-3 py-2 text-lg font-semibold border border-red-200 rounded-lg focus:ring-red-500">
-                <p class="text-xs text-gray-500 mt-1">mmHg</p>
-              </div>
+            <input type="text" [(ngModel)]="nuevoRecordatorioDescripcion" [placeholder]="'DOCTOR.REMINDER_SUBTITLE' | translate" class="w-full px-4 py-3 border rounded-lg mb-3 focus:ring-green-500 text-base
+         input-recordatorio placeholder-gray-500 placeholder:font-medium placeholder:text-base">
 
-              <!-- FC -->
-              <div class="bg-pink-50 p-4 rounded-xl">
-                <label class="block text-sm text-gray-600 font-medium mb-1">Frecuencia Cardíaca</label>
-                <input type="number" [(ngModel)]="frecuenciaCardiaca" placeholder="72"
-                  class="w-full px-3 py-2 text-lg font-semibold border border-pink-200 rounded-lg focus:ring-pink-500">
-                <p class="text-xs text-gray-500 mt-1">bpm</p>
-              </div>
-
-              <!-- Temp -->
-              <div class="bg-orange-50 p-4 rounded-xl">
-                <label class="block text-sm text-gray-600 font-medium mb-1">Temperatura</label>
-                <input type="number" step="0.1" [(ngModel)]="temperatura" placeholder="36.5"
-                  class="w-full px-3 py-2 text-lg font-semibold border border-orange-200 rounded-lg focus:ring-orange-500">
-                <p class="text-xs text-gray-500 mt-1">°C</p>
-              </div>
-
-              <!-- Peso -->
-              <div class="bg-blue-100 p-4 rounded-xl">
-                <label class="block text-sm text-gray-600 font-medium mb-1">Peso</label>
-                <input type="number" step="0.1" [(ngModel)]="peso" placeholder="70"
-                  class="w-full px-3 py-2 text-lg font-semibold border border-blue-200 rounded-lg focus:ring-blue-500">
-                <p class="text-xs text-gray-500 mt-1">kg</p>
-              </div>
-            </div>
-
-            <button (click)="actualizarSignosVitales()" class="w-full mt-6 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
-              Actualizar Signos Vitales
+            <button (click)="agregarRecordatorio()"
+              class="bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg w-full text-base font-semibold boton-agregar-recordatorio">
+              {{ 'DOCTOR.ADD_REMINDER' | translate }}
             </button>
-          </section>
+          </div>
 
-          <!-- Recordatorios -->
-          <section class="bg-white rounded-2xl shadow-lg p-6">
-            <div class="flex items-center gap-3 mb-6">
-              <i class="fa-solid fa-bell text-green-500 text-2xl"></i>
-              <h2 class="text-2xl font-bold text-gray-800">Recordatorios</h2>
-            </div>
+          <div class="space-y-4 max-h-80 overflow-y-auto lista-recordatorios">
+            <div *ngFor="let recordatorio of recordatorios"
+              class="p-5 bg-green-50 rounded-xl flex justify-between items-center item-recordatorio">
+              <div class="contenido-recordatorio">
+                <p class="font-bold text-lg text-gray-900 titulo-recordatorio">{{ recordatorio.titulo }}</p>
+                <p class="text-sm text-gray-600 mt-1 subtitulo-recordatorio">{{ recordatorio.subtitulo }}</p>
+              </div>
 
-            <div class="mb-4">
-              <input type="text" [(ngModel)]="nuevoRecordatorioTitulo" placeholder="Título"
-                class="w-full px-3 py-2 border rounded-lg mb-2 focus:ring-green-500">
-              <input type="text" [(ngModel)]="nuevoRecordatorioDescripcion" placeholder="Descripción"
-                class="w-full px-3 py-2 border rounded-lg mb-2 focus:ring-green-500">
-              <button (click)="agregarRecordatorio()" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg w-full">
-                + Agregar Recordatorio
+              <button (click)="eliminarRecordatorio(recordatorio)"
+                class="text-red-500 hover:text-red-700 text-lg boton-eliminar-recordatorio">
+                <i class="fa-solid fa-trash"></i>
               </button>
             </div>
 
-            <div class="space-y-3 max-h-64 overflow-y-auto">
-              <div *ngFor="let recordatorio of recordatorios" class="p-4 bg-green-50 rounded-xl flex justify-between">
-                <div>
-                  <p class="font-semibold">{{ recordatorio.titulo }}</p>
-                  <p class="text-sm text-gray-600">{{ recordatorio.subtitulo }}</p>
-                </div>
-                
-                <button (click)="eliminarRecordatorio(recordatorio)" class="text-red-500 hover:text-red-700">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </div>
-
-              <div *ngIf="recordatorios.length === 0" class="text-center text-gray-500 py-4">
-                Sin recordatorios
-              </div>
+            <div *ngIf="recordatorios.length === 0" class="text-center text-gray-500 py-8 sin-recordatorios">
+              Sin recordatorios
             </div>
-          </section>
-        </div>
-
-        <!-- Chat -->
-        <section class="lg:col-span-3 bg-white rounded-2xl shadow-lg p-6">
-          <div class="flex items-center gap-3 mb-4">
-            <i class="fa-solid fa-comments text-blue-500 text-2xl"></i>
-            <h2 class="text-xl font-bold text-gray-800">Chat</h2>
           </div>
-
-          <app-chat></app-chat>
         </section>
-
       </div>
     </div>
-  </section>
+  </div>
+</section>
 }
 
 <!-- Chat flotante -->
-<div class="fixed bottom-6 right-6 z-50">
+<div class="fixed bottom-6 right-6 z-50 chat-flotante">
   <app-chat></app-chat>
 </div>
 

@@ -3,31 +3,130 @@
     <div class="flex items-center gap-4">
       <!-- Logo -->
       <div class="flex items-center gap-2">
-        <i class="fa-solid fa-heart-pulse text-2xl md:text-3xl" alt="Logo"> </i>
-        <h1 class="text-lg md:text-xl font-semibold text-white-500">Telecuidado Mayor</h1>
+        <a href="/inicio" class="flex items-center gap-2">
+          <i class="fa-solid fa-heart-pulse text-2xl md:text-3xl" alt="Logo"> </i>
+          <h1 class="text-lg md:text-xl font-semibold text-white-500">{{ 'HEADER.TITLE' | translate }}</h1>
+        </a>
       </div>
     </div>
 
-    <!-- Centro: Menu principal -->
+    <!-- Centro: Menu principal Desktop -->
     <!-- Menú cuando está logueado -->
     <ul class="hidden md:flex items-center gap-6 text-sm font-medium" *ngIf="isLogging()">
-      <li><a routerLink="/dashboard" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-magnifying-glass"></i> Dashboard</a></li>
-      <li><a routerLink="/perfil" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-circle-user"></i> Perfil</a></li>
-      <li><a routerLink="/usuario" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-heart"></i> Salud</a></li>
+      <li><a routerLink="/dashboard" [appSpeakOnHover]="'HEADER.DASHBOARD' | translate" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-magnifying-glass"></i> {{ 'HEADER.DASHBOARD' | translate }}</a></li>
+      <li><a routerLink="/perfil" [appSpeakOnHover]="'HEADER.PROFILE' | translate" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-circle-user"></i> {{ 'HEADER.PROFILE' | translate }}</a></li>
+      <li><a routerLink="/usuario" [appSpeakOnHover]="'HEADER.HEALTH' | translate" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-heart"></i> {{ 'HEADER.HEALTH' | translate }}</a></li>
       
+      <!-- Accesibilidad con menú desplegable -->
+      <li class="relative">
+        <button 
+          (click)="toggleAccessibilityDropdown()"
+          [appSpeakOnHover]="'HEADER.ACCESSIBILITY' | translate"
+          class="hover:bg-white/10 px-3 py-2 rounded-lg transition flex items-center gap-2">
+          <i class="fa-solid fa-universal-access"></i>
+          <span>{{ 'HEADER.ACCESSIBILITY' | translate }}</span>
+          <i class="fa-solid fa-chevron-down text-xs transition-transform" [class.rotate-180]="isAccessibilityDropdownOpen"></i>
+        </button>
+        
+        <!-- Menú desplegable -->
+        <div 
+          *ngIf="isAccessibilityDropdownOpen"
+          class="absolute left-0 mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-lg py-2 z-50">
+          
+          <!-- Opción Tema -->
+          <button 
+            (click)="botonCambio()"
+            [appSpeakOnHover]="'HEADER.THEME' | translate"
+            class="w-full px-4 py-2 hover:bg-gray-100 transition flex items-center gap-3 text-left">
+            <i class="fa-solid fa-palette text-[#004b98]"></i>
+            <span class="font-medium">{{ 'HEADER.THEME' | translate }}</span>
+            <span class="ml-auto text-xs text-gray-400">{{ 'SHORTCUTS.THEME_SHORTCUT' | translate }}</span>
+          </button>
+          
+          <!-- Opción Idioma -->
+          <button 
+            (click)="changeLanguage()"
+            [appSpeakOnHover]="'HEADER.LANGUAGE' | translate"
+            class="w-full px-4 py-2 hover:bg-gray-100 transition flex items-center gap-3 text-left">
+            <i class="fa-solid fa-language text-[#004b98]"></i>
+            <span class="font-medium">{{ 'HEADER.LANGUAGE' | translate }}</span>
+            <span class="ml-auto text-xs text-gray-400">{{ 'SHORTCUTS.LANGUAGE_SHORTCUT' | translate }}</span>
+          </button>
+
+          <!-- Opción Lectura por Voz -->
+          <button 
+            (click)="toggleSpeakOnHover()"
+            class="w-full px-4 py-2 hover:bg-gray-100 transition flex items-center gap-3 text-left">
+            <i class="fa-solid fa-volume-up text-[#004b98]"></i>
+            <span class="font-medium">{{ 'HEADER.VOICE_READING' | translate }}</span>
+            <span class="ml-auto text-xs" [class.text-green-600]="isSpeakOnHoverEnabled()" [class.text-gray-400]="!isSpeakOnHoverEnabled()">
+              {{ isSpeakOnHoverEnabled() ? ('COMMON.ON' | translate) : ('COMMON.OFF' | translate) }}
+            </span>
+          </button>
+        </div>
+      </li>
       
     </ul>
 
     <!-- Menú cuando NO está logueado -->
     <ul class="hidden md:flex items-center gap-6 text-sm font-medium" *ngIf="!isLogging()">
       <li>
-        <a routerLink="/inicio" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-house"></i> Inicio</a>
+        <a routerLink="/inicio" [appSpeakOnHover]="'AUTH.HOME' | translate" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-house"></i> {{ 'AUTH.HOME' | translate }}</a>
       </li>
       <li>
-        <a routerLink="/login" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</a>
+        <a routerLink="/login" [appSpeakOnHover]="'AUTH.LOGIN' | translate" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-right-to-bracket"></i> {{ 'AUTH.LOGIN' | translate }}</a>
       </li>
       <li>
-        <a routerLink="/register" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-user-plus"></i> Registrar Usuario</a>
+        <a routerLink="/register" [appSpeakOnHover]="'AUTH.REGISTER' | translate" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-user-plus"></i> {{ 'AUTH.REGISTER' | translate }}</a>
+      </li>
+      
+      <!-- Accesibilidad con menú desplegable -->
+      <li class="relative">
+        <button 
+          (click)="toggleAccessibilityDropdown()"
+          [appSpeakOnHover]="'HEADER.ACCESSIBILITY' | translate"
+          class="hover:bg-white/10 px-3 py-2 rounded-lg transition flex items-center gap-2">
+          <i class="fa-solid fa-universal-access"></i>
+          <span>{{ 'HEADER.ACCESSIBILITY' | translate }}</span>
+          <i class="fa-solid fa-chevron-down text-xs transition-transform" [class.rotate-180]="isAccessibilityDropdownOpen"></i>
+        </button>
+        
+        <!-- Menú desplegable -->
+        <div 
+          *ngIf="isAccessibilityDropdownOpen"
+          class="absolute left-0 mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-lg py-2 z-50">
+          
+          <!-- Opción Tema -->
+          <button 
+            (click)="botonCambio()"
+            [appSpeakOnHover]="'HEADER.THEME' | translate"
+            class="w-full px-4 py-2 hover:bg-gray-100 transition flex items-center gap-3 text-left">
+            <i class="fa-solid fa-palette text-[#004b98]"></i>
+            <span class="font-medium">{{ 'HEADER.THEME' | translate }}</span>
+            <span class="ml-auto text-xs text-gray-400">{{ 'SHORTCUTS.THEME_SHORTCUT' | translate }}</span>
+          </button>
+          
+          <!-- Opción Idioma -->
+          <button 
+            (click)="changeLanguage()"
+            [appSpeakOnHover]="'HEADER.LANGUAGE' | translate"
+            class="w-full px-4 py-2 hover:bg-gray-100 transition flex items-center gap-3 text-left">
+            <i class="fa-solid fa-language text-[#004b98]"></i>
+            <span class="font-medium">{{ 'HEADER.LANGUAGE' | translate }}</span>
+            <span class="ml-auto text-xs text-gray-400">{{ 'SHORTCUTS.LANGUAGE_SHORTCUT' | translate }}</span>
+          </button>
+
+          <!-- Opción Lectura por Voz -->
+          <button 
+            (click)="toggleSpeakOnHover()"
+            class="w-full px-4 py-2 hover:bg-gray-100 transition flex items-center gap-3 text-left">
+            <i class="fa-solid fa-volume-up text-[#004b98]"></i>
+            <span class="font-medium">{{ 'HEADER.VOICE_READING' | translate }}</span>
+            <span class="ml-auto text-xs" [class.text-green-600]="isSpeakOnHoverEnabled()" [class.text-gray-400]="!isSpeakOnHoverEnabled()">
+              {{ isSpeakOnHoverEnabled() ? ('COMMON.ON' | translate) : ('COMMON.OFF' | translate) }}
+            </span>
+          </button>
+        </div>
       </li>
     </ul>
 
@@ -41,24 +140,283 @@
           <p class="text-xs text-white/70">{{userRole}}</p>
         </div>
         <button (click)="logout()" 
+                [appSpeakOnHover]="'HEADER.LOGOUT' | translate"
                 class="px-3 py-2 bg-red-500 hover:bg-red-600 rounded-lg transition flex items-center gap-2 text-sm font-medium">
           <i class="fas fa-sign-out-alt"></i>
-          <span class="hidden lg:inline">Salir</span>
+          <span class="hidden lg:inline">{{ 'HEADER.EXIT' | translate }}</span>
         </button>
       </div>
 
-      <!-- Controles generales -->
-      <button title="Cambiar idioma" class="p-2 hover:bg-white/10 rounded-lg transition text-sm">
-        <i class="fa-solid fa-language"></i>
-      </button>
-      <button 
-      (click)="botonCambio()"
-      class="px-2 py-1 bg-white text-[#004b98] rounded hover:bg-gray-100 transition text-sm">
-        <i class="fa-solid fa-palette"></i>
-      </button>
-      <button class="hover:opacity-80 transition">
+      <!-- Controles generales Desktop -->
+      <button (click)="toggleSearch()" class="hidden md:block hover:opacity-80 transition" [appSpeakOnHover]="'HEADER.SEARCH' | translate">
         <i class="fas fa-search text-xl"></i>
+      </button>
+
+      <!-- Botón Hamburguesa Mobile -->
+      <button 
+        (click)="toggleMobileMenu()"
+        class="md:hidden text-white hover:bg-white/10 p-2 rounded-lg transition"
+        [appSpeakOnHover]="'HEADER.MENU' | translate">
+        <i class="fas text-2xl" [class.fa-bars]="!isMobileMenuOpen" [class.fa-times]="isMobileMenuOpen"></i>
       </button>
     </div>
   </div>
+
+  <!-- Menú Mobile -->
+  <div 
+    *ngIf="isMobileMenuOpen"
+    class="md:hidden bg-[#003d7a] border-t border-white/10">
+    
+    <!-- Menú cuando está logueado -->
+    <div *ngIf="isLogging()" class="px-4 py-2">
+      <!-- Info Usuario -->
+      <div class="flex items-center gap-3 py-3 border-b border-white/10">
+        <i class="fa-solid fa-user-circle text-3xl"></i>
+        <div>
+          <p class="text-sm font-medium">{{userName}}</p>
+          <p class="text-xs text-white/70">{{userRole}}</p>
+        </div>
+      </div>
+
+      <!-- Links de navegación -->
+      <a routerLink="/dashboard" 
+         (click)="closeMobileMenu()"
+         [appSpeakOnHover]="'HEADER.DASHBOARD' | translate"
+         class="flex items-center gap-3 py-3 hover:bg-white/10 rounded-lg px-2 transition">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>{{ 'HEADER.DASHBOARD' | translate }}</span>
+      </a>
+      <a routerLink="/perfil" 
+         (click)="closeMobileMenu()"
+         [appSpeakOnHover]="'HEADER.PROFILE' | translate"
+         class="flex items-center gap-3 py-3 hover:bg-white/10 rounded-lg px-2 transition">
+        <i class="fa-solid fa-circle-user"></i>
+        <span>{{ 'HEADER.PROFILE' | translate }}</span>
+      </a>
+      <a routerLink="/usuario" 
+         (click)="closeMobileMenu()"
+         [appSpeakOnHover]="'HEADER.HEALTH' | translate"
+         class="flex items-center gap-3 py-3 hover:bg-white/10 rounded-lg px-2 transition">
+        <i class="fa-solid fa-heart"></i>
+        <span>{{ 'HEADER.HEALTH' | translate }}</span>
+      </a>
+
+      <!-- Accesibilidad -->
+      <div class="border-t border-white/10 mt-2 pt-2">
+        <button 
+          (click)="toggleAccessibilityDropdown()"
+          class="w-full flex items-center justify-between py-3 hover:bg-white/10 rounded-lg px-2 transition">
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-universal-access"></i>
+            <span>{{ 'HEADER.ACCESSIBILITY' | translate }}</span>
+          </div>
+          <i class="fa-solid fa-chevron-down text-xs transition-transform" [class.rotate-180]="isAccessibilityDropdownOpen"></i>
+        </button>
+        
+        <div *ngIf="isAccessibilityDropdownOpen" class="bg-white/5 rounded-lg mt-2 p-2">
+          <button 
+            (click)="botonCambio()"
+            [appSpeakOnHover]="'HEADER.THEME' | translate"
+            class="w-full flex items-center gap-3 py-2 px-3 hover:bg-white/10 rounded-lg transition text-left">
+            <i class="fa-solid fa-palette"></i>
+            <span>{{ 'HEADER.THEME' | translate }}</span>
+          </button>
+          <button 
+            (click)="changeLanguage()"
+            [appSpeakOnHover]="'HEADER.LANGUAGE' | translate"
+            class="w-full flex items-center gap-3 py-2 px-3 hover:bg-white/10 rounded-lg transition text-left">
+            <i class="fa-solid fa-language"></i>
+            <span>{{ 'HEADER.LANGUAGE' | translate }}</span>
+          </button>
+          <button 
+            (click)="toggleSpeakOnHover()"
+            class="w-full flex items-center justify-between py-2 px-3 hover:bg-white/10 rounded-lg transition text-left">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-volume-up"></i>
+              <span>{{ 'HEADER.VOICE_READING' | translate }}</span>
+            </div>
+            <span class="text-xs" [class.text-green-400]="isSpeakOnHoverEnabled()" [class.text-white/50]="!isSpeakOnHoverEnabled()">
+              {{ isSpeakOnHoverEnabled() ? ('COMMON.ON' | translate) : ('COMMON.OFF' | translate) }}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Botón Salir -->
+      <button 
+        (click)="logout(); closeMobileMenu()"
+        [appSpeakOnHover]="'HEADER.LOGOUT' | translate"
+        class="w-full flex items-center gap-3 py-3 px-2 bg-red-500 hover:bg-red-600 rounded-lg transition mt-3">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>{{ 'HEADER.LOGOUT' | translate }}</span>
+      </button>
+    </div>
+
+    <!-- Menú cuando NO está logueado -->
+    <div *ngIf="!isLogging()" class="px-4 py-2">
+      <a routerLink="/inicio" 
+         (click)="closeMobileMenu()"
+         [appSpeakOnHover]="'AUTH.HOME' | translate"
+         class="flex items-center gap-3 py-3 hover:bg-white/10 rounded-lg px-2 transition">
+        <i class="fa-solid fa-house"></i>
+        <span>{{ 'AUTH.HOME' | translate }}</span>
+      </a>
+      <a routerLink="/login" 
+         (click)="closeMobileMenu()"
+         [appSpeakOnHover]="'AUTH.LOGIN' | translate"
+         class="flex items-center gap-3 py-3 hover:bg-white/10 rounded-lg px-2 transition">
+        <i class="fa-solid fa-right-to-bracket"></i>
+        <span>{{ 'AUTH.LOGIN' | translate }}</span>
+      </a>
+      <a routerLink="/register" 
+         (click)="closeMobileMenu()"
+         [appSpeakOnHover]="'AUTH.REGISTER' | translate"
+         class="flex items-center gap-3 py-3 hover:bg-white/10 rounded-lg px-2 transition">
+        <i class="fa-solid fa-user-plus"></i>
+        <span>{{ 'AUTH.REGISTER' | translate }}</span>
+      </a>
+
+      <!-- Accesibilidad -->
+      <div class="border-t border-white/10 mt-2 pt-2">
+        <button 
+          (click)="toggleAccessibilityDropdown()"
+          class="w-full flex items-center justify-between py-3 hover:bg-white/10 rounded-lg px-2 transition">
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-universal-access"></i>
+            <span>{{ 'HEADER.ACCESSIBILITY' | translate }}</span>
+          </div>
+          <i class="fa-solid fa-chevron-down text-xs transition-transform" [class.rotate-180]="isAccessibilityDropdownOpen"></i>
+        </button>
+        
+        <div *ngIf="isAccessibilityDropdownOpen" class="bg-white/5 rounded-lg mt-2 p-2">
+          <button 
+            (click)="botonCambio()"
+            [appSpeakOnHover]="'HEADER.THEME' | translate"
+            class="w-full flex items-center gap-3 py-2 px-3 hover:bg-white/10 rounded-lg transition text-left">
+            <i class="fa-solid fa-palette"></i>
+            <span>{{ 'HEADER.THEME' | translate }}</span>
+          </button>
+          <button 
+            (click)="changeLanguage()"
+            [appSpeakOnHover]="'HEADER.LANGUAGE' | translate"
+            class="w-full flex items-center gap-3 py-2 px-3 hover:bg-white/10 rounded-lg transition text-left">
+            <i class="fa-solid fa-language"></i>
+            <span>{{ 'HEADER.LANGUAGE' | translate }}</span>
+          </button>
+          <button 
+            (click)="toggleSpeakOnHover()"
+            class="w-full flex items-center justify-between py-2 px-3 hover:bg-white/10 rounded-lg transition text-left">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-volume-up"></i>
+              <span>{{ 'HEADER.VOICE_READING' | translate }}</span>
+            </div>
+            <span class="text-xs" [class.text-green-400]="isSpeakOnHoverEnabled()" [class.text-white/50]="!isSpeakOnHoverEnabled()">
+              {{ isSpeakOnHoverEnabled() ? ('COMMON.ON' | translate) : ('COMMON.OFF' | translate) }}
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Búsqueda Universal -->
+  <div *ngIf="isSearchOpen" class="fixed inset-0 bg-black/50 z-[100] flex items-start justify-center pt-20" (click)="closeSearch()">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl mx-4 overflow-hidden" (click)="$event.stopPropagation()">
+      
+      <!-- Input de búsqueda -->
+      <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="relative">
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <input 
+            id="search-input"
+            type="text" 
+            [(ngModel)]="searchQuery"
+            (input)="performSearch()"
+            [placeholder]="'SEARCH.PLACEHOLDER' | translate"
+            class="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border-0 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#004b98]">
+          <div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+            <span class="text-xs text-gray-400 bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Ctrl+K</span>
+            <span class="text-xs text-gray-400 bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Esc</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resultados -->
+      <div class="max-h-96 overflow-y-auto p-4">
+        
+        @if (searchResults.length === 0) {
+          <div class="text-center py-12 text-gray-500 dark:text-gray-400">
+            <i class="fas fa-search text-4xl mb-3"></i>
+            <p class="text-lg">{{ 'SEARCH.NO_RESULTS' | translate }}</p>
+          </div>
+        } @else {
+          
+          <!-- Navegación -->
+          @if (getCategoryResults('navigation').length > 0) {
+            <div class="mb-4">
+              <h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2 px-2">
+                {{ searchQuery ? ('SEARCH.NAVIGATION' | translate) : ('SEARCH.QUICK_ACCESS' | translate) }}
+              </h3>
+              <div class="space-y-1">
+                @for (item of getCategoryResults('navigation'); track $index) {
+                  <button 
+                    (click)="selectSearchResult(item)"
+                    [class.bg-blue-50]="selectedResultIndex === searchResults.indexOf(item)"
+                    [class.dark:bg-blue-900/30]="selectedResultIndex === searchResults.indexOf(item)"
+                    class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition text-left">
+                    <i [class]="item.icon + ' text-[#004b98] dark:text-blue-400 text-xl w-6'"></i>
+                    <div class="flex-1">
+                      <p class="font-medium text-gray-900 dark:text-white">{{ item.title }}</p>
+                      @if (item.subtitle) {
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ item.subtitle }}</p>
+                      }
+                    </div>
+                    <i class="fas fa-arrow-right text-gray-400 text-sm"></i>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Ayuda -->
+          @if (getCategoryResults('help').length > 0) {
+            <div class="mb-4">
+              <h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2 px-2">
+                {{ 'SEARCH.HELP' | translate }}
+              </h3>
+              <div class="space-y-1">
+                @for (item of getCategoryResults('help'); track $index) {
+                  <button 
+                    (click)="selectSearchResult(item)"
+                    [class.bg-blue-50]="selectedResultIndex === searchResults.indexOf(item)"
+                    [class.dark:bg-blue-900/30]="selectedResultIndex === searchResults.indexOf(item)"
+                    class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition text-left">
+                    <i [class]="item.icon + ' text-green-600 dark:text-green-400 text-xl w-6'"></i>
+                    <div class="flex-1">
+                      <p class="font-medium text-gray-900 dark:text-white">{{ item.title }}</p>
+                      @if (item.subtitle) {
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ item.subtitle }}</p>
+                      }
+                    </div>
+                    <i class="fas fa-question-circle text-gray-400 text-sm"></i>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+        }
+      </div>
+
+      <!-- Footer del modal -->
+      <div class="px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border-t border-gray-200 dark:border-gray-600 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+        <div class="flex items-center gap-4">
+          <span><kbd class="px-2 py-1 bg-white dark:bg-gray-600 rounded">↑↓</kbd> Navegar</span>
+          <span><kbd class="px-2 py-1 bg-white dark:bg-gray-600 rounded">Enter</kbd> {{ 'SEARCH.PRESS_TO_SELECT' | translate }}</span>
+        </div>
+        <span><kbd class="px-2 py-1 bg-white dark:bg-gray-600 rounded">Esc</kbd> {{ 'SEARCH.PRESS_TO_CLOSE' | translate }}</span>
+      </div>
+    </div>
+  </div>
+
 </nav>

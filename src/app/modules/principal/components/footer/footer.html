@@ -8,10 +8,10 @@
         <div class="p-2 rounded-lg">
             <i class="fa-solid fa-heart-pulse"></i>
         </div>
-        <h3 class="text-white text-xl font-bold"><span class="text-bold">Telecuidado Mayor</span></h3>
+        <h3 class="text-white text-xl font-bold"><span class="text-bold">{{ 'FOOTER.BRAND' | translate }}</span></h3>
       </div>
       <p class="text-sm leading-relaxed">
-        Tu salud, nuestra prioridad. Plataforma médica integral para gestionar tus citas, historial y bienestar.
+        {{ 'FOOTER.DESCRIPTION' | translate }}
       </p>
       <div class="flex gap-3 mt-5">
         <a href="#" class="bg-gray-800 hover:bg-[#004bbc] p-2 rounded-lg transition"><i class="fa-brands fa-facebook-f text-white"></i></a>
@@ -22,11 +22,11 @@
 
     <!-- Contacto -->
     <div>
-      <h4 class="text-white font-semibold mb-4">Contáctanos</h4>
+      <h4 class="text-white font-semibold mb-4">{{ 'FOOTER.CONTACT' | translate }}</h4>
       <ul class="space-y-2 text-sm">
-        <li class="flex items-center gap-2"><i class="fas fa-phone text-[#004baa]"></i> +593 987 654 321</li>
-        <li class="flex items-center gap-2"><i class="fas fa-envelope text-[#004baa]"></i> contacto@telecuidado.ec</li>
-        <li class="flex items-start gap-2"><i class="fas fa-map-marker-alt text-[#004baa] mt-1"></i> Manta</li>
+        <li class="flex items-center gap-2"><i class="fas fa-phone text-[#004baa]"></i> {{ 'FOOTER.PHONE' | translate }}</li>
+        <li class="flex items-center gap-2"><i class="fas fa-envelope text-[#004baa]"></i> {{ 'FOOTER.EMAIL' | translate }}</li>
+        <li class="flex items-start gap-2"><i class="fas fa-map-marker-alt text-[#004baa] mt-1"></i> {{ 'FOOTER.ADDRESS' | translate }}</li>
       </ul>
     </div>
   </div>
@@ -34,7 +34,7 @@
   <!-- Barra inferior -->
   <div class="border-t border-gray-700">
     <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center text-sm gap-3">
-      <p>© {{ currentYear }} <span class="text-white font-semibold"><span class="text-bold">Telecuidado Mayor</span></span>. Todos los derechos reservados.</p>
+      <p>© {{ currentYear }} <span class="text-white font-semibold"><span class="text-bold">{{ 'FOOTER.BRAND' | translate }}</span></span>. {{ 'FOOTER.RIGHTS' | translate }}</p>
 
     </div>
   </div>

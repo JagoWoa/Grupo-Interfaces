@@ -8,8 +8,8 @@
     <div class="bg-white rounded-2xl shadow-2xl p-8 space-y-6 card-login">
 
       <div class="text-center space-y-2">
-        <h1 class="text-3xl font-bold text-black">Iniciar Sesión</h1>
-        <p class="text-gray-600">Bienvenido de nuevo a Telecuidado Mayor</p>
+        <h1 class="text-3xl font-bold text-black">{{ 'LOGIN.TITLE' | translate }}</h1>
+        <p class="text-gray-600">{{ 'LOGIN.WELCOME' | translate }}</p>
       </div>
 
       @if (errorMessage) {
@@ -29,18 +29,18 @@
         <!-- Email -->
         <div class="space-y-2">
           <label for="email" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
-            Correo electrónico
+            {{ 'LOGIN.EMAIL' | translate }}
           </label>
           <input type="email" id="email" name="email" [(ngModel)]="email" (blur)="validateEmail()"
-            placeholder="ejemplo@correo.com" required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:ring-2 focus:ring-blue-500" />
+            [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate" required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg text-black focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400" />
         </div>
 
         <!-- Password -->
         <div class="space-y-2">
           <label for="password" class="block text-sm font-medium text-black flex items-center gap-2">
-            Contraseña
-            <button type="button" class="ml-auto text-blue-600 hover:text-blue-800" title="Ayuda">
+            {{ 'LOGIN.PASSWORD' | translate }}
+            <button type="button" class="ml-auto text-blue-600 hover:text-blue-800" [title]="'LOGIN.HELP' | translate">
               ?
             </button>
           </label>
@@ -48,12 +48,12 @@
           <div class="relative">
             <input [type]="showPassword ? 'text' : 'password'" id="password" name="password"
               [(ngModel)]="password" (blur)="validatePassword()"
-              placeholder="••••••••" required [class.border-red-500]="passwordError"
-              class="w-full px-4 py-3 pr-12 border-gray-300 rounded-lg transition-all text-black focus:ring-2 focus:ring-blue-500" />
+              [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate" required [class.border-red-500]="passwordError"
+              class="w-full px-4 py-3 pr-12 border-gray-300 rounded-lg transition-all text-black focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400" />
 
             <button type="button" (click)="togglePasswordVisibility()" 
               class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-              title="{{ showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña' }}">
+              [title]="showPassword ? ('LOGIN.HIDE_PASSWORD' | translate) : ('LOGIN.SHOW_PASSWORD' | translate)">
               👁️
             </button>
           </div>
@@ -68,11 +68,11 @@
           <label class="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe"
               class="w-4 h-4 text-[#004b98] border-gray-300 rounded focus:ring-[#004b98]" />
-            <span class="text-gray-600">Recordarme</span>
+            <span class="text-gray-600">{{ 'LOGIN.REMEMBER_ME' | translate }}</span>
           </label>
 
           <a routerLink="/recuperar-contrasena" class="text-[#004b98] hover:underline font-medium">
-            ¿Olvidaste tu contraseña?
+            {{ 'LOGIN.FORGOT_PASSWORD' | translate }}
           </a>
         </div>
 
@@ -80,17 +80,17 @@
         <button type="submit" [disabled]="isLoading"
           class="w-full bg-[#004b98] text-white py-3 rounded-lg font-semibold hover:bg-[#004bbc] transition-all shadow-lg disabled:opacity-50 flex items-center justify-center gap-2">
           @if (isLoading) {
-            <span class="animate-spin">🔄</span> Iniciando sesión...
+            <span class="animate-spin">🔄</span> {{ 'LOGIN.LOGGING_IN' | translate }}
           } @else {
-            Iniciar Sesión
+            {{ 'LOGIN.LOGIN_BUTTON' | translate }}
           }
         </button>
       </form>
 
       <div class="text-center text-sm">
-        <span class="text-gray-600">¿No tienes cuenta?</span>
+        <span class="text-gray-600">{{ 'LOGIN.NO_ACCOUNT' | translate }}</span>
         <a routerLink="/register" class="text-[#004b98] hover:underline font-semibold ml-1">
-          Regístrate aquí
+          {{ 'LOGIN.REGISTER_HERE' | translate }}
         </a>
       </div>
 

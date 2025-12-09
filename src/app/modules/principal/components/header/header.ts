@@ -1,17 +1,31 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { Route } from '@angular/router';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ChatService } from '../../../../core/services/chat.service';
 import { Subscription } from 'rxjs';
 import { ThemeService } from '../../../../core/services/theme.service';
+import { SpeakOnHoverDirective } from '../../../../core/directives/speak-on-hover.directive';
+import { TextToSpeechService } from '../../../../core/services/text-to-speech.service';
+import { LanguageService } from '../../../../core/services/language.service';
+import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
+
+interface SearchItem {
+  title: string;
+  subtitle?: string;
+  icon: string;
+  route?: string;
+  action?: () => void;
+  category: 'navigation' | 'patients' | 'help';
+}
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SpeakOnHoverDirective, TranslatePipe, FormsModule],
   templateUrl: './header.html',
   styleUrls: ['./header.css'],
 })
@@ -20,14 +34,22 @@ export class Header implements OnInit, OnDestroy {
   selectedLanguage: string = 'es';
   currentPage: string = 'Inicio';
   isAccessibilityMenuOpen: boolean = false;
+  isAccessibilityDropdownOpen: boolean = false;
+  isMobileMenuOpen: boolean = false;
+  isSearchOpen: boolean = false;
   isAuthenticated: boolean = false;
   userName: string = '';
   userRole: string = '';
   unreadMessages: number = 0;
-  isChatOpen: boolean = false; // ✅ Cambiado de toggleChat a isChatOpen
+  isChatOpen: boolean = false;
   private authSubscription?: Subscription;
   private messagesSubscription?: Subscription;
   isDarkMode: boolean = false;
+  
+  // Búsqueda
+  searchResults: SearchItem[] = [];
+  allSearchItems: SearchItem[] = [];
+  selectedResultIndex: number = 0;
 
 
   languages = [
@@ -41,7 +63,56 @@ export class Header implements OnInit, OnDestroy {
     { id: 'screenReader', label: 'Lector de Pantalla', icon: 'fas fa-volume-up' }
   ];
 
-  constructor(private authService: AuthService, private themeService: ThemeService, private chatService: ChatService) { }
+  constructor(
+    private authService: AuthService, 
+    private themeService: ThemeService, 
+    private chatService: ChatService, 
+    private ttsService: TextToSpeechService, 
+    private languageService: LanguageService,
+    private router: Router
+  ) { }
+
+  // ⌨️ Atajo de teclado: Ctrl + Shift + T para cambiar el tema
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    // Ctrl + Shift + Z para cambiar el tema
+    if (event.ctrlKey && event.shiftKey && (event.key === 'Z' || event.key === 'z')) {
+      event.preventDefault();
+      this.botonCambio();
+      console.log('⌨️ Atajo de teclado activado: Ctrl + Shift + Z (Tema)');
+    }
+    
+    // Ctrl + Shift + L para cambiar el idioma
+    if (event.ctrlKey && event.shiftKey && (event.key === 'L' || event.key === 'l')) {
+      event.preventDefault();
+      this.changeLanguage();
+      console.log('⌨️ Atajo de teclado activado: Ctrl + Shift + L (Idioma)');
+    }
+
+    // Ctrl + K para abrir búsqueda
+    if (event.ctrlKey && (event.key === 'K' || event.key === 'k')) {
+      event.preventDefault();
+      this.toggleSearch();
+      console.log('⌨️ Atajo de teclado activado: Ctrl + K (Búsqueda)');
+    }
+
+    // Navegación con flechas en búsqueda
+    if (this.isSearchOpen) {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        this.selectedResultIndex = Math.min(this.selectedResultIndex + 1, this.searchResults.length - 1);
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        this.selectedResultIndex = Math.max(this.selectedResultIndex - 1, 0);
+      } else if (event.key === 'Enter' && this.searchResults.length > 0) {
+        event.preventDefault();
+        this.selectSearchResult(this.searchResults[this.selectedResultIndex]);
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        this.closeSearch();
+      }
+    }
+  }
 
   toggleChat(): void {
     this.isChatOpen = !this.isChatOpen;
@@ -56,6 +127,44 @@ export class Header implements OnInit, OnDestroy {
   botonCambio(): void {
     this.themeService.toggleTheme();
     console.log('🌗 Header - Modo oscuro:', this.isDarkMode);
+  }
+
+  toggleAccessibilityDropdown(): void {
+    this.isAccessibilityDropdownOpen = !this.isAccessibilityDropdownOpen;
+  }
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
+    this.isAccessibilityDropdownOpen = false;
+  }
+
+  changeLanguage(): void {
+    const currentLang = this.languageService.getCurrentLanguage();
+    const newLang = currentLang === 'es' ? 'en' : 'es';
+    this.languageService.setLanguage(newLang);
+    
+    // Actualizar idioma del TTS
+    const ttsLang = newLang === 'es' ? 'es-ES' : 'en-US';
+    this.ttsService.setLanguage(ttsLang);
+    
+    console.log('🌐 Idioma cambiado a:', newLang);
+  }
+
+  getCurrentLanguage(): string {
+    return this.languageService.getCurrentLanguage();
+  }
+
+  toggleSpeakOnHover(): void {
+    this.ttsService.toggle();
+    console.log('🔊 Lectura por voz:', this.ttsService.isEnabled() ? 'activada' : 'desactivada');
+  }
+
+  isSpeakOnHoverEnabled(): boolean {
+    return this.ttsService.isEnabled();
   }
 
   ngOnInit() {
@@ -103,6 +212,177 @@ export class Header implements OnInit, OnDestroy {
 
   logout() {
     this.authService.logout();
+  }
+
+  // Métodos de búsqueda
+  initializeSearchItems(): void {
+    const isDoctor = this.userRole === 'Doctor';
+    const isPatient = this.userRole === 'Paciente';
+    
+    this.allSearchItems = [];
+
+    // Navegación común para todos los usuarios autenticados
+    if (this.isAuthenticated) {
+      this.allSearchItems.push(
+        {
+          title: this.languageService.translate('HEADER.DASHBOARD'),
+          icon: 'fa-solid fa-chart-line',
+          route: '/dashboard',
+          category: 'navigation'
+        },
+        {
+          title: this.languageService.translate('HEADER.PROFILE'),
+          icon: 'fa-solid fa-user',
+          route: '/perfil',
+          category: 'navigation'
+        }
+      );
+
+      // Opciones específicas para Pacientes
+      if (isPatient) {
+        this.allSearchItems.push(
+          {
+            title: this.languageService.translate('HEADER.HEALTH'),
+            subtitle: this.languageService.translate('PATIENT.VITAL_SIGNS'),
+            icon: 'fa-solid fa-heart-pulse',
+            route: '/usuario',
+            category: 'navigation'
+          },
+          {
+            title: this.languageService.translate('SEARCH.CHAT'),
+            subtitle: this.languageService.translate('CHAT.TITLE_DOCTOR'),
+            icon: 'fa-solid fa-comments',
+            action: () => this.toggleChat(),
+            category: 'navigation'
+          }
+        );
+      }
+
+      // Opciones específicas para Doctores
+      if (isDoctor) {
+        this.allSearchItems.push(
+          {
+            title: this.languageService.translate('SEARCH.CHAT'),
+            subtitle: this.languageService.translate('CHAT.TITLE_PATIENT'),
+            icon: 'fa-solid fa-comments',
+            action: () => this.toggleChat(),
+            category: 'navigation'
+          }
+        );
+      }
+    } else {
+      // Opciones para usuarios NO autenticados
+      this.allSearchItems.push(
+        {
+          title: this.languageService.translate('AUTH.HOME'),
+          icon: 'fa-solid fa-house',
+          route: '/inicio',
+          category: 'navigation'
+        },
+        {
+          title: this.languageService.translate('AUTH.LOGIN'),
+          icon: 'fa-solid fa-right-to-bracket',
+          route: '/login',
+          category: 'navigation'
+        },
+        {
+          title: this.languageService.translate('AUTH.REGISTER'),
+          icon: 'fa-solid fa-user-plus',
+          route: '/register',
+          category: 'navigation'
+        }
+      );
+    }
+
+    // Ayuda (para todos)
+    this.allSearchItems.push(
+      {
+        title: this.languageService.translate('SEARCH.HELP_CHANGE_LANGUAGE'),
+        subtitle: this.languageService.translate('SHORTCUTS.LANGUAGE_SHORTCUT'),
+        icon: 'fa-solid fa-language',
+        action: () => this.changeLanguage(),
+        category: 'help'
+      },
+      {
+        title: this.languageService.translate('SEARCH.HELP_CHANGE_THEME'),
+        subtitle: this.languageService.translate('SHORTCUTS.THEME_SHORTCUT'),
+        icon: 'fa-solid fa-palette',
+        action: () => this.botonCambio(),
+        category: 'help'
+      }
+    );
+
+    // Ayuda adicional para usuarios autenticados
+    if (this.isAuthenticated) {
+      if (isDoctor) {
+        this.allSearchItems.push({
+          title: this.languageService.translate('SEARCH.HELP_ADD_REMINDER'),
+          subtitle: this.languageService.translate('DOCTOR.ADD_REMINDER'),
+          icon: 'fa-solid fa-bell',
+          route: '/doctor',
+          category: 'help'
+        });
+      } else if (isPatient) {
+        this.allSearchItems.push({
+          title: this.languageService.translate('SEARCH.HELP_ADD_REMINDER'),
+          subtitle: this.languageService.translate('PATIENT.REMINDERS'),
+          icon: 'fa-solid fa-bell',
+          route: '/usuario',
+          category: 'help'
+        });
+      }
+    }
+  }
+
+  toggleSearch(): void {
+    this.isSearchOpen = !this.isSearchOpen;
+    if (this.isSearchOpen) {
+      this.searchQuery = '';
+      this.initializeSearchItems();
+      this.performSearch();
+      // Focus en el input después de un pequeño delay
+      setTimeout(() => {
+        const searchInput = document.querySelector('#search-input') as HTMLInputElement;
+        searchInput?.focus();
+      }, 100);
+    }
+  }
+
+  closeSearch(): void {
+    this.isSearchOpen = false;
+    this.searchQuery = '';
+    this.searchResults = [];
+    this.selectedResultIndex = 0;
+  }
+
+  performSearch(): void {
+    const query = this.searchQuery.toLowerCase().trim();
+    
+    if (!query) {
+      // Mostrar accesos rápidos cuando no hay búsqueda
+      this.searchResults = this.allSearchItems.filter(item => item.category === 'navigation').slice(0, 5);
+    } else {
+      // Filtrar por título y subtítulo
+      this.searchResults = this.allSearchItems.filter(item => 
+        item.title.toLowerCase().includes(query) || 
+        item.subtitle?.toLowerCase().includes(query)
+      );
+    }
+    
+    this.selectedResultIndex = 0;
+  }
+
+  selectSearchResult(item: SearchItem): void {
+    if (item.route) {
+      this.router.navigate([item.route]);
+    } else if (item.action) {
+      item.action();
+    }
+    this.closeSearch();
+  }
+
+  getCategoryResults(category: 'navigation' | 'patients' | 'help'): SearchItem[] {
+    return this.searchResults.filter(item => item.category === category);
   }
 
 }

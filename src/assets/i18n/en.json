@@ -1,0 +1,161 @@
+{
+  "HEADER": {
+    "TITLE": "Elder Telecare",
+    "DASHBOARD": "Dashboard",
+    "PROFILE": "Profile",
+    "HEALTH": "Health",
+    "ACCESSIBILITY": "Accessibility",
+    "THEME": "Theme",
+    "LANGUAGE": "Language",
+    "VOICE_READING": "Voice Reading",
+    "LOGOUT": "Logout",
+    "EXIT": "Exit",
+    "SEARCH": "Search",
+    "MENU": "Menu"
+  },
+  "AUTH": {
+    "LOGIN": "Login",
+    "REGISTER": "Register User",
+    "HOME": "Home"
+  },
+  "COMMON": {
+    "ON": "ON",
+    "OFF": "OFF",
+    "DOCTOR": "Doctor",
+    "PATIENT": "Patient"
+  },
+  "SHORTCUTS": {
+    "THEME_SHORTCUT": "Ctrl+Shift+Z",
+    "LANGUAGE_SHORTCUT": "Ctrl+Shift+L"
+  },
+  "WELCOME": {
+    "HERO_TITLE": "Welcome to Elder Telecare!",
+    "HERO_DESCRIPTION": "Your health in good hands. Manage appointments, consult your medical history, and keep a complete track of your well-being.",
+    "LOGIN_BUTTON": "Login",
+    "ABOUT_TITLE": "Elder Telecare",
+    "ABOUT_DESCRIPTION": "Manage your comprehensive health for free with our telecare platform for older adults. Schedule appointments, receive reminders, chat with a doctor, and monitor your well-being. All in one place, with an accessible and easy-to-use design.",
+    "START_BUTTON": "Start now",
+    "WORK_TITLE": "Work with us",
+    "WORK_DESCRIPTION": "We invite you to be part of a project that is changing the way older adults manage their well-being. We have created a comprehensive and free telecare platform that gives them back control over their health.",
+    "REGISTER_PROFESSIONAL": "Register as a professional"
+  },
+  "PATIENT": {
+    "VITAL_SIGNS": "Vital Signs",
+    "BLOOD_PRESSURE": "Blood Pressure",
+    "HEART_RATE": "Heart Rate",
+    "TEMPERATURE": "Temperature",
+    "WEIGHT": "Weight",
+    "REMINDERS": "Reminders",
+    "NO_REMINDERS": "You have no pending reminders"
+  },
+  "DASHBOARD": {
+    "LOADING": "Loading...",
+    "EDIT_PROFILE": "Edit Profile",
+    "EMAIL": "Email",
+    "PHONE": "Phone",
+    "BIRTH_DATE": "Birth Date",
+    "MY_HEALTH": "My Health",
+    "MY_HEALTH_DESC": "Check your vital signs and keep track of your health",
+    "VIEW_DETAILS": "View Details",
+    "MY_PATIENTS": "My Patients",
+    "MY_PATIENTS_DESC": "Manage and monitor your patients",
+    "VIEW_PATIENTS": "View Patients"
+  },
+  "PROFILE": {
+    "LOADING": "Loading...",
+    "PAGE_TITLE": "My Profile",
+    "SUBTITLE": "Manage your personal information",
+    "PERSONAL_INFO": "Personal Information",
+    "FULL_NAME": "Full Name",
+    "FULL_NAME_PLACEHOLDER": "Enter your full name",
+    "EMAIL": "Email",
+    "PHONE": "Phone",
+    "PHONE_PLACEHOLDER": "Enter your phone number",
+    "BIRTH_DATE": "Birth Date",
+    "ADDRESS": "Address",
+    "ADDRESS_PLACEHOLDER": "Enter your address",
+    "PROFESSIONAL_INFO": "Professional Information",
+    "PROFESSIONAL_TITLE": "Professional Title",
+    "PROFESSIONAL_TITLE_PLACEHOLDER": "Dr., MD, PhD, etc.",
+    "SPECIALTY": "Specialty",
+    "SPECIALTY_PLACEHOLDER": "Geriatrics, Cardiology, etc.",
+    "LICENSE_NUMBER": "License Number",
+    "LICENSE_PLACEHOLDER": "Medical license number",
+    "YEARS_EXPERIENCE": "Years of Experience",
+    "YEARS_PLACEHOLDER": "0",
+    "DESCRIPTION": "Description",
+    "DESCRIPTION_PLACEHOLDER": "Tell us about your experience and specialization",
+    "CANCEL": "Cancel",
+    "SAVE": "Save"
+  },
+  "SEARCH": {
+    "CHAT": "Chat"
+  },
+  "CHAT": {
+    "TITLE_DOCTOR": "Chat with your doctor"
+  },
+  "FOOTER": {
+    "BRAND": "Elder Telecare",
+    "DESCRIPTION": "Telecare platform for older adults. Manage your health, schedule appointments and stay connected with healthcare professionals.",
+    "CONTACT": "Contact",
+    "PHONE": "+593 99 123 4567",
+    "EMAIL": "info@eldertelecare.com",
+    "ADDRESS": "Quito, Ecuador",
+    "RIGHTS": "All rights reserved"
+  },
+  "LOGIN": {
+    "TITLE": "Login",
+    "WELCOME": "Welcome back",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "youremail@example.com",
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "REMEMBER_ME": "Remember me",
+    "FORGOT_PASSWORD": "Forgot your password?",
+    "LOGIN_BUTTON": "Login",
+    "LOGGING_IN": "Logging in...",
+    "NO_ACCOUNT": "Don't have an account?",
+    "REGISTER_HERE": "Register here"
+  },
+  "REGISTER": {
+    "TITLE": "User Registration",
+    "WELCOME": "Create your Elder Telecare account",
+    "NAME": "First Name",
+    "NAME_PLACEHOLDER": "Enter your first name",
+    "LAST_NAME": "Last Name",
+    "LAST_NAME_PLACEHOLDER": "Enter your last name",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "youremail@example.com",
+    "PHONE": "Phone",
+    "PHONE_PLACEHOLDER": "+593 987654321",
+    "BIRTH_DATE": "Birth Date",
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": "Minimum 6 characters",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Repeat your password",
+    "TERMS": "I accept the terms and conditions",
+    "REGISTER_BUTTON": "Register",
+    "ALREADY_ACCOUNT": "Already have an account?",
+    "LOGIN_HERE": "Login here"
+  },
+  "DOCTOR": {
+    "LOADING": "Loading...",
+    "PANEL_TITLE": "Doctor Panel",
+    "WELCOME": "Welcome",
+    "PATIENTS": "Patients",
+    "LAST_VISIT": "Last visit",
+    "MY_PATIENTS": "My Patients",
+    "MY_PATIENTS_DESC": "Manage and monitor your patients",
+    "VIEW_PATIENTS": "View Patients",
+    "VITAL_SIGNS": "Vital Signs",
+    "BLOOD_PRESSURE": "Blood Pressure",
+    "HEART_RATE": "Heart Rate",
+    "TEMPERATURE": "Temperature",
+    "WEIGHT": "Weight",
+    "UPDATE_VITAL_SIGNS": "Update Vital Signs",
+    "REMINDERS": "Reminders",
+    "REMINDER_TITLE": "Reminder title",
+    "REMINDER_SUBTITLE": "Reminder description",
+    "ADD_REMINDER": "Add Reminder"
+  }
+}

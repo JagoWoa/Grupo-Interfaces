@@ -1,33 +1,35 @@
 <app-header></app-header>
 
-<section class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-8 px-4">
-    <div class="max-w-4xl mx-auto">
+<section class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-8 px-4 contenedor-perfil">
+    <div class="max-w-4xl mx-auto contenido-perfil">
         @if (loading) {
-            <div class="flex items-center justify-center min-h-[400px]">
-                <div class="text-center">
-                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#004b98]"></div>
-                    <p class="mt-4 text-gray-600">Cargando perfil...</p>
+            <div class="flex items-center justify-center min-h-[400px] loader-wrapper">
+                <div class="text-center loader-box">
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#004b98] loader-icon"></div>
+                    <p class="mt-4 text-gray-600 loader-text">{{ 'PROFILE.LOADING' | translate }}</p>
                 </div>
             </div>
         } @else {
             <!-- Header con título -->
-            <div class="mb-8">
-                <div class="flex items-center gap-3 mb-2">
-                    <a routerLink="/dashboard" class="text-gray-600 hover:text-[#004b98] transition-colors">
+            <div class="mb-8 header-perfil">
+                <div class="flex items-center gap-3 mb-2 header-titulo">
+                    <a routerLink="/dashboard" class="text-gray-600 hover:text-[#004b98] transition-colors boton-volver">
                         <i class="fas fa-arrow-left text-xl"></i>
                     </a>
-                    <h1 class="text-4xl font-bold text-gray-900">Editar Perfil</h1>
+                    <h1 class="text-4xl font-bold text-gray-900 titulo-perfil">{{ 'PROFILE.PAGE_TITLE' | translate }}</h1>
                 </div>
-                <p class="text-gray-600 ml-10">Actualiza tu información personal</p>
+                <p class="text-gray-600 ml-10 subtitulo-perfil">{{ 'PROFILE.SUBTITLE' | translate }}</p>
             </div>
 
             @if (message) {
-                <div class="mb-6 p-4 rounded-xl shadow-md animate-fade-in" 
+                <div class="mb-6 p-4 rounded-xl shadow-md animate-fade-in mensaje-alerta" 
                      [class.bg-red-50]="messageType === 'error'" 
                      [class.text-red-700]="messageType === 'error'"
                      [class.bg-green-50]="messageType === 'success'" 
-                     [class.text-green-700]="messageType === 'success'">
-                    <div class="flex items-center gap-2">
+                     [class.text-green-700]="messageType === 'success'"
+                     [class.mensaje-error]="messageType === 'error'"
+                     [class.mensaje-exito]="messageType === 'success'">
+                    <div class="flex items-center gap-2 mensaje-contenido">
                         <i class="fas" [class.fa-check-circle]="messageType === 'success'" [class.fa-exclamation-circle]="messageType === 'error'"></i>
                         {{ message }}
                     </div>
@@ -35,186 +37,186 @@
             }
 
             <!-- Formulario de Edición -->
-            <div class="bg-white rounded-3xl shadow-2xl p-8">
-                <form (ngSubmit)="updateProfile()">
+            <div class="bg-white rounded-3xl shadow-2xl p-8 formulario-card">
+                <form (ngSubmit)="updateProfile()" class="formulario-perfil">
                     
                     <!-- Información Personal -->
-                    <div class="mb-8">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                            <i class="fas fa-user text-[#004b98]"></i>
-                            Información Personal
+                    <div class="mb-8 seccion-informacion">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 titulo-seccion">
+                            <i class="fas fa-user text-[#004b98] icono-seccion"></i>
+                            {{ 'PROFILE.PERSONAL_INFO' | translate }}
                         </h2>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 grid-campos">
                             <!-- Nombre Completo -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    <i class="fas fa-user mr-2 text-blue-500"></i>
-                                    Nombre Completo
+                            <div class="campo-formulario campo-nombre">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2 label-campo">
+                                    <i class="fas fa-user mr-2 text-blue-500 icono-label"></i>
+                                    {{ 'PROFILE.FULL_NAME' | translate }}
                                 </label>
                                 <input 
                                     type="text" 
                                     [(ngModel)]="profile.nombre_completo" 
                                     name="nombre_completo"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900"
-                                    placeholder="Juan Pérez García"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900 input-campo"
+                                    [placeholder]="'PROFILE.FULL_NAME_PLACEHOLDER' | translate"
                                     required>
                             </div>
 
                             <!-- Email (solo lectura) -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    <i class="fas fa-envelope mr-2 text-green-500"></i>
-                                    Correo Electrónico
+                            <div class="campo-formulario campo-email">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2 label-campo">
+                                    <i class="fas fa-envelope mr-2 text-green-500 icono-label"></i>
+                                    {{ 'PROFILE.EMAIL' | translate }}
                                 </label>
                                 <input 
                                     type="email" 
                                     [value]="user?.email" 
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-600 cursor-not-allowed"
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-600 cursor-not-allowed input-campo input-disabled"
                                     disabled
                                     readonly>
                             </div>
 
                             <!-- Teléfono -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    <i class="fas fa-phone mr-2 text-purple-500"></i>
-                                    Teléfono
+                            <div class="campo-formulario campo-telefono">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2 label-campo">
+                                    <i class="fas fa-phone mr-2 text-purple-500 icono-label"></i>
+                                    {{ 'PROFILE.PHONE' | translate }}
                                 </label>
                                 <input 
                                     type="tel" 
                                     [(ngModel)]="profile.telefono" 
                                     name="telefono"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900"
-                                    placeholder="+51 987 654 321">
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900 input-campo"
+                                    [placeholder]="'PROFILE.PHONE_PLACEHOLDER' | translate">
                             </div>
 
                             <!-- Fecha de Nacimiento -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    <i class="fas fa-calendar mr-2 text-pink-500"></i>
-                                    Fecha de Nacimiento
+                            <div class="campo-formulario campo-fecha">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2 label-campo">
+                                    <i class="fas fa-calendar mr-2 text-pink-500 icono-label"></i>
+                                    {{ 'PROFILE.BIRTH_DATE' | translate }}
                                 </label>
                                 <input 
                                     type="date" 
                                     [(ngModel)]="profile.fecha_nacimiento" 
                                     name="fecha_nacimiento"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900">
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900 input-campo">
                             </div>
 
                             <!-- Dirección -->
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    <i class="fas fa-map-marker-alt mr-2 text-red-500"></i>
-                                    Dirección
+                            <div class="md:col-span-2 campo-formulario campo-direccion">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2 label-campo">
+                                    <i class="fas fa-map-marker-alt mr-2 text-red-500 icono-label"></i>
+                                    {{ 'PROFILE.ADDRESS' | translate }}
                                 </label>
                                 <input 
                                     type="text" 
                                     [(ngModel)]="profile.direccion" 
                                     name="direccion"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900"
-                                    placeholder="Av. Principal 123, Lima, Perú">
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900 input-campo"
+                                    [placeholder]="'PROFILE.ADDRESS_PLACEHOLDER' | translate">
                             </div>
                         </div>
                     </div>
 
                     @if (role === 'doctor') {
                         <!-- Información Profesional (Solo para doctores) -->
-                        <div class="mb-8 border-t pt-8">
-                            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                                <i class="fas fa-user-md text-[#004b98]"></i>
-                                Información Profesional
+                        <div class="mb-8 border-t pt-8 seccion-profesional">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 titulo-seccion">
+                                <i class="fas fa-user-md text-[#004b98] icono-seccion"></i>
+                                {{ 'PROFILE.PROFESSIONAL_INFO' | translate }}
                             </h2>
                             
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 grid-campos-doctor">
                                 <!-- Título Profesional -->
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-graduation-cap mr-2 text-indigo-500"></i>
-                                        Título Profesional
+                                <div class="campo-formulario campo-titulo">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 label-campo">
+                                        <i class="fas fa-graduation-cap mr-2 text-indigo-500 icono-label"></i>
+                                        {{ 'PROFILE.PROFESSIONAL_TITLE' | translate }}
                                     </label>
                                     <input 
                                         type="text" 
                                         [(ngModel)]="profile.titulo_profesional" 
                                         name="titulo_profesional"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900"
-                                        placeholder="Médico Cirujano">
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900 input-campo"
+                                        [placeholder]="'PROFILE.PROFESSIONAL_TITLE_PLACEHOLDER' | translate">
                                 </div>
 
                                 <!-- Especialidad -->
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-stethoscope mr-2 text-teal-500"></i>
-                                        Especialidad
+                                <div class="campo-formulario campo-especialidad">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 label-campo">
+                                        <i class="fas fa-stethoscope mr-2 text-teal-500 icono-label"></i>
+                                        {{ 'PROFILE.SPECIALTY' | translate }}
                                     </label>
                                     <input 
                                         type="text" 
                                         [(ngModel)]="profile.especialidad" 
                                         name="especialidad"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900"
-                                        placeholder="Geriatría">
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900 input-campo"
+                                        [placeholder]="'PROFILE.SPECIALTY_PLACEHOLDER' | translate">
                                 </div>
 
                                 <!-- Licencia Médica -->
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-id-card mr-2 text-orange-500"></i>
-                                        Licencia Médica
+                                <div class="campo-formulario campo-licencia">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 label-campo">
+                                        <i class="fas fa-id-card mr-2 text-orange-500 icono-label"></i>
+                                        {{ 'PROFILE.LICENSE_NUMBER' | translate }}
                                     </label>
                                     <input 
                                         type="text" 
                                         [(ngModel)]="profile.licencia_medica" 
                                         name="licencia_medica"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900"
-                                        placeholder="CMP-12345">
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900 input-campo"
+                                        [placeholder]="'PROFILE.LICENSE_PLACEHOLDER' | translate">
                                 </div>
 
                                 <!-- Años de Experiencia -->
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-calendar-check mr-2 text-cyan-500"></i>
-                                        Años de Experiencia
+                                <div class="campo-formulario campo-experiencia">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 label-campo">
+                                        <i class="fas fa-calendar-check mr-2 text-cyan-500 icono-label"></i>
+                                        {{ 'PROFILE.YEARS_EXPERIENCE' | translate }}
                                     </label>
                                     <input 
                                         type="number" 
                                         [(ngModel)]="profile.anios_experiencia" 
                                         name="anios_experiencia"
                                         min="0"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900"
-                                        placeholder="10">
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all text-gray-900 input-campo"
+                                        [placeholder]="'PROFILE.YEARS_PLACEHOLDER' | translate">
                                 </div>
 
                                 <!-- Descripción -->
-                                <div class="md:col-span-2">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-file-alt mr-2 text-gray-500"></i>
-                                        Descripción Profesional
+                                <div class="md:col-span-2 campo-formulario campo-descripcion">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 label-campo">
+                                        <i class="fas fa-file-alt mr-2 text-gray-500 icono-label"></i>
+                                        {{ 'PROFILE.DESCRIPTION' | translate }}
                                     </label>
                                     <textarea 
                                         [(ngModel)]="profile.descripcion" 
                                         name="descripcion"
                                         rows="4"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all resize-none text-gray-900"
-                                        placeholder="Describe tu experiencia y áreas de especialización..."></textarea>
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004b98] focus:border-transparent transition-all resize-none text-gray-900 input-campo textarea-campo"
+                                        [placeholder]="'PROFILE.DESCRIPTION_PLACEHOLDER' | translate"></textarea>
                                 </div>
                             </div>
                         </div>
                     }
 
                     <!-- Botones de acción -->
-                    <div class="flex flex-col sm:flex-row gap-4 justify-end pt-6 border-t">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-end pt-6 border-t botones-accion">
                         <button 
                             type="button"
                             (click)="cancelEdit()"
-                            class="px-8 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-all font-semibold flex items-center justify-center gap-2">
+                            class="px-8 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-all font-semibold flex items-center justify-center gap-2 boton-cancelar">
                             <i class="fas fa-times"></i>
-                            Cancelar
+                            {{ 'PROFILE.CANCEL' | translate }}
                         </button>
                         <button 
                             type="submit"
-                            class="px-8 py-3 bg-gradient-to-r from-[#004b98] to-[#0066cc] text-white rounded-xl hover:shadow-lg transition-all font-semibold flex items-center justify-center gap-2 hover:scale-105">
+                            class="px-8 py-3 bg-gradient-to-r from-[#004b98] to-[#0066cc] text-white rounded-xl hover:shadow-lg transition-all font-semibold flex items-center justify-center gap-2 hover:scale-105 boton-guardar">
                             <i class="fas fa-save"></i>
-                            Guardar Cambios
+                            {{ 'PROFILE.SAVE' | translate }}
                         </button>
                     </div>
                 </form>
