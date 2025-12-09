@@ -11,17 +11,28 @@ html {
 
 /* Estilos para links dentro del contenido */
 section a {
-  @apply text-blue-600 hover:text-blue-800 underline transition-colors;
+  color: rgb(37 99 235);
+  text-decoration: underline;
+  transition-property: color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+section a:hover {
+  color: rgb(29 78 216);
 }
 
 /* Destacar secciones importantes */
 section:hover {
-  @apply transition-all duration-200;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
 }
 
 /* Mejorar legibilidad */
 section p, section li {
-  @apply text-base;
+  font-size: 1rem;
+  line-height: 1.75rem;
   line-height: 1.8;
 }
 
@@ -32,7 +43,8 @@ section p, section li {
   }
   
   section h2 {
-    @apply text-xl;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
     flex-direction: column;
     align-items: flex-start;
   }
