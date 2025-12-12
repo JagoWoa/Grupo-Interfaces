@@ -76,8 +76,15 @@
           </a>
         </div>
 
-        <!-- Botón -->
-        <button type="submit" [disabled]="isLoading"
+          <!-- Bloqueo por intentos -->
+          @if (isLocked) {
+            <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg text-sm mb-2">
+              Demasiados intentos fallidos. Intenta nuevamente en {{ lockRemaining }}s.
+            </div>
+          }
+
+          <!-- Botón -->
+          <button type="submit" [disabled]="isLoading || isLocked"
           class="w-full bg-[#004b98] text-white py-3 rounded-lg font-semibold hover:bg-[#004bbc] transition-all shadow-lg disabled:opacity-50 flex items-center justify-center gap-2">
           @if (isLoading) {
             <span class="animate-spin">🔄</span> {{ 'LOGIN.LOGGING_IN' | translate }}

@@ -23,6 +23,9 @@ export class Login {
   isLoading: boolean = false;
   needsEmailVerification: boolean = false;
   rememberMe: boolean = false;
+  isLocked: boolean = false;
+  lockRemaining: number = 0; // segundos restantes
+  private lockTimer?: any;
   
   // Validaciones en tiempo real
   emailError: string = '';
@@ -34,7 +37,52 @@ export class Login {
     private authService: AuthService
   ) {}
 
+  ngOnInit() {
+    this.updateLockState();
+  }
+
+  private updateLockState() {
+    if (!this.email) {
+      this.isLocked = false;
+      this.lockRemaining = 0;
+      this.clearLockTimer();
+      return;
+    }
+    const remaining = this.authService.getLockoutRemainingSeconds(this.email);
+    this.isLocked = remaining > 0;
+    this.lockRemaining = remaining;
+    if (this.isLocked) {
+      this.startLockCountdown();
+    } else {
+      this.clearLockTimer();
+    }
+  }
+
+  private startLockCountdown() {
+    this.clearLockTimer();
+    this.lockTimer = setInterval(() => {
+      const remaining = this.authService.getLockoutRemainingSeconds(this.email);
+      this.lockRemaining = remaining;
+      this.isLocked = remaining > 0;
+      if (!this.isLocked) {
+        this.clearLockTimer();
+      }
+    }, 1000);
+  }
+
+  private clearLockTimer() {
+    if (this.lockTimer) {
+      clearInterval(this.lockTimer);
+      this.lockTimer = undefined;
+    }
+  }
+
   async onSubmit() {
+    this.updateLockState();
+    if (this.isLocked) {
+      this.errorMessage = `Demasiados intentos fallidos. Intenta nuevamente en ${this.lockRemaining} segundos.`;
+      return;
+    }
     this.errorMessage = '';
     this.needsEmailVerification = false;
     this.isLoading = true;
@@ -63,6 +111,7 @@ export class Login {
         // Mostrar error y verificar si necesita validación de email
         this.errorMessage = result.error || 'Credenciales incorrectas. Por favor, verifica tu email y contraseña.';
         this.needsEmailVerification = result.needsEmailVerification || false;
+        this.updateLockState();
       }
     } catch (error) {
       console.error('❌ Error en login:', error);
@@ -119,6 +168,7 @@ export class Login {
     }
 
     this.emailValid = true;
+    this.updateLockState();
   }
 
   /**

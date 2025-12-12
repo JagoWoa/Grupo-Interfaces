@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, from } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { SupabaseService } from './supabase.service';
+import { environment } from '../../../environments/environment';
 
 export interface User {
   id: string;
@@ -43,6 +44,10 @@ export interface RegisterDoctorData {
 export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+
+  // Configuración de bloqueo por intentos fallidos
+  private maxFailedAttempts = environment.security?.authLock?.maxFailedAttempts ?? 5; // número de intentos permitidos
+  private lockoutSeconds = environment.security?.authLock?.lockoutSeconds ?? 60; // tiempo de bloqueo en segundos
 
   constructor(
     private supabase: SupabaseService,
@@ -98,6 +103,12 @@ export class AuthService {
    */
   async login(email: string, password: string): Promise<{ success: boolean; error?: string; needsEmailVerification?: boolean }> {
     try {
+      // Rechazar si el email está bloqueado por demasiados intentos fallidos
+      const lockCheck = this.checkLockout(email);
+      if (lockCheck.locked) {
+        const remaining = Math.ceil(lockCheck.remainingMs / 1000);
+        return { success: false, error: `Demasiados intentos fallidos. Intenta nuevamente en ${remaining} segundos.` };
+      }
       console.log('🔐 AuthService.login - Iniciando con:', email);
       
       const { data, error } = await this.supabase.client.auth.signInWithPassword({
@@ -114,6 +125,8 @@ export class AuthService {
 
       if (error) {
         console.error('❌ AuthService.login - Error de Supabase:', error);
+        // Registrar intento fallido y evaluar bloqueo
+        this.recordFailedAttempt(email);
         throw error;
       }
 
@@ -148,10 +161,13 @@ export class AuthService {
         }
 
         console.log('✅ AuthService.login - Login exitoso');
+        // Limpiar contador de intentos si el login fue exitoso
+        this.clearFailedAttempts(email);
         return { success: true };
       }
 
       console.warn('⚠️ AuthService.login - No hay usuario en la respuesta');
+      this.recordFailedAttempt(email);
       return { success: false, error: 'No se pudo iniciar sesión' };
     } catch (error: any) {
       console.error('❌ AuthService.login - Error:', error);
@@ -175,6 +191,76 @@ export class AuthService {
         success: false, 
         error: errorMessage
       };
+    }
+  }
+
+  /**
+   * Obtener tiempo restante de bloqueo para mostrar en UI
+   */
+  getLockoutRemainingSeconds(email: string): number {
+    const check = this.checkLockout(email);
+    return Math.max(0, Math.ceil(check.remainingMs / 1000));
+  }
+
+  /**
+   * Registrar intento fallido de login para un email
+   */
+  private recordFailedAttempt(email: string) {
+    try {
+      const key = this.getLockKey(email);
+      const existing = this.getLockData(key);
+      const now = Date.now();
+      const attempts = (existing?.attempts || 0) + 1;
+
+      let lockedUntil = existing?.lockedUntil || 0;
+      if (attempts >= this.maxFailedAttempts) {
+        lockedUntil = now + this.lockoutSeconds * 1000;
+      }
+
+      const data = { attempts, lockedUntil };
+      window.localStorage.setItem(key, JSON.stringify(data));
+    } catch {}
+  }
+
+  /**
+   * Limpiar contador de intentos fallidos para un email
+   */
+  private clearFailedAttempts(email: string) {
+    try {
+      const key = this.getLockKey(email);
+      window.localStorage.removeItem(key);
+    } catch {}
+  }
+
+  /**
+   * Verificar si el email está bloqueado actualmente
+   */
+  private checkLockout(email: string): { locked: boolean; remainingMs: number } {
+    try {
+      const key = this.getLockKey(email);
+      const data = this.getLockData(key);
+      if (!data) return { locked: false, remainingMs: 0 };
+
+      const now = Date.now();
+      if (data.lockedUntil && data.lockedUntil > now) {
+        return { locked: true, remainingMs: data.lockedUntil - now };
+      }
+      return { locked: false, remainingMs: 0 };
+    } catch {
+      return { locked: false, remainingMs: 0 };
+    }
+  }
+
+  private getLockKey(email: string) {
+    return `auth.lock.${email.toLowerCase()}`;
+  }
+
+  private getLockData(key: string): { attempts: number; lockedUntil: number } | null {
+    try {
+      const raw = window.localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
     }
   }
 
