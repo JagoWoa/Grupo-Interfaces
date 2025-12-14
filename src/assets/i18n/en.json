@@ -8,6 +8,7 @@
     "THEME": "Theme",
     "LANGUAGE": "Language",
     "VOICE_READING": "Voice Reading",
+    "FONT_SIZE": "Font Size",
     "LOGOUT": "Logout",
     "EXIT": "Exit",
     "SEARCH": "Search",
@@ -22,7 +23,12 @@
     "ON": "ON",
     "OFF": "OFF",
     "DOCTOR": "Doctor",
-    "PATIENT": "Patient"
+    "PATIENT": "Patient",
+    "SMALL": "Small",
+    "NORMAL": "Normal",
+    "LARGE": "Large",
+    "XLARGE": "X-Large",
+    "XXLARGE": "XX-Large"
   },
   "SHORTCUTS": {
     "THEME_SHORTCUT": "Ctrl+Shift+Z",
@@ -48,7 +54,23 @@
     "TEMPERATURE": "Temperature",
     "WEIGHT": "Weight",
     "REMINDERS": "Reminders",
-    "NO_REMINDERS": "You have no pending reminders"
+    "NO_REMINDERS": "You have no pending reminders",
+    "SCROLL_MORE": "Scroll to see more",
+    "ASSIGNED_DOCTOR": "Assigned Doctor",
+    "NO_DOCTOR_ASSIGNED": "You don't have an assigned doctor",
+    "SELECT_DOCTOR": "Select Doctor",
+    "CHANGE_DOCTOR": "Change Doctor",
+    "AVAILABLE_DOCTORS": "Available Doctors",
+    "LOADING_DOCTORS": "Loading doctors...",
+    "NO_DOCTORS_AVAILABLE": "No doctors available at this time",
+    "YEARS_EXPERIENCE": "years of experience",
+    "UNASSIGN_DOCTOR": "Unassign Doctor",
+    "SELECT_DOCTOR_INSTRUCTION": "Click the button below to see the list of available doctors and choose yours",
+    "CLICK_TO_SELECT": "Click the 'Select' button for your preferred doctor",
+    "SELECT_THIS_DOCTOR": "Select",
+    "NO_VITAL_SIGNS": "You don't have vital signs registered yet",
+    "DOCTOR_WILL_REGISTER": "Your doctor will register them in your first appointment",
+    "PENDING": "Pending"
   },
   "DASHBOARD": {
     "LOADING": "Loading...",

@@ -132,10 +132,8 @@ export class PacientesService {
   async getDoctoresDisponibles(): Promise<{ success: boolean; data?: Doctor[]; error?: string }> {
     try {
       const { data, error } = await this.supabase.client
-        .from('v_doctores_completo')
-        .select('*')
-        .eq('disponible', true)
-        .eq('activo', true);
+        .from('doctores')
+        .select('*');
 
       if (error) throw error;
 

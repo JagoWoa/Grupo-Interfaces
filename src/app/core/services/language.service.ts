@@ -13,6 +13,7 @@ const TRANSLATIONS = {
       "THEME": "Tema",
       "LANGUAGE": "Idioma",
       "VOICE_READING": "Lectura por Voz",
+      "FONT_SIZE": "Tamaño de Texto",
       "LOGOUT": "Cerrar Sesión",
       "EXIT": "Salir",
       "SEARCH": "Buscar",
@@ -44,7 +45,12 @@ const TRANSLATIONS = {
       "ON": "ENCENDIDO",
       "OFF": "APAGADO",
       "DOCTOR": "Doctor",
-      "PATIENT": "Paciente"
+      "PATIENT": "Paciente",
+      "SMALL": "Pequeño",
+      "NORMAL": "Normal",
+      "LARGE": "Grande",
+      "XLARGE": "Muy Grande",
+      "XXLARGE": "Extra Grande"
     },
     "SHORTCUTS": {
       "THEME_SHORTCUT": "Ctrl+Shift+Z",
@@ -241,6 +247,7 @@ const TRANSLATIONS = {
       "THEME": "Theme",
       "LANGUAGE": "Language",
       "VOICE_READING": "Voice Reading",
+      "FONT_SIZE": "Font Size",
       "LOGOUT": "Logout",
       "EXIT": "Exit",
       "SEARCH": "Search",
@@ -272,7 +279,12 @@ const TRANSLATIONS = {
       "ON": "ON",
       "OFF": "OFF",
       "DOCTOR": "Doctor",
-      "PATIENT": "Patient"
+      "PATIENT": "Patient",
+      "SMALL": "Small",
+      "NORMAL": "Normal",
+      "LARGE": "Large",
+      "XLARGE": "X-Large",
+      "XXLARGE": "XX-Large"
     },
     "SHORTCUTS": {
       "THEME_SHORTCUT": "Ctrl+Shift+Z",

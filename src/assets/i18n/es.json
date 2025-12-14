@@ -8,6 +8,7 @@
     "THEME": "Tema",
     "LANGUAGE": "Idioma",
     "VOICE_READING": "Lectura por Voz",
+    "FONT_SIZE": "Tamaño de Texto",
     "LOGOUT": "Cerrar Sesión",
     "EXIT": "Salir",
     "SEARCH": "Buscar",
@@ -22,7 +23,12 @@
     "ON": "ENCENDIDO",
     "OFF": "APAGADO",
     "DOCTOR": "Doctor",
-    "PATIENT": "Paciente"
+    "PATIENT": "Paciente",
+    "SMALL": "Pequeño",
+    "NORMAL": "Normal",
+    "LARGE": "Grande",
+    "XLARGE": "Muy Grande",
+    "XXLARGE": "Extra Grande"
   },
   "SHORTCUTS": {
     "THEME_SHORTCUT": "Ctrl+Shift+Z",
@@ -48,7 +54,23 @@
     "TEMPERATURE": "Temperatura",
     "WEIGHT": "Peso",
     "REMINDERS": "Recordatorios",
-    "NO_REMINDERS": "No tienes recordatorios pendientes"
+    "NO_REMINDERS": "No tienes recordatorios pendientes",
+    "SCROLL_MORE": "Desliza para ver más",
+    "ASSIGNED_DOCTOR": "Doctor Asignado",
+    "NO_DOCTOR_ASSIGNED": "No tienes un doctor asignado",
+    "SELECT_DOCTOR": "Seleccionar Doctor",
+    "CHANGE_DOCTOR": "Cambiar Doctor",
+    "AVAILABLE_DOCTORS": "Doctores Disponibles",
+    "LOADING_DOCTORS": "Cargando doctores...",
+    "NO_DOCTORS_AVAILABLE": "No hay doctores disponibles en este momento",
+    "YEARS_EXPERIENCE": "años de experiencia",
+    "UNASSIGN_DOCTOR": "Desasignar Doctor",
+    "SELECT_DOCTOR_INSTRUCTION": "Haz clic en el botón para ver la lista de doctores disponibles y elegir el tuyo",
+    "CLICK_TO_SELECT": "Haz clic en el botón 'Seleccionar' del doctor que prefieras",
+    "SELECT_THIS_DOCTOR": "Seleccionar",
+    "NO_VITAL_SIGNS": "Aún no tienes signos vitales registrados",
+    "DOCTOR_WILL_REGISTER": "Tu doctor los registrará en tu primera consulta",
+    "PENDING": "Pendiente"
   },
   "DASHBOARD": {
     "LOADING": "Cargando...",

@@ -17,53 +17,238 @@
               [appSpeakOnHover]="'PATIENT.VITAL_SIGNS' | translate">{{ 'PATIENT.VITAL_SIGNS' | translate }}</h2>
         </div>
 
+        <!-- Mensaje cuando no hay signos vitales -->
+        <div *ngIf="!tieneSignosVitales()" class="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-8 mb-6 text-center border-2 border-yellow-200">
+          <i class="fas fa-clipboard-list text-yellow-600 text-5xl mb-4"></i>
+          <p class="text-xl font-semibold text-gray-800 mb-2" 
+             [appSpeakOnHover]="'PATIENT.NO_VITAL_SIGNS' | translate">
+            {{ 'PATIENT.NO_VITAL_SIGNS' | translate }}
+          </p>
+          <p class="text-gray-600">
+            {{ 'PATIENT.DOCTOR_WILL_REGISTER' | translate }}
+          </p>
+        </div>
+
         <!-- Grid horizontal para signos vitales -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 grid-signos">
           <!-- Presión Arterial -->
-          <div class="bg-red-50 p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo presion-card"
-               [appSpeakOnHover]="'Presión Arterial: ' + (signosVitales.presion_arterial || 'sin dato') + ' milímetros de mercurio'">
+          <div class="p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo presion-card"
+               [ngClass]="{'bg-red-50': tieneSignosVitales(), 'bg-gray-100 opacity-60': !tieneSignosVitales()}"
+               [appSpeakOnHover]="'Presión Arterial: ' + (signosVitales.presion_arterial || 'pendiente de registro') + ' milímetros de mercurio'">
             <div class="flex justify-center mb-2 icono-signo">
-              <i class="fa-solid fa-heart-pulse text-red-500 text-3xl"></i>
+              <i class="fa-solid fa-heart-pulse text-3xl"
+                 [ngClass]="{'text-red-500': tieneSignosVitales(), 'text-gray-400': !tieneSignosVitales()}"></i>
             </div>
             <p class="text-sm text-gray-600 font-medium mb-2 label-signo">{{ 'PATIENT.BLOOD_PRESSURE' | translate }}</p>
-            <p class="text-3xl font-bold text-gray-900 valor-signo">{{ signosVitales.presion_arterial || '---' }}</p>
-            <p class="text-xs text-gray-500 mt-1 unidad-signo">mmHg</p>
+            <p class="text-3xl font-bold valor-signo"
+               [ngClass]="{'text-gray-900': tieneSignosVitales(), 'text-gray-400': !tieneSignosVitales()}">
+              {{ signosVitales.presion_arterial || '--/--' }}
+            </p>
+            <p class="text-xs mt-1 unidad-signo"
+               [ngClass]="{'text-gray-500': tieneSignosVitales(), 'text-gray-400': !tieneSignosVitales()}">
+              {{ tieneSignosVitales() ? 'mmHg' : ('PATIENT.PENDING' | translate) }}
+            </p>
           </div>
 
           <!-- Frecuencia Cardíaca -->
-          <div class="bg-pink-50 p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo frecuencia-card"
-               [appSpeakOnHover]="'Frecuencia Cardíaca: ' + (signosVitales.frecuencia_cardiaca || 'sin dato') + ' latidos por minuto'">
+          <div class="p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo frecuencia-card"
+               [ngClass]="{'bg-pink-50': tieneSignosVitales(), 'bg-gray-100 opacity-60': !tieneSignosVitales()}"
+               [appSpeakOnHover]="'Frecuencia Cardíaca: ' + (signosVitales.frecuencia_cardiaca || 'pendiente de registro') + ' latidos por minuto'">
             <div class="flex justify-center mb-2 icono-signo">
-              <i class="fa-solid fa-heartbeat text-pink-500 text-3xl"></i>
+              <i class="fa-solid fa-heartbeat text-3xl"
+                 [ngClass]="{'text-pink-500': tieneSignosVitales(), 'text-gray-400': !tieneSignosVitales()}"></i>
             </div>
             <p class="text-sm text-gray-600 font-medium mb-2 label-signo">{{ 'PATIENT.HEART_RATE' | translate }}</p>
-            <p class="text-3xl font-bold text-gray-900 valor-signo">{{ signosVitales.frecuencia_cardiaca || '---' }}</p>
-            <p class="text-xs text-gray-500 mt-1 unidad-signo">bpm</p>
+            <p class="text-3xl font-bold valor-signo"
+               [ngClass]="{'text-gray-900': tieneSignosVitales(), 'text-gray-400': !tieneSignosVitales()}">
+              {{ signosVitales.frecuencia_cardiaca || '--' }}
+            </p>
+            <p class="text-xs mt-1 unidad-signo"
+               [ngClass]="{'text-gray-500': tieneSignosVitales(), 'text-gray-400': !tieneSignosVitales()}">
+              {{ tieneSignosVitales() ? 'bpm' : ('PATIENT.PENDING' | translate) }}
+            </p>
           </div>
 
           <!-- Temperatura -->
-          <div class="bg-orange-50 p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo temperatura-card" appAutoSpeak>
+          <div class="p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo temperatura-card"
+               [ngClass]="{'bg-orange-50': tieneSignosVitales(), 'bg-gray-100 opacity-60': !tieneSignosVitales()}"
+               appAutoSpeak>
             <div class="flex justify-center mb-2 icono-signo">
-              <i class="fa-solid fa-temperature-half text-orange-500 text-3xl"></i>
+              <i class="fa-solid fa-temperature-half text-3xl"
+                 [ngClass]="{'text-orange-500': tieneSignosVitales(), 'text-gray-400': !tieneSignosVitales()}"></i>
             </div>
             <p class="text-sm text-gray-600 font-medium mb-2 label-signo">{{ 'PATIENT.TEMPERATURE' | translate }}</p>
-            <p class="text-3xl font-bold text-gray-900 valor-signo">{{ signosVitales.temperatura || '---' }}</p>
-            <p class="text-xs text-gray-500 mt-1 unidad-signo">°C</p>
+            <p class="text-3xl font-bold valor-signo"
+               [ngClass]="{'text-gray-900': tieneSignosVitales(), 'text-gray-400': !tieneSignosVitales()}">
+              {{ signosVitales.temperatura || '--' }}
+            </p>
+            <p class="text-xs mt-1 unidad-signo"
+               [ngClass]="{'text-gray-500': tieneSignosVitales(), 'text-gray-400': !tieneSignosVitales()}">
+              {{ tieneSignosVitales() ? '°C' : ('PATIENT.PENDING' | translate) }}
+            </p>
           </div>
 
           <!-- Peso -->
-          <div class="bg-blue-50 p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo peso-card" appAutoSpeak>
+          <div class="p-6 rounded-xl text-center hover:shadow-md transition-all tarjeta-signo peso-card"
+               [ngClass]="{'bg-blue-50': tieneSignosVitales(), 'bg-gray-100 opacity-60': !tieneSignosVitales()}"
+               appAutoSpeak>
             <div class="flex justify-center mb-2 icono-signo">
-              <i class="fa-solid fa-weight-scale text-blue-500 text-3xl"></i>
+              <i class="fa-solid fa-weight-scale text-3xl"
+                 [ngClass]="{'text-blue-500': tieneSignosVitales(), 'text-gray-400': !tieneSignosVitales()}"></i>
             </div>
             <p class="text-sm text-gray-600 font-medium mb-2 label-signo">{{ 'PATIENT.WEIGHT' | translate }}</p>
-            <p class="text-3xl font-bold text-gray-900 valor-signo">{{ signosVitales.peso || '---' }}</p>
-            <p class="text-xs text-gray-500 mt-1 unidad-signo">kg</p>
+            <p class="text-3xl font-bold valor-signo"
+               [ngClass]="{'text-gray-900': tieneSignosVitales(), 'text-gray-400': !tieneSignosVitales()}">
+              {{ signosVitales.peso || '--' }}
+            </p>
+            <p class="text-xs mt-1 unidad-signo"
+               [ngClass]="{'text-gray-500': tieneSignosVitales(), 'text-gray-400': !tieneSignosVitales()}">
+              {{ tieneSignosVitales() ? 'kg' : ('PATIENT.PENDING' | translate) }}
+            </p>
           </div>
         </div>
       </section>
 
-      <!-- FILA 2: Recordatorios (Horizontal de izquierda a derecha) -->
+      <!-- FILA 2: Doctor Asignado -->
+      <section class="bg-white rounded-2xl shadow-lg p-8 seccion-doctor-asignado">
+        <div class="flex items-center gap-3 mb-6 header-doctor">
+          <div class="w-12 h-12 flex items-center justify-center icono-header">
+            <i class="fa-solid fa-user-doctor text-blue-600 text-2xl"></i>
+          </div>
+          <h2 class="text-3xl font-bold text-gray-800 titulo-doctor"
+              [appSpeakOnHover]="'PATIENT.ASSIGNED_DOCTOR' | translate">{{ 'PATIENT.ASSIGNED_DOCTOR' | translate }}</h2>
+        </div>
+
+        <!-- Doctor asignado -->
+        <div *ngIf="doctorAsignado" class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-8 mb-4 doctor-info">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-6 flex-1">
+              <div class="w-20 h-20 bg-blue-200 rounded-full flex items-center justify-center avatar-doctor">
+                <i class="fas fa-user-md text-blue-700 text-3xl"></i>
+              </div>
+              <div>
+                <p class="text-3xl font-bold text-gray-900 mb-2" 
+                   [appSpeakOnHover]="'Doctor: ' + doctorAsignado.doctor?.nombre_completo">
+                  {{ doctorAsignado.doctor?.nombre_completo }}
+                </p>
+                <p class="text-lg text-gray-600" *ngIf="doctorAsignado.doctor?.email">
+                  <i class="fas fa-envelope mr-2"></i>{{ doctorAsignado.doctor?.email }}
+                </p>
+                <p class="text-lg text-gray-600" *ngIf="doctorAsignado.doctor?.telefono">
+                  <i class="fas fa-phone mr-2"></i>{{ doctorAsignado.doctor?.telefono }}
+                </p>
+              </div>
+            </div>
+            <button 
+              (click)="toggleDoctorSelector()"
+              class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-lg hover:shadow-xl text-lg boton-cambiar-doctor whitespace-nowrap"
+              [appSpeakOnHover]="'PATIENT.CHANGE_DOCTOR' | translate">
+              <i class="fas fa-exchange-alt mr-3 text-xl"></i>
+              {{ 'PATIENT.CHANGE_DOCTOR' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Sin doctor asignado -->
+        <div *ngIf="!doctorAsignado" class="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-10 text-center mb-4 sin-doctor border-2 border-yellow-200">
+          <i class="fas fa-user-doctor text-yellow-600 text-6xl mb-6 animate-pulse"></i>
+          <p class="text-2xl font-semibold text-gray-800 mb-6" 
+             [appSpeakOnHover]="'PATIENT.NO_DOCTOR_ASSIGNED' | translate">
+            {{ 'PATIENT.NO_DOCTOR_ASSIGNED' | translate }}
+          </p>
+          <p class="text-lg text-gray-600 mb-8">
+            {{ 'PATIENT.SELECT_DOCTOR_INSTRUCTION' | translate }}
+          </p>
+          <button 
+            (click)="toggleDoctorSelector()"
+            class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-5 px-12 rounded-2xl transition-all shadow-lg hover:shadow-xl text-xl boton-seleccionar-doctor transform hover:scale-105"
+            [appSpeakOnHover]="'PATIENT.SELECT_DOCTOR' | translate">
+            <i class="fas fa-plus-circle mr-3 text-2xl"></i>
+            {{ 'PATIENT.SELECT_DOCTOR' | translate }}
+          </button>
+        </div>
+
+        <!-- Selector de doctores -->
+        <div *ngIf="showDoctorSelector" class="mt-6 selector-doctores">
+          <div class="bg-gray-100 rounded-xl p-6">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-2xl font-bold text-gray-800"
+                  [appSpeakOnHover]="'PATIENT.AVAILABLE_DOCTORS' | translate">
+                {{ 'PATIENT.AVAILABLE_DOCTORS' | translate }}
+              </h3>
+              <button 
+                (click)="toggleDoctorSelector()"
+                class="text-gray-500 hover:text-gray-700 transition-all boton-cerrar-selector">
+                <i class="fas fa-times text-2xl"></i>
+              </button>
+            </div>
+
+            <!-- Loading -->
+            <div *ngIf="isLoadingDoctors" class="text-center py-8 loading-doctores">
+              <i class="fas fa-spinner fa-spin text-4xl text-blue-500 mb-4"></i>
+              <p class="text-gray-600">{{ 'PATIENT.LOADING_DOCTORS' | translate }}</p>
+            </div>
+
+            <!-- Lista de doctores -->
+            <div *ngIf="!isLoadingDoctors && doctoresDisponibles.length > 0" class="space-y-4 lista-doctores">
+              <p class="text-lg text-gray-600 mb-4 text-center">
+                <i class="fas fa-hand-pointer mr-2"></i>
+                {{ 'PATIENT.CLICK_TO_SELECT' | translate }}
+              </p>
+              <div *ngFor="let doctor of doctoresDisponibles" 
+                   class="bg-white rounded-xl p-6 hover:shadow-xl transition-all border-2 border-gray-200 hover:border-blue-500 tarjeta-doctor group">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                  <div class="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center flex-shrink-0 avatar-doctor-lista group-hover:scale-110 transition-transform">
+                    <i class="fas fa-user-md text-blue-700 text-3xl"></i>
+                  </div>
+                  <div class="flex-1 text-center md:text-left">
+                    <p class="text-2xl font-bold text-gray-900 mb-2" 
+                       [appSpeakOnHover]="'Doctor: ' + doctor.nombre_completo">
+                      {{ doctor.nombre_completo }}
+                    </p>
+                    <p class="text-lg text-gray-700 mb-2" *ngIf="doctor.doctores && doctor.doctores.length > 0">
+                      <i class="fas fa-stethoscope mr-2 text-blue-600"></i>
+                      <span class="font-semibold">{{ doctor.doctores[0].especialidad }}</span>
+                      <span *ngIf="doctor.doctores[0].anos_experiencia" class="ml-2 text-base text-gray-500">
+                        ({{ doctor.doctores[0].anos_experiencia }} {{ 'PATIENT.YEARS_EXPERIENCE' | translate }})
+                      </span>
+                    </p>
+                    <p class="text-gray-600 text-base" *ngIf="doctor.email">
+                      <i class="fas fa-envelope mr-2"></i>{{ doctor.email }}
+                    </p>
+                  </div>
+                  <button 
+                    (click)="asignarDoctorAlPaciente(doctor.id, doctor.nombre_completo)"
+                    class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-xl text-lg transform hover:scale-105 whitespace-nowrap"
+                    [appSpeakOnHover]="'Seleccionar a ' + doctor.nombre_completo">
+                    <i class="fas fa-check-circle mr-2 text-xl"></i>
+                    {{ 'PATIENT.SELECT_THIS_DOCTOR' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sin doctores disponibles -->
+            <div *ngIf="!isLoadingDoctors && doctoresDisponibles.length === 0" class="text-center py-8 sin-doctores">
+              <i class="fas fa-user-slash text-gray-400 text-4xl mb-4"></i>
+              <p class="text-gray-600">{{ 'PATIENT.NO_DOCTORS_AVAILABLE' | translate }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón para desasignar doctor (solo si tiene doctor asignado) -->
+        <div *ngIf="doctorAsignado && !showDoctorSelector" class="mt-4 text-center">
+          <button 
+            (click)="desasignarDoctorActual()"
+            class="text-red-500 hover:text-red-700 hover:underline transition-all boton-desasignar-doctor"
+            [appSpeakOnHover]="'PATIENT.UNASSIGN_DOCTOR' | translate">
+            <i class="fas fa-user-minus mr-2"></i>
+            {{ 'PATIENT.UNASSIGN_DOCTOR' | translate }}
+          </button>
+        </div>
+      </section>
+
+      <!-- FILA 3: Recordatorios (Horizontal de izquierda a derecha) -->
       <section class="bg-white rounded-2xl shadow-lg p-8 seccion-recordatorios">
         <div class="flex items-center gap-3 mb-6 header-recordatorios">
           <div class="w-12 h-12 flex items-center justify-center icono-header">
@@ -73,13 +258,13 @@
         </div>
 
         <!-- Mensaje cuando no hay recordatorios -->
-        <div *ngIf="!(recordatorios?.length) || recordatorios.length === 0" class="text-center py-12 text-gray-400 mensaje-vacio">
+        <div *ngIf="!(recordatorios.length) || recordatorios.length === 0" class="text-center py-12 text-gray-400 mensaje-vacio">
           <i class="fas fa-calendar-times text-5xl mb-4"></i>
           <p class="text-lg">{{ 'PATIENT.NO_REMINDERS' | translate }}</p>
         </div>
 
         <!-- Lista horizontal de recordatorios -->
-        <div *ngIf="recordatorios?.length" class="overflow-x-auto container-recordatorios">
+        <div *ngIf="recordatorios.length" class="overflow-x-auto container-recordatorios">
           <div class="flex gap-4 pb-4 lista-recordatorios" style="min-width: min-content;">
             <div *ngFor="let recordatorio of recordatorios; let i = index" 
               class="flex-shrink-0 w-80 p-6 rounded-2xl hover:shadow-lg transition-all border-2 tarjeta-recordatorio"

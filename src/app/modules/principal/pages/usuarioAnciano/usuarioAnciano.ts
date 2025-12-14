@@ -1,4 +1,4 @@
-
+﻿
 import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -46,12 +46,12 @@ export class UsuarioAnciano implements OnInit {
   // Signos vitales
   signosVitales: SignosVitales = {
     adulto_mayor_id: '',
-    presion_arterial: '120/80',
-    frecuencia_cardiaca: '75',
-    temperatura: '36.5',
-    peso: '70',
-    glucosa: '95',
-    saturacion_oxigeno: '98'
+    presion_arterial: '',
+    frecuencia_cardiaca: '',
+    temperatura: '',
+    peso: '',
+    glucosa: '',
+    saturacion_oxigeno: ''
   };
 
   // Recordatorios
@@ -70,12 +70,29 @@ export class UsuarioAnciano implements OnInit {
   // Modo de edición
   editingVitalSigns = false;
 
+  // Doctores disponibles y asignación
+  doctoresDisponibles: any[] = [];
+  showDoctorSelector = false;
+  isLoadingDoctors = false;
+
   constructor(
     private chatService: ChatService,
     private healthService: HealthService,
     private authService: AuthService,
     private signosVitalesService: SignosVitalesService
   ) {}
+
+  /**
+   * Verifica si el paciente tiene signos vitales registrados
+   */
+  tieneSignosVitales(): boolean {
+    return !!(
+      this.signosVitales.presion_arterial ||
+      this.signosVitales.frecuencia_cardiaca ||
+      this.signosVitales.temperatura ||
+      this.signosVitales.peso
+    );
+  }
 
   ngOnInit() {
     // Solo ejecutar en el navegador, no en el servidor (SSR)
@@ -326,6 +343,86 @@ export class UsuarioAnciano implements OnInit {
       this.isEditing = false;
     } else {
       console.error('Error al guardar signos vitales:', resp.error);
+    }
+  }
+
+  // ==================== MÉTODOS PARA ASIGNACIÓN DE DOCTORES ====================
+
+  /**
+   * Muestra/oculta el selector de doctores
+   */
+  toggleDoctorSelector() {
+    this.showDoctorSelector = !this.showDoctorSelector;
+    if (this.showDoctorSelector && this.doctoresDisponibles.length === 0) {
+      this.cargarDoctoresDisponibles();
+    }
+  }
+
+  /**
+   * Carga la lista de doctores disponibles
+   */
+  async cargarDoctoresDisponibles() {
+    this.isLoadingDoctors = true;
+    try {
+      this.doctoresDisponibles = await this.healthService.getDoctoresDisponibles();
+      console.log('✅ Doctores disponibles cargados:', this.doctoresDisponibles.length);
+    } catch (error) {
+      console.error('❌ Error al cargar doctores disponibles:', error);
+      alert('Error al cargar la lista de doctores');
+    } finally {
+      this.isLoadingDoctors = false;
+    }
+  }
+
+  /**
+   * Asigna un doctor al paciente
+   */
+  async asignarDoctorAlPaciente(doctorId: string, doctorNombre: string) {
+    if (!confirm(`¿Deseas asignar a ${doctorNombre} como tu doctor?`)) {
+      return;
+    }
+
+    try {
+      const success = await this.healthService.asignarDoctor(this.pacienteId, doctorId);
+      
+      if (success) {
+        alert(`✅ Doctor ${doctorNombre} asignado correctamente`);
+        // Recargar doctor asignado
+        this.doctorAsignado = await this.healthService.getDoctorAsignado(this.pacienteId);
+        this.showDoctorSelector = false;
+      } else {
+        alert('❌ Error al asignar el doctor');
+      }
+    } catch (error) {
+      console.error('❌ Error al asignar doctor:', error);
+      alert('Error al asignar el doctor');
+    }
+  }
+
+  /**
+   * Desasigna el doctor actual
+   */
+  async desasignarDoctorActual() {
+    if (!this.doctorAsignado) {
+      return;
+    }
+
+    if (!confirm(`¿Deseas desasignar a tu doctor actual?`)) {
+      return;
+    }
+
+    try {
+      const success = await this.healthService.desasignarDoctor(this.pacienteId);
+      
+      if (success) {
+        alert('✅ Doctor desasignado correctamente');
+        this.doctorAsignado = null;
+      } else {
+        alert('❌ Error al desasignar el doctor');
+      }
+    } catch (error) {
+      console.error('❌ Error al desasignar doctor:', error);
+      alert('Error al desasignar el doctor');
     }
   }
 }

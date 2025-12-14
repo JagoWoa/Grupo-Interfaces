@@ -15,7 +15,7 @@
     <ul class="hidden md:flex items-center gap-6 text-sm font-medium" *ngIf="isLogging()">
       <li><a routerLink="/dashboard" [appSpeakOnHover]="'HEADER.DASHBOARD' | translate" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-magnifying-glass"></i> {{ 'HEADER.DASHBOARD' | translate }}</a></li>
       <li><a routerLink="/perfil" [appSpeakOnHover]="'HEADER.PROFILE' | translate" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-circle-user"></i> {{ 'HEADER.PROFILE' | translate }}</a></li>
-      <li><a routerLink="/usuario" [appSpeakOnHover]="'HEADER.HEALTH' | translate" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-heart"></i> {{ 'HEADER.HEALTH' | translate }}</a></li>
+      <li *ngIf="userRole !== 'Doctor' && userRole !== 'Cuidador/Familiar'"><a routerLink="/usuario" [appSpeakOnHover]="'HEADER.HEALTH' | translate" class="hover:bg-white/10 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-heart"></i> {{ 'HEADER.HEALTH' | translate }}</a></li>
       
       <!-- Accesibilidad con menú desplegable -->
       <li class="relative">
@@ -63,6 +63,40 @@
               {{ isSpeakOnHoverEnabled() ? ('COMMON.ON' | translate) : ('COMMON.OFF' | translate) }}
             </span>
           </button>
+
+          <!-- Separador -->
+          <div class="border-t border-gray-200 my-2"></div>
+
+          <!-- Opción Tamaño de Texto -->
+          <div class="px-4 py-2">
+            <div class="flex items-center gap-3 mb-2">
+              <i class="fa-solid fa-text-height text-[#004b98]"></i>
+              <span class="font-medium">{{ 'HEADER.FONT_SIZE' | translate }}</span>
+            </div>
+            <div class="flex items-center gap-2 mt-2">
+              <button 
+                (click)="decreaseFontSize()"
+                [disabled]="currentFontSize === 'small'"
+                [class.opacity-50]="currentFontSize === 'small'"
+                [class.cursor-not-allowed]="currentFontSize === 'small'"
+                class="flex-1 px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm transition"
+                [appSpeakOnHover]="'A-'">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <span class="text-xs text-gray-600 min-w-[80px] text-center">
+                {{ ('COMMON.' + currentFontSize.toUpperCase()) | translate }}
+              </span>
+              <button 
+                (click)="increaseFontSize()"
+                [disabled]="currentFontSize === 'xxlarge'"
+                [class.opacity-50]="currentFontSize === 'xxlarge'"
+                [class.cursor-not-allowed]="currentFontSize === 'xxlarge'"
+                class="flex-1 px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm transition"
+                [appSpeakOnHover]="'A+'">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
       
@@ -126,6 +160,40 @@
               {{ isSpeakOnHoverEnabled() ? ('COMMON.ON' | translate) : ('COMMON.OFF' | translate) }}
             </span>
           </button>
+
+          <!-- Separador -->
+          <div class="border-t border-gray-200 my-2"></div>
+
+          <!-- Opción Tamaño de Texto -->
+          <div class="px-4 py-2">
+            <div class="flex items-center gap-3 mb-2">
+              <i class="fa-solid fa-text-height text-[#004b98]"></i>
+              <span class="font-medium">{{ 'HEADER.FONT_SIZE' | translate }}</span>
+            </div>
+            <div class="flex items-center gap-2 mt-2">
+              <button 
+                (click)="decreaseFontSize()"
+                [disabled]="currentFontSize === 'small'"
+                [class.opacity-50]="currentFontSize === 'small'"
+                [class.cursor-not-allowed]="currentFontSize === 'small'"
+                class="flex-1 px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm transition"
+                [appSpeakOnHover]="'A-'">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <span class="text-xs text-gray-600 min-w-[80px] text-center">
+                {{ ('COMMON.' + currentFontSize.toUpperCase()) | translate }}
+              </span>
+              <button 
+                (click)="increaseFontSize()"
+                [disabled]="currentFontSize === 'xxlarge'"
+                [class.opacity-50]="currentFontSize === 'xxlarge'"
+                [class.cursor-not-allowed]="currentFontSize === 'xxlarge'"
+                class="flex-1 px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm transition"
+                [appSpeakOnHover]="'A+'">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -193,7 +261,8 @@
         <i class="fa-solid fa-circle-user"></i>
         <span>{{ 'HEADER.PROFILE' | translate }}</span>
       </a>
-      <a routerLink="/usuario" 
+      <a *ngIf="userRole !== 'Doctor' && userRole !== 'Cuidador/Familiar'" 
+         routerLink="/usuario" 
          (click)="closeMobileMenu()"
          [appSpeakOnHover]="'HEADER.HEALTH' | translate"
          class="flex items-center gap-3 py-3 hover:bg-white/10 rounded-lg px-2 transition">
@@ -239,6 +308,38 @@
               {{ isSpeakOnHoverEnabled() ? ('COMMON.ON' | translate) : ('COMMON.OFF' | translate) }}
             </span>
           </button>
+
+          <!-- Separador -->
+          <div class="border-t border-white/10 my-2"></div>
+
+          <!-- Opción Tamaño de Texto -->
+          <div class="px-3 py-2">
+            <div class="flex items-center gap-3 mb-2">
+              <i class="fa-solid fa-text-height"></i>
+              <span>{{ 'HEADER.FONT_SIZE' | translate }}</span>
+            </div>
+            <div class="flex items-center gap-2 mt-2">
+              <button 
+                (click)="decreaseFontSize()"
+                [disabled]="currentFontSize === 'small'"
+                [class.opacity-50]="currentFontSize === 'small'"
+                [class.cursor-not-allowed]="currentFontSize === 'small'"
+                class="flex-1 px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <span class="text-xs text-white/70 min-w-[80px] text-center">
+                {{ ('COMMON.' + currentFontSize.toUpperCase()) | translate }}
+              </span>
+              <button 
+                (click)="increaseFontSize()"
+                [disabled]="currentFontSize === 'xxlarge'"
+                [class.opacity-50]="currentFontSize === 'xxlarge'"
+                [class.cursor-not-allowed]="currentFontSize === 'xxlarge'"
+                class="flex-1 px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -314,6 +415,38 @@
               {{ isSpeakOnHoverEnabled() ? ('COMMON.ON' | translate) : ('COMMON.OFF' | translate) }}
             </span>
           </button>
+
+          <!-- Separador -->
+          <div class="border-t border-white/10 my-2"></div>
+
+          <!-- Opción Tamaño de Texto -->
+          <div class="px-3 py-2">
+            <div class="flex items-center gap-3 mb-2">
+              <i class="fa-solid fa-text-height"></i>
+              <span>{{ 'HEADER.FONT_SIZE' | translate }}</span>
+            </div>
+            <div class="flex items-center gap-2 mt-2">
+              <button 
+                (click)="decreaseFontSize()"
+                [disabled]="currentFontSize === 'small'"
+                [class.opacity-50]="currentFontSize === 'small'"
+                [class.cursor-not-allowed]="currentFontSize === 'small'"
+                class="flex-1 px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <span class="text-xs text-white/70 min-w-[80px] text-center">
+                {{ ('COMMON.' + currentFontSize.toUpperCase()) | translate }}
+              </span>
+              <button 
+                (click)="increaseFontSize()"
+                [disabled]="currentFontSize === 'xxlarge'"
+                [class.opacity-50]="currentFontSize === 'xxlarge'"
+                [class.cursor-not-allowed]="currentFontSize === 'xxlarge'"
+                class="flex-1 px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

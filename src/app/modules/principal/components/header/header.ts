@@ -12,6 +12,7 @@ import { SpeakOnHoverDirective } from '../../../../core/directives/speak-on-hove
 import { TextToSpeechService } from '../../../../core/services/text-to-speech.service';
 import { LanguageService } from '../../../../core/services/language.service';
 import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
+import { FontSizeService } from '../../../../core/services/font-size.service';
 
 interface SearchItem {
   title: string;
@@ -45,6 +46,7 @@ export class Header implements OnInit, OnDestroy {
   private authSubscription?: Subscription;
   private messagesSubscription?: Subscription;
   isDarkMode: boolean = false;
+  currentFontSize: string = 'normal';
   
   // Búsqueda
   searchResults: SearchItem[] = [];
@@ -69,6 +71,7 @@ export class Header implements OnInit, OnDestroy {
     private chatService: ChatService, 
     private ttsService: TextToSpeechService, 
     private languageService: LanguageService,
+    private fontSizeService: FontSizeService,
     private router: Router
   ) { }
 
@@ -181,6 +184,37 @@ export class Header implements OnInit, OnDestroy {
     return this.ttsService.isEnabled();
   }
 
+  /**
+   * Cambiar el tamaño del texto
+   */
+  setFontSize(size: 'small' | 'normal' | 'large' | 'xlarge' | 'xxlarge'): void {
+    this.fontSizeService.setFontSize(size);
+    this.currentFontSize = this.fontSizeService.getCurrentSizeName();
+  }
+
+  /**
+   * Obtener el tamaño actual del texto
+   */
+  getCurrentFontSize(): string {
+    return this.fontSizeService.getCurrentSizeName();
+  }
+
+  /**
+   * Aumentar el tamaño del texto
+   */
+  increaseFontSize(): void {
+    this.fontSizeService.increaseFontSize();
+    this.currentFontSize = this.fontSizeService.getCurrentSizeName();
+  }
+
+  /**
+   * Disminuir el tamaño del texto
+   */
+  decreaseFontSize(): void {
+    this.fontSizeService.decreaseFontSize();
+    this.currentFontSize = this.fontSizeService.getCurrentSizeName();
+  }
+
   ngOnInit() {
     // Suscribirse a cambios en el estado de autenticación
     this.authSubscription = this.authService.currentUser$.subscribe(user => {
@@ -206,6 +240,9 @@ export class Header implements OnInit, OnDestroy {
     this.themeService.darkMode$.subscribe(isDark => {
       this.isDarkMode = isDark;
     });
+
+    // Inicializar tamaño de texto actual
+    this.currentFontSize = this.fontSizeService.getCurrentSizeName();
   }
   getUserEmitterType(): 'doctor' | 'adulto_mayor' | null {
     const role = "doctor";

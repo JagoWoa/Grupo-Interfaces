@@ -89,3 +89,20 @@
   color: rgb(240, 240, 240) !important;
 }
 
+
+
+input ::placeholder{
+  color: #a59a9a !important;
+}
+
+input {
+  background-color: #d5d3d3 !important;
+  color: #000000 !important;       
+  border: 1px solid #666666 !important;
+  font-weight: normal;              
+}
+
+input::placeholder {
+  color: #8a8a8a !important;       
+  font-weight: bold;               
+}

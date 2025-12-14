@@ -1,4 +1,4 @@
-
+﻿
 import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -131,11 +131,13 @@ export class UsuarioDoctor implements OnInit {
   }
 
   async seleccionarPaciente(paciente: any) {
-    console.log('🔍 Seleccionando paciente:', paciente.nombre);
+    console.log('Seleccionando paciente:', paciente.nombre);
     this.pacienteSeleccionado = paciente;
+    this.cdr.detectChanges();
     
     // Cargar datos del paciente
     await this.cargarDatosPaciente(paciente.id);
+    this.cdr.detectChanges();
   }
 
   async cargarDatosPaciente(pacienteId: string) {
@@ -187,15 +189,37 @@ export class UsuarioDoctor implements OnInit {
       );
 
       if (success) {
-        alert('✅ Signos vitales actualizados correctamente');
+        this.isSaving = false;
+        alert('Signos vitales actualizados correctamente');
+        
+        // Enviar notificación por email al cuidador (no bloqueante)
+        this.healthService.enviarNotificacionSignosVitales(
+          this.pacienteSeleccionado.id,
+          this.pacienteSeleccionado.nombre_completo,
+          this.doctorName || 'Doctor',
+          {
+            presion_arterial: this.presionArterial,
+            frecuencia_cardiaca: this.frecuenciaCardiaca,
+            temperatura: this.temperatura,
+            peso: this.peso
+          }
+        ).then(enviado => {
+          if (enviado) {
+            console.log('Notificación enviada al cuidador');
+          } else {
+            console.log('No se envió notificación (sin email de cuidador o error)');
+          }
+        }).catch(err => {
+          console.error('Error al enviar notificación:', err);
+        });
       } else {
-        alert('❌ Error al actualizar los signos vitales');
+        this.isSaving = false;
+        alert('Error al actualizar los signos vitales');
       }
     } catch (error) {
-      console.error('❌ Error:', error);
-      alert('Error al actualizar los signos vitales');
-    } finally {
+      console.error('Error:', error);
       this.isSaving = false;
+      alert('Error al actualizar los signos vitales');
     }
   }
 
