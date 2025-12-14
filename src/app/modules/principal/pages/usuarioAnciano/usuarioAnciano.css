@@ -176,8 +176,8 @@
 }
 
 /* ===================================
-   ANIMACIONES Y TRANSICIONES
-   =================================== */
+ANIMACIONES Y TRANSICIONES
+=================================== */
 
 :host-context(.dark-mode) .tarjeta-signo,
 :host-context(.dark-mode) .tarjeta-recordatorio {
@@ -185,8 +185,8 @@
 }
 
 /* ===================================
-   ICONOS
-   =================================== */
+ICONOS
+=================================== */
 
 :host-context(.dark-mode) .icono-header i {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
@@ -196,12 +196,34 @@
   .chat-expanded-header h3 {
     font-size: 1.125rem;
   }
-
+  
   .chat-expanded-header h3 i {
     font-size: 1.5rem;
   }
-
+  
   .vitales-grid {
     grid-template-columns: 1fr !important;
   }
 }
+
+
+
+/*Doctor asignado*/
+
+:host-context(.dark-mode) .seccion-doctor-asignado  {
+  background-color: #302e2e !important;
+}
+
+:host-context(.dark-mode) .seccion-doctor-asignado  h2{
+  color: #ffffff !important;
+}
+
+
+:host-context(.dark-mode) .doctor-info-contenedor {
+  background-image: none !important;
+  background-color: #2e2828 !important;
+}
+:host-context(.dark-mode) .doctor-info-contenedor p, i{
+  color: #ffffff !important;
+}
+

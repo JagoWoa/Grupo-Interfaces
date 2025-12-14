@@ -89,6 +89,21 @@
   color: rgb(240, 240, 240) !important;
 }
 
+/* boton agregar familiar */
+:host-context(.dark-mode) .boton-agregar-familiar {
+  background-color: #302E2E !important;
+}
+:host-context(.dark-mode) .boton-agregar-familiar p {
+  color: #C8C8C8 !important;
+}
+:host-context(.dark-mode) .boton-agregar-familiar h3 {
+  color: #ffffff !important;
+}
+:host-context(.dark-mode) .boton-agregar-familiar span{
+  color: #ffffff !important;
+}
+
+
 
 
 input ::placeholder{
