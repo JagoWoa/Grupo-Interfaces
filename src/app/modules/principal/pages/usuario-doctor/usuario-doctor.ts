@@ -10,9 +10,10 @@ import { HealthService, SignosVitales } from '../../../../core/services/health.s
 import { AuthService } from '../../../../core/services/auth.service';
 import { SupabaseService } from '..//../../../core/services/supabase.service';
 import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
+import { ProgressBarComponent } from '../../../../shared/components/progress-bar/progress-bar.component';
 @Component({
   selector: 'app-usuario-doctor',
-  imports: [CommonModule, FormsModule, Header, Footer, Chat, TranslatePipe],
+  imports: [CommonModule, FormsModule, Header, Footer, Chat, TranslatePipe, ProgressBarComponent],
   templateUrl: './usuario-doctor.html',
   styleUrls: ['./usuario-doctor.css']
 })
@@ -46,6 +47,12 @@ export class UsuarioDoctor implements OnInit {
 
   // Estado de guardado para feedback visual
   isSaving: boolean = false;
+
+  // Barra de progreso
+  showProgressBar: boolean = false;
+  progressValue: number = 0;
+  progressMessage: string = 'Guardando...';
+  progressHint: string = '';
 
   constructor(
     private healthService: HealthService,
@@ -176,6 +183,28 @@ export class UsuarioDoctor implements OnInit {
 
     console.log('💾 Actualizando signos vitales del paciente:', this.pacienteSeleccionado.id);
     this.isSaving = true;
+    
+    // Iniciar barra de progreso
+    this.showProgressBar = true;
+    this.progressValue = 0;
+    this.progressMessage = 'Guardando signos vitales...';
+    this.progressHint = 'Conectando con el servidor';
+
+    // Simular progreso mientras se guarda
+    const progressInterval = setInterval(() => {
+      if (this.progressValue < 90) {
+        this.progressValue += Math.random() * 15;
+        if (this.progressValue > 90) this.progressValue = 90;
+        
+        // Actualizar hint según el progreso
+        if (this.progressValue > 30 && this.progressValue < 60) {
+          this.progressHint = 'Validando datos...';
+        } else if (this.progressValue >= 60) {
+          this.progressHint = 'Guardando en base de datos...';
+        }
+        this.cdr.detectChanges();
+      }
+    }, 200);
 
     try {
       const success = await this.healthService.updateSignosVitales(
@@ -188,7 +217,18 @@ export class UsuarioDoctor implements OnInit {
         }
       );
 
+      clearInterval(progressInterval);
+
       if (success) {
+        // Completar progreso
+        this.progressValue = 100;
+        this.progressHint = '¡Completado!';
+        this.cdr.detectChanges();
+        
+        // Esperar un momento para mostrar el 100%
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        this.showProgressBar = false;
         this.isSaving = false;
         alert('Signos vitales actualizados correctamente');
         
@@ -213,11 +253,14 @@ export class UsuarioDoctor implements OnInit {
           console.error('Error al enviar notificación:', err);
         });
       } else {
+        this.showProgressBar = false;
         this.isSaving = false;
         alert('Error al actualizar los signos vitales');
       }
     } catch (error) {
+      clearInterval(progressInterval);
       console.error('Error:', error);
+      this.showProgressBar = false;
       this.isSaving = false;
       alert('Error al actualizar los signos vitales');
     }
@@ -336,6 +379,13 @@ export class UsuarioDoctor implements OnInit {
   limpiarFormularioRecordatorio() {
     this.nuevoRecordatorioTitulo = '';
     this.nuevoRecordatorioDescripcion = '';
+  }
+
+  // Método para cerrar la barra de progreso
+  onProgressBarClosed() {
+    this.showProgressBar = false;
+    this.progressValue = 0;
+    this.progressHint = '';
   }
 
 }

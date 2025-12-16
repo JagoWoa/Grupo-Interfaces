@@ -1,6 +1,17 @@
 <!-- Header -->
 <app-header></app-header>
 
+<!-- Barra de Progreso -->
+<app-progress-bar 
+  [visible]="showProgressBar" 
+  [progress]="progressValue" 
+  [message]="progressMessage"
+  [hint]="progressHint"
+  [autoCloseDelay]="2000"
+  type="save"
+  (closed)="onProgressBarClosed()">
+</app-progress-bar>
+
 <!-- Loading Spinner -->
 @if (isLoading) {
 <div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center loader-wrapper">
