@@ -2,50 +2,139 @@
 
 <div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-    
+
     <!-- Header de la página -->
     <div class="mb-6">
       <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2 flex items-center gap-3">
-        <i class="fas fa-comments text-[#004b98]"></i>
+        <div
+          class="w-12 h-12 bg-gradient-to-br from-[#004b98] to-[#0066cc] rounded-xl flex items-center justify-center shadow-lg">
+          <i class="fas fa-comments text-white text-xl"></i>
+        </div>
         Mensajes
       </h1>
-      <p class="text-gray-600">Consulta con tu médico en tiempo real</p>
+      <p class="text-gray-600">Comunícate con tu médico de forma segura y privada</p>
     </div>
 
-    <!-- Contenedor del Chat -->
-    <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
-      <div class="h-[calc(100vh-220px)] min-h-[600px]">
-        <app-chat></app-chat>
+    <!-- Contenido principal -->
+    <div class="grid gap-6 lg:grid-cols-2">
+      <!-- Card de información del chat -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+        <div class="flex items-start gap-4 mb-6">
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-[#004b98] to-[#0066cc] rounded-2xl flex items-center justify-center shadow-lg">
+            <i class="fas fa-comment-medical text-white text-2xl"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-gray-900 mb-1">Chat con tu Doctor</h2>
+            <p class="text-gray-600 text-sm">Usa el botón flotante en la esquina inferior derecha para iniciar una
+              conversación</p>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-4">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-hand-pointer text-blue-600"></i>
+            </div>
+            <p class="font-medium text-gray-800">Haz clic en el botón azul</p>
+          </div>
+          <p class="text-sm text-gray-600 ml-13">
+            Verás un botón azul con un ícono de chat en la esquina inferior derecha de tu pantalla.
+            Haz clic para abrir el chat con tu médico asignado.
+          </p>
+        </div>
+
+        <ul class="space-y-3 text-sm text-gray-600">
+          <li class="flex items-center gap-3">
+            <i class="fas fa-check-circle text-green-500"></i>
+            Mensajes en tiempo real
+          </li>
+          <li class="flex items-center gap-3">
+            <i class="fas fa-check-circle text-green-500"></i>
+            Notificaciones de nuevos mensajes
+          </li>
+          <li class="flex items-center gap-3">
+            <i class="fas fa-check-circle text-green-500"></i>
+            Historial de conversaciones guardado
+          </li>
+        </ul>
+      </div>
+
+      <!-- Card de consejos -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+        <div class="flex items-start gap-4 mb-6">
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
+            <i class="fas fa-lightbulb text-white text-2xl"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-gray-900 mb-1">Consejos para el Chat</h2>
+            <p class="text-gray-600 text-sm">Aprovecha al máximo tu comunicación con el médico</p>
+          </div>
+        </div>
+
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i class="fas fa-check text-green-600 text-sm"></i>
+            </div>
+            <div>
+              <p class="font-medium text-gray-800">Sé claro y específico</p>
+              <p class="text-sm text-gray-500">Describe tus síntomas con el mayor detalle posible</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i class="fas fa-check text-green-600 text-sm"></i>
+            </div>
+            <div>
+              <p class="font-medium text-gray-800">Menciona tu historial</p>
+              <p class="text-sm text-gray-500">Incluye información relevante sobre tratamientos anteriores</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i class="fas fa-check text-green-600 text-sm"></i>
+            </div>
+            <div>
+              <p class="font-medium text-gray-800">Respeta los horarios</p>
+              <p class="text-sm text-gray-500">El doctor responderá durante su horario de atención</p>
+            </div>
+          </li>
+        </ul>
+
+        <!-- Alerta de emergencia -->
+        <div class="mt-6 bg-red-50 border border-red-200 rounded-xl p-4">
+          <div class="flex items-start gap-3">
+            <i class="fas fa-exclamation-triangle text-red-500 mt-0.5"></i>
+            <div>
+              <p class="font-medium text-red-800">En caso de emergencia</p>
+              <p class="text-sm text-red-700 mb-2">Este chat no es para emergencias médicas</p>
+              <a href="tel:911"
+                class="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors">
+                <i class="fas fa-phone-alt"></i>
+                Llamar al 911
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Información adicional -->
-    <div class="mt-6 bg-white rounded-2xl shadow-lg p-6">
-      <div class="flex items-start gap-4">
-        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-          <i class="fas fa-info-circle text-blue-600 text-xl"></i>
-        </div>
-        <div>
-          <h3 class="font-semibold text-gray-900 mb-2">Consejos para usar el chat</h3>
-          <ul class="space-y-1 text-sm text-gray-600">
-            <li class="flex items-center gap-2">
-              <i class="fas fa-check text-green-500 text-xs"></i>
-              Sé claro y específico en tus consultas
-            </li>
-            <li class="flex items-center gap-2">
-              <i class="fas fa-check text-green-500 text-xs"></i>
-              Respeta los horarios de atención del doctor
-            </li>
-            <li class="flex items-center gap-2">
-              <i class="fas fa-check text-green-500 text-xs"></i>
-              Para emergencias, llama al 911
-            </li>
-          </ul>
-        </div>
-      </div>
+    <!-- Nota de privacidad -->
+    <div class="mt-6 text-center">
+      <p class="text-sm text-gray-500 flex items-center justify-center gap-2">
+        <i class="fas fa-lock text-gray-400"></i>
+        Tus conversaciones están protegidas y son confidenciales
+      </p>
     </div>
 
   </div>
 </div>
+
+<!-- Chat Flotante - Solo para pacientes -->
+@if (!isLoading && userRole !== 'doctor') {
+<app-chat></app-chat>
+}
 
 <app-footer></app-footer>

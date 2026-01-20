@@ -1,8 +1,10 @@
-.chat-container {
+/* Chat Component Styles */
+
+.chat-wrapper {
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 600px;
+  min-height: 500px;
 }
 
 .chat-messages-container {
@@ -51,6 +53,16 @@
   }
 }
 
+/* Animación fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .chat-messages-container > div {
   animation: slideIn 0.3s ease-out;
 }
@@ -77,13 +89,125 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-/* Responsive */
+/* Lista de conversaciones */
+.conversation-list {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Mejoras en hover para botones */
+button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Estilos para mensajes con texto largo */
+.whitespace-pre-wrap {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Responsive para móviles */
 @media (max-width: 768px) {
-  .chat-container {
-    min-height: 500px;
+  .chat-wrapper {
+    min-height: 400px;
   }
   
   .chat-messages-container {
-    max-height: 400px !important;
+    max-height: 350px !important;
   }
+  
+  /* Ajustes de tamaño de texto */
+  .text-2xl {
+    font-size: 1.25rem;
+  }
+  
+  /* Ajustar padding en móviles */
+  .p-8 {
+    padding: 1rem;
+  }
+}
+
+/* Estilos para la lista de pacientes */
+.max-h-48 {
+  max-height: 12rem;
+}
+
+.max-h-48::-webkit-scrollbar {
+  width: 4px;
+}
+
+.max-h-48::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.max-h-48::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+/* Badge de notificación */
+.badge-notification {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Efecto de sombra en el header */
+.bg-gradient-to-r {
+  box-shadow: 0 2px 10px rgba(0, 75, 152, 0.2);
+}
+
+/* Mejoras en las burbujas de mensaje */
+.rounded-2xl {
+  border-radius: 1rem;
+}
+
+.rounded-tl-none {
+  border-top-left-radius: 0.25rem;
+}
+
+.rounded-tr-none {
+  border-top-right-radius: 0.25rem;
+}
+
+/* Transiciones suaves */
+.transition-colors {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.transition-all {
+  transition: all 0.2s ease;
+}
+
+/* Mejoras visuales para el estado vacío */
+.empty-state-icon {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+}
+
+/* Indicador de escritura */
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-5px);
+  }
+}
+
+.typing-indicator span {
+  animation: typing 1s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.2s;
 }

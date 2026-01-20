@@ -1,9 +1,9 @@
 ﻿
-import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Header }  from '../../components/header/header';
-import { Footer }  from '../../components/footer/footer';
+import { Header } from '../../components/header/header';
+import { Footer } from '../../components/footer/footer';
 import { Chat } from '../../components/chat/chat';
 import { ChatService } from '..//../../../core/services/chat.service';
 
@@ -23,15 +23,18 @@ import { AutoSpeakDirective } from '../../../../core/directives/auto-speak.direc
   styleUrls: ['./usuarioAnciano.css'],
 })
 
-export class UsuarioAnciano implements OnInit {
+export class UsuarioAnciano implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
+  isBrowser: boolean;
   chatExpanded = false;
   currentDate = new Date();
   isLoading = true;
   pacienteId: string = '';
   userName: string = '';
- 
+
+
+
   // Estado de signos vitales y formulario
   signos: SignosVitales | null = null;
   isEditing = false;
@@ -80,7 +83,9 @@ export class UsuarioAnciano implements OnInit {
     private healthService: HealthService,
     private authService: AuthService,
     private signosVitalesService: SignosVitalesService
-  ) {}
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   /**
    * Verifica si el paciente tiene signos vitales registrados
@@ -107,11 +112,11 @@ export class UsuarioAnciano implements OnInit {
   async loadUserData() {
     this.isLoading = true;
     console.log('🚀 Iniciando carga de datos...');
-    
+
     try {
       // Esperar a que el AuthService cargue el usuario con timeout
       const user = await this.waitForUser();
-      
+
       if (!user) {
         console.error('❌ No hay usuario autenticado después de esperar');
         alert('No se pudo cargar el usuario. Por favor, inicia sesión nuevamente.');
@@ -128,7 +133,7 @@ export class UsuarioAnciano implements OnInit {
 
       // Crear promesas con timeout de 5 segundos cada una
       const timeoutMs = 5000;
-      
+
       const [signosResult, recordatoriosResult, doctorResult, detallesResult] = await Promise.allSettled([
         this.withTimeout(this.healthService.getSignosVitales(this.pacienteId), timeoutMs, 'signos vitales'),
         this.withTimeout(this.healthService.getRecordatorios(this.pacienteId), timeoutMs, 'recordatorios'),
@@ -141,7 +146,7 @@ export class UsuarioAnciano implements OnInit {
         this.signosVitales = { ...this.signosVitales, ...signosResult.value };
         console.log('✅ Signos vitales cargados:', signosResult.value);
       } else {
-        console.log('ℹ️ No hay signos vitales registrados o error:', 
+        console.log('ℹ️ No hay signos vitales registrados o error:',
           signosResult.status === 'rejected' ? signosResult.reason : 'sin datos');
       }
 
@@ -176,23 +181,75 @@ export class UsuarioAnciano implements OnInit {
       }
 
       console.log('✅✅✅ Datos del paciente cargados completamente');
+
+      // Suscribirse a cambios en tiempo real
+      if (this.isBrowser) {
+        this.healthService.suscribirseASignosVitales(this.pacienteId, (nuevosSignos) => {
+          console.log('🔄 Actualización en tiempo real de signos vitales:', nuevosSignos);
+          this.signosVitales = { ...this.signosVitales, ...nuevosSignos };
+          this.cdr.detectChanges();
+        });
+      }
+
+      // Suscribirse a cambios en tiempo real de signos vitales
+      this.suscribirseASignosVitalesEnTiempoReal();
+
     } catch (error) {
       console.error('❌❌❌ Error FATAL cargando datos:', error);
       alert('Error al cargar los datos: ' + (error as any)?.message || error);
     } finally {
       console.log('🏁 Finalizando carga, isLoading = false');
       this.isLoading = false;
-      
+
       // Forzar detección de cambios
       this.cdr.detectChanges();
       console.log('🔄 Change detection forzada en usuarioAnciano');
     }
   }
 
+  /**
+   * Suscribirse a cambios en tiempo real de signos vitales
+   */
+  private suscribirseASignosVitalesEnTiempoReal(): void {
+    if (!this.pacienteId) return;
+
+    console.log('📡 Suscribiéndose a signos vitales en tiempo real...');
+
+    this.healthService.suscribirseASignosVitales(this.pacienteId, (nuevosSignos) => {
+      console.log('📥 Signos vitales actualizados en tiempo real:', nuevosSignos);
+
+      // Actualizar datos locales
+      this.signosVitales = {
+        ...this.signosVitales,
+        presion_arterial: nuevosSignos.presion_arterial || '',
+        frecuencia_cardiaca: nuevosSignos.frecuencia_cardiaca || '',
+        temperatura: nuevosSignos.temperatura || '',
+        peso: nuevosSignos.peso || '',
+        glucosa: nuevosSignos.glucosa || '',
+        saturacion_oxigeno: nuevosSignos.saturacion_oxigeno || ''
+      };
+
+      // Forzar detección de cambios para actualizar la UI
+      this.cdr.detectChanges();
+
+      console.log('✅ UI actualizada con nuevos signos vitales');
+    });
+  }
+
+  /**
+   * Limpiar suscripciones al destruir el componente
+   */
+  ngOnDestroy(): void {
+    console.log('🧹 Limpiando suscripciones del componente UsuarioAnciano');
+    if (this.pacienteId) {
+      this.healthService.desuscribirseDeSignosVitales(this.pacienteId);
+    }
+  }
+
   // Función auxiliar para esperar al usuario con reintentos
   private async waitForUser(): Promise<any> {
     let user = this.authService.getCurrentUser();
-    
+
     if (user) {
       return user;
     }
@@ -215,7 +272,7 @@ export class UsuarioAnciano implements OnInit {
   private withTimeout<T>(promise: Promise<T>, timeoutMs: number, name: string): Promise<T> {
     return Promise.race([
       promise,
-      new Promise<T>((_, reject) => 
+      new Promise<T>((_, reject) =>
         setTimeout(() => reject(new Error(`Timeout en ${name} después de ${timeoutMs}ms`)), timeoutMs)
       )
     ]);
@@ -274,7 +331,7 @@ export class UsuarioAnciano implements OnInit {
     };
     return icons[tipo] || 'fas fa-info-circle';
   }
-  
+
   toggleChat(): void {
     this.chatExpanded = !this.chatExpanded;
     this.chatService.toggleChat();
@@ -383,8 +440,12 @@ export class UsuarioAnciano implements OnInit {
     }
 
     try {
+      // DIAGNÓSTICO: Ver registros existentes
+      console.log('🔍 ANTES DE ASIGNAR - Ejecutando diagnóstico...');
+      await this.healthService.diagnosticarDuplicados(this.pacienteId);
+
       const success = await this.healthService.asignarDoctor(this.pacienteId, doctorId);
-      
+
       if (success) {
         alert(`✅ Doctor ${doctorNombre} asignado correctamente`);
         // Recargar doctor asignado
@@ -413,7 +474,7 @@ export class UsuarioAnciano implements OnInit {
 
     try {
       const success = await this.healthService.desasignarDoctor(this.pacienteId);
-      
+
       if (success) {
         alert('✅ Doctor desasignado correctamente');
         this.doctorAsignado = null;
@@ -425,4 +486,15 @@ export class UsuarioAnciano implements OnInit {
       alert('Error al desasignar el doctor');
     }
   }
+
+  // TrackBy functions para mejorar rendimiento de listas
+  trackByDoctorId(index: number, doctor: any): string {
+    return doctor.id;
+  }
+
+  trackByRecordatorioId(index: number, recordatorio: any): string {
+    return recordatorio.id;
+  }
+
+
 }

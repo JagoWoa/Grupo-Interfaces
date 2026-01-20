@@ -444,8 +444,10 @@ export class AuthService {
       
       // Manejo específico de errores
       let errorMessage = 'Error al registrar doctor';
-      if (error.message?.includes('already registered')) {
-        errorMessage = 'Este correo electrónico ya está registrado';
+      
+      // Errores de Supabase Auth
+      if (error.message?.includes('already registered') || error.message?.includes('User already registered')) {
+        errorMessage = 'Este correo electrónico ya está registrado. Por favor, inicia sesión o usa un correo diferente.';
       } else if (error.message?.includes('invalid email')) {
         errorMessage = 'El correo electrónico no es válido';
       } else if (error.message) {

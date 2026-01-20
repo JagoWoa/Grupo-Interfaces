@@ -1,22 +1,46 @@
+/* ========== AUTOFILL DEL NAVEGADOR ========== */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #f9fafb inset !important;
+  -webkit-text-fill-color: #111827 !important;
+  caret-color: #111827 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+}
+
+.card-registerDoctor input {
+  color: #111827 !important;
+}
+
 /* ========== TRANSICIONES SUAVES ========== */
 :host-context(.dark-mode) * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
+
 /* ========== OVERLAYS Y FONDOS CON IMAGEN ========== */
 :host-context(.dark-mode) .bg-black\/60 {
   background-color: rgba(0, 0, 0, 0.8) !important;
 }
+
 /* ========== registerDoctor ========== */
 :host-context(.dark-mode) .card-registerDoctor {
-  background-color: #f3eded ;
-  color: #030303 ;
+  background-color: #f3eded;
+  color: #030303;
 }
+
 :host-context(.dark-mode) .card-registerDoctor div p {
-  color: #030303 ;
+  color: #030303;
 }
+
 :host-context(.dark-mode) .card-registerDoctor input {
-  border: 1px solid #030303 ;
+  border: 1px solid #030303;
 }
+
 :host-context(.dark-mode) .card-registerDoctor .boton {
-  color: #ffffff ;
+  color: #ffffff;
 }

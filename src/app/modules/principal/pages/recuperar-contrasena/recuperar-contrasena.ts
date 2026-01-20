@@ -7,10 +7,13 @@ import { Footer } from '../../components/footer/footer';
 import { AuthService } from '../../../../core/services/auth.service';
 import { SupabaseService } from '../../../../core/services/supabase.service';
 
+import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
+import { SpeakOnHoverDirective } from '../../../../core/directives/speak-on-hover.directive';
+
 @Component({
   selector: 'app-recuperar-contrasena',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, Header, Footer],
+  imports: [CommonModule, FormsModule, RouterModule, Header, Footer, TranslatePipe, SpeakOnHoverDirective],
   templateUrl: './recuperar-contrasena.html',
   styleUrls: ['./recuperar-contrasena.css']
 })
@@ -21,10 +24,10 @@ export class RecuperarContrasena {
   successMessage = '';
 
   constructor(
-    private auth: AuthService, 
+    private auth: AuthService,
     private supabase: SupabaseService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   async onSubmit() {
     this.errorMessage = '';
@@ -47,7 +50,7 @@ export class RecuperarContrasena {
       // Por seguridad, Supabase no revela si el email existe o no
       // Si el email existe, se envía el correo; si no, simplemente no pasa nada
       const res = await this.auth.resetPassword(email);
-      
+
       if (!res.success) {
         this.errorMessage = res.error || 'No se pudo enviar el correo de recuperación.';
         return;

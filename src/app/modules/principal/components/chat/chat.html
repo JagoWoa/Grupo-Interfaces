@@ -1,21 +1,14 @@
 <!-- Chat como Burbuja Flotante -->
-<div>
+<div class="fixed bottom-6 right-6 z-50">
   <!-- Botón Flotante (cuando está cerrado) -->
-  <button 
-    *ngIf="!isChatOpen"
-    (click)="toggleChatWindow()"
-    class="w-16 h-16 bg-gradient-to-r from-[#004b98] to-[#0066cc] hover:from-[#003d7a] hover:to-[#0052a3] 
+  <button *ngIf="!isChatOpen" (click)="toggleChatWindow()" class="w-16 h-16 bg-gradient-to-r from-[#004b98] to-[#0066cc] hover:from-[#003d7a] hover:to-[#0052a3] 
            rounded-full shadow-2xl flex items-center justify-center text-white transition-all duration-300 
            hover:scale-110 relative group"
-    [title]="userRole === 'doctor' ? 'Abrir chat con paciente' : 'Abrir chat con doctor'"
-  >
+    [title]="userRole === 'doctor' ? 'Abrir chat con paciente' : 'Abrir chat con doctor'">
     <i class="fa-solid fa-comments text-2xl"></i>
     <!-- Badge de mensajes no leídos -->
-    <span 
-      *ngIf="unreadCount > 0" 
-      class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 
-             flex items-center justify-center shadow-lg animate-pulse"
-    >
+    <span *ngIf="unreadCount > 0" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 
+             flex items-center justify-center shadow-lg animate-pulse">
       {{unreadCount}}
     </span>
     <!-- Tooltip -->
@@ -26,129 +19,197 @@
   </button>
 
   <!-- Ventana del Chat (cuando está abierto) -->
-  <div 
-    *ngIf="isChatOpen"
-    class="w-[90vw] sm:w-96 h-[500px] sm:h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col 
-           animate-slide-up overflow-hidden border border-gray-200"
-  >
-    <!-- Header del chat -->
-    <div class="bg-gradient-to-r from-[#004b98] to-[#0066cc] text-white px-4 py-4 flex items-center gap-3 relative">
-      <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-        <!-- Ícono según el rol del usuario -->
-        <i *ngIf="userRole === 'adulto_mayor'" class="fa-solid fa-user-doctor text-white text-xl"></i>
-        <i *ngIf="userRole === 'doctor'" class="fa-solid fa-user text-white text-xl"></i>
+  <div *ngIf="isChatOpen" class="w-[90vw] sm:w-96 h-[500px] sm:h-[550px] bg-white rounded-2xl shadow-2xl flex flex-col 
+           animate-slide-up overflow-hidden border border-gray-200">
+    <!-- Vista cuando NO hay doctor asignado (solo para pacientes) -->
+    <ng-container *ngIf="sinDoctorAsignado && userRole === 'adulto_mayor'">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-[#004b98] to-[#0066cc] text-white px-4 py-4 flex items-center gap-3">
+        <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+          <i class="fa-solid fa-user-doctor text-white text-xl"></i>
+        </div>
+        <div class="flex-1">
+          <p class="font-semibold text-base">Chat Médico</p>
+          <p class="text-xs text-white/80">Sin doctor asignado</p>
+        </div>
+        <button (click)="toggleChatWindow()"
+          class="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+          title="Cerrar chat">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-      <div class="flex-1">
-        <p class="font-semibold text-base">{{ getNombreDoctor() }}</p>
-        <p class="text-xs text-white/80 flex items-center gap-1">
-          <span class="w-2 h-2 bg-green-400 rounded-full"></span>
-          {{ getEspecialidadDoctor() }}
+
+      <!-- Contenido sin doctor -->
+      <div class="flex-1 flex flex-col items-center justify-center p-6 text-center bg-gray-50">
+        <div
+          class="w-20 h-20 bg-gradient-to-br from-orange-100 to-amber-100 rounded-full flex items-center justify-center mb-4 shadow-lg">
+          <i class="fa-solid fa-user-doctor text-orange-500 text-3xl"></i>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">Sin doctor asignado</h3>
+        <p class="text-sm text-gray-600 mb-4">
+          Aún no tienes un doctor asignado. Contacta al administrador.
+        </p>
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-left">
+          <div class="flex items-start gap-2">
+            <i class="fa-solid fa-info-circle text-blue-500 mt-0.5 text-sm"></i>
+            <p class="text-xs text-blue-700">Una vez asignado, podrás chatear aquí.</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Chat normal cuando hay conversación disponible -->
+    <ng-container *ngIf="!sinDoctorAsignado || userRole === 'doctor'">
+      <!-- Header del chat -->
+      <div class="bg-gradient-to-r from-[#004b98] to-[#0066cc] text-white px-4 py-4 flex items-center gap-3">
+        <!-- Botón para ver lista de pacientes (solo doctores con múltiples conversaciones) -->
+        <button *ngIf="userRole === 'doctor' && conversaciones.length > 1" (click)="toggleConversationList()"
+          class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"
+          title="Ver lista de pacientes">
+          <i class="fa-solid fa-users text-white"></i>
+        </button>
+
+        <!-- Avatar -->
+        <div *ngIf="!(userRole === 'doctor' && conversaciones.length > 1)"
+          class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+          <i *ngIf="userRole === 'adulto_mayor'" class="fa-solid fa-user-doctor text-white text-xl"></i>
+          <i *ngIf="userRole === 'doctor'" class="fa-solid fa-user text-white text-xl"></i>
+        </div>
+
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold text-base truncate">{{ getNombreDoctor() }}</p>
+          <p class="text-xs text-white/80 flex items-center gap-1">
+            <span class="w-2 h-2 bg-green-400 rounded-full flex-shrink-0"></span>
+            <span class="truncate">{{ getEspecialidadDoctor() }}</span>
+          </p>
+        </div>
+
+        <!-- Botón cerrar -->
+        <button (click)="toggleChatWindow()"
+          class="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+          title="Cerrar chat">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Lista de conversaciones (para doctores) -->
+      <div *ngIf="showConversationList && userRole === 'doctor'"
+        class="bg-gray-50 border-b border-gray-200 max-h-40 overflow-y-auto">
+        <div class="p-2">
+          <p class="text-xs font-semibold text-gray-500 uppercase px-2 mb-2">Mis Pacientes</p>
+          <button *ngFor="let conv of conversaciones" (click)="seleccionarConversacion(conv.id)"
+            class="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-white transition-colors"
+            [class.bg-blue-50]="conv.id === conversacionActual?.id"
+            [class.border-l-4]="conv.id === conversacionActual?.id"
+            [class.border-[#004b98]]="conv.id === conversacionActual?.id">
+            <div
+              class="w-8 h-8 bg-gradient-to-br from-[#004b98] to-[#0066cc] rounded-full flex items-center justify-center flex-shrink-0">
+              <i class="fa-solid fa-user text-white text-sm"></i>
+            </div>
+            <div class="flex-1 min-w-0 text-left">
+              <p class="text-sm font-medium text-gray-800 truncate">{{ conv.paciente_nombre || 'Paciente' }}</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Estado vacío cuando el doctor no tiene pacientes -->
+      <div *ngIf="userRole === 'doctor' && conversaciones.length === 0 && !isLoading"
+        class="flex-1 flex flex-col items-center justify-center p-6 text-center bg-gray-50">
+        <div
+          class="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mb-4 shadow">
+          <i class="fa-solid fa-user-clock text-blue-500 text-2xl"></i>
+        </div>
+        <h3 class="text-base font-bold text-gray-800 mb-2">Sin pacientes asignados</h3>
+        <p class="text-sm text-gray-600">
+          Cuando se te asigne un paciente, podrás chatear aquí.
         </p>
       </div>
-      <!-- Botón minimizar -->
-      <button 
-        (click)="toggleChatWindow()"
-        class="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
-        title="Minimizar chat"
-      >
-        <i class="fa-solid fa-chevron-down"></i>
-      </button>
-    </div>
 
-    <!-- Área de Mensajes -->
-    <div 
-      #messagesContainer 
-      class="flex-1 p-4 space-y-3 overflow-y-auto bg-gradient-to-br from-purple-50/30 to-indigo-50/30"
-    >
-      <!-- Mensaje de bienvenida -->
-      <div 
-        *ngIf="messages.length === 0 && !isLoading" 
-        class="flex flex-col items-center justify-center h-full text-center px-4"
-      >
-        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
-        </div>
-        <p class="text-sm text-gray-600 font-medium">Hola, ¿en qué puedo ayudarte?</p>
-        <p class="text-xs text-gray-500 mt-2">Escribe un mensaje para iniciar la conversación</p>
-      </div>
-
-      <!-- Indicador de carga -->
-      <div *ngIf="isLoading" class="flex justify-center py-4">
-        <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow">
-          <div class="w-2 h-2 bg-[#004b98] rounded-full animate-bounce"></div>
-          <div class="w-2 h-2 bg-[#004b98] rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-          <div class="w-2 h-2 bg-[#004b98] rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-        </div>
-      </div>
-
-      <!-- Lista de mensajes -->
-      <div *ngFor="let message of messages">
-        <!-- Mensaje del otro usuario (no es el mío) -->
-        <div *ngIf="!esMiMensaje(message)" class="flex gap-3 mb-4 animate-fade-in">
-          <div class="w-8 h-8 bg-gradient-to-br from-[#004b98] to-[#0066cc] rounded-full flex items-center justify-center flex-shrink-0">
-            <!-- Si soy doctor, el otro es paciente (user icon). Si soy paciente, el otro es doctor (user-doctor icon) -->
-            <i *ngIf="userRole === 'adulto_mayor'" class="fa-solid fa-user-doctor text-white text-sm"></i>
-            <i *ngIf="userRole === 'doctor'" class="fa-solid fa-user text-white text-sm"></i>
+      <!-- Área de Mensajes -->
+      <div *ngIf="tieneConversaciones() || (userRole === 'adulto_mayor' && !sinDoctorAsignado)" #messagesContainer
+        class="chat-messages-container flex-1 p-4 space-y-3 overflow-y-auto bg-gradient-to-br from-purple-50/30 to-indigo-50/30">
+        <!-- Mensaje de bienvenida -->
+        <div *ngIf="messages.length === 0 && !isLoading && puedeEnviarMensaje()"
+          class="flex flex-col items-center justify-center h-full text-center px-4">
+          <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center mb-3 shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-purple-500" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
           </div>
-          <div class="flex-1 max-w-[85%]">
-            <div class="bg-white rounded-2xl rounded-tl-none p-3 shadow-sm">
-              <p class="text-sm text-gray-800">{{ message.contenido }}</p>
-            </div>
-            <span class="text-xs text-gray-500 mt-1 block ml-1">
-              {{ formatearHora(message.creado_en) }}
-            </span>
+          <p class="text-sm text-gray-600 font-medium">¡Hola! ¿En qué puedo ayudarte?</p>
+          <p class="text-xs text-gray-500 mt-1">Escribe un mensaje para iniciar</p>
+        </div>
+
+        <!-- Indicador de carga -->
+        <div *ngIf="isLoading" class="flex justify-center py-4">
+          <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow">
+            <div class="w-2 h-2 bg-[#004b98] rounded-full animate-bounce"></div>
+            <div class="w-2 h-2 bg-[#004b98] rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+            <div class="w-2 h-2 bg-[#004b98] rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
           </div>
         </div>
 
-        <!-- Mensaje del usuario -->
-        <div *ngIf="esMiMensaje(message)" class="flex justify-end mb-4 animate-fade-in">
-          <div class="flex flex-col items-end max-w-[85%]">
-            <div class="bg-gradient-to-r from-[#004b98] to-[#0066cc] text-white rounded-2xl rounded-tr-none p-3 shadow-md">
-              <p class="text-sm">{{ message.contenido }}</p>
+        <!-- Lista de mensajes -->
+        <div *ngFor="let message of messages">
+          <!-- Mensaje del otro usuario -->
+          <div *ngIf="!esMiMensaje(message)" class="flex gap-2 mb-3 animate-fade-in">
+            <div
+              class="w-7 h-7 bg-gradient-to-br from-[#004b98] to-[#0066cc] rounded-full flex items-center justify-center flex-shrink-0 shadow">
+              <i *ngIf="userRole === 'adulto_mayor'" class="fa-solid fa-user-doctor text-white text-xs"></i>
+              <i *ngIf="userRole === 'doctor'" class="fa-solid fa-user text-white text-xs"></i>
             </div>
-            <div class="flex items-center gap-2 mt-1 mr-1">
-              <span class="text-xs text-gray-500">
+            <div class="flex-1 max-w-[80%]">
+              <div class="bg-white rounded-2xl rounded-tl-sm p-3 shadow-sm">
+                <p class="text-sm text-gray-800 whitespace-pre-wrap">{{ message.contenido }}</p>
+              </div>
+              <span class="text-xs text-gray-500 mt-1 block ml-1">
                 {{ formatearHora(message.creado_en) }}
               </span>
-              <i 
-                class="fa-solid text-xs"
-                [ngClass]="{
-                  'fa-check-double text-blue-500': message.leido,
-                  'fa-check text-gray-400': !message.leido
-                }">
-              </i>
+            </div>
+          </div>
+
+          <!-- Mensaje del usuario -->
+          <div *ngIf="esMiMensaje(message)" class="flex justify-end mb-3 animate-fade-in">
+            <div class="flex flex-col items-end max-w-[80%]">
+              <div class="bg-gradient-to-r from-[#004b98] to-[#0066cc] text-white rounded-2xl rounded-tr-sm p-3 shadow">
+                <p class="text-sm whitespace-pre-wrap">{{ message.contenido }}</p>
+              </div>
+              <div class="flex items-center gap-1 mt-1 mr-1">
+                <span class="text-xs text-gray-500">
+                  {{ formatearHora(message.creado_en) }}
+                </span>
+                <i class="fa-solid text-xs" [ngClass]="{
+                    'fa-check-double text-blue-500': message.leido,
+                    'fa-check text-gray-400': !message.leido
+                  }"></i>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Input del chat -->
-    <div class="p-4 border-t border-gray-200 bg-white">
-      <form [formGroup]="messageForm" (ngSubmit)="sendMessage()" class="flex gap-2">
-        <input
-          formControlName="message"
-          type="text"
-          placeholder="Escribe tu consulta médica..."
-          class="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm 
-                 focus:outline-none focus:border-[#004b98] focus:ring-2 focus:ring-[#004b98]/20 transition-all"
-          [disabled]="isLoading"
-        >
-        <button
-          type="submit"
-          [disabled]="!messageForm.valid || isLoading"
-          class="bg-gradient-to-r from-[#004b98] to-[#0066cc] hover:from-[#003d7a] hover:to-[#0052a3] 
-                 disabled:from-gray-300 disabled:to-gray-300 text-white px-4 rounded-full 
-                 transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-lg"
-          title="Enviar mensaje"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-          </svg>
-        </button>
-      </form>
-    </div>
+      <!-- Input del chat -->
+      <div *ngIf="puedeEnviarMensaje()" class="p-3 border-t border-gray-200 bg-white">
+        <form [formGroup]="messageForm" (ngSubmit)="sendMessage()" class="flex gap-2">
+          <input formControlName="message" type="text"
+            [placeholder]="userRole === 'doctor' ? 'Escribe tu respuesta...' : 'Escribe tu consulta...'"
+            class="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm text-gray-900 placeholder-gray-400
+                   bg-gray-50 focus:bg-white focus:outline-none focus:border-[#004b98] focus:ring-2 focus:ring-[#004b98]/20 transition-all" [disabled]="isLoading" autocomplete="off">
+          <button type="submit" [disabled]="!messageForm.valid || isLoading" class="bg-gradient-to-r from-[#004b98] to-[#0066cc] hover:from-[#003d7a] hover:to-[#0052a3] 
+                   disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed
+                   text-white w-10 h-10 rounded-full transition-all duration-300 flex items-center justify-center 
+                   shadow hover:shadow-lg active:scale-95" title="Enviar mensaje">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+            </svg>
+          </button>
+        </form>
+      </div>
+    </ng-container>
   </div>
 </div>

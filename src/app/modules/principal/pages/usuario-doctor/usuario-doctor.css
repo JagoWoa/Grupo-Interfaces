@@ -288,3 +288,22 @@
 :host-context(.dark-mode) .item-recordatorio {
   transition: all 0.3s ease;
 }
+
+/* ========== CHAT DESHABILITADO ========== */
+.chat-deshabilitado {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.chat-deshabilitado:hover {
+  transform: scale(1.05);
+}
+
+:host-context(.dark-mode) .chat-deshabilitado {
+  background-color: #404040 !important;
+  color: #9ca3af !important;
+}

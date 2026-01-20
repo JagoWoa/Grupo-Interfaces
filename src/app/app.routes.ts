@@ -1,102 +1,89 @@
 import { Routes } from '@angular/router';
-import { WelcomePage } from './modules/principal/pages/welcome-page/welcome-page';
-import { Registre } from './modules/principal/pages/registre/registre';
-import { Login } from './modules/principal/pages/login/login';
-import { UsuarioAnciano } from './modules/principal/pages/usuarioAnciano/usuarioAnciano';
-import { RegisterDoctor } from './modules/principal/pages/register-doctor/register-doctor';
-import { UsuarioDoctor } from './modules/principal/pages/usuario-doctor/usuario-doctor';
-import { Perfil } from "./modules/principal/pages/perfil/perfil";
-import { Dashboard } from "./modules/principal/pages/dashboard/dashboard";
-import { ChatPage } from './modules/principal/pages/chat-page/chat-page';
 import { authGuard } from './core/guards/auth.guard';
-import { RecuperarContrasena } from './modules/principal/pages/recuperar-contrasena/recuperar-contrasena';
-import { ResetPassword } from './modules/principal/pages/reset-password/reset-password';
-import { TerminosCondiciones } from './modules/principal/pages/terminos-condiciones/terminos-condiciones';
-import { PoliticaPrivacidad } from './modules/principal/pages/politica-privacidad/politica-privacidad';
 
 export const routes: Routes = [
-	// Rutas públicas (accesibles sin login)
-	{
-		path: 'inicio',
-		component: WelcomePage,
-		pathMatch: 'full'
-	},
+	// Rutas públicas (accesibles sin login) - Carga inmediata para páginas principales
 	{
 		path: '',
-		component: WelcomePage,
+		loadComponent: () => import('./modules/principal/pages/welcome-page/welcome-page').then(m => m.WelcomePage),
 		pathMatch: 'full'
 	},
 	{
-		path: 'register',
-		component: Registre,
+		path: 'inicio',
+		loadComponent: () => import('./modules/principal/pages/welcome-page/welcome-page').then(m => m.WelcomePage),
 		pathMatch: 'full'
 	},
 	{
 		path: 'login',
-		component: Login,
+		loadComponent: () => import('./modules/principal/pages/login/login').then(m => m.Login),
 		pathMatch: 'full'
 	},
 	{
-		path: 'recuperar-contrasena',
-		component: RecuperarContrasena,
-		pathMatch: 'full'
-	},
-	{
-		path: 'reset-password',
-		component: ResetPassword,
+		path: 'register',
+		loadComponent: () => import('./modules/principal/pages/registre/registre').then(m => m.Registre),
 		pathMatch: 'full'
 	},
 	{
 		path: 'registerdoctor',
-		component: RegisterDoctor,
+		loadComponent: () => import('./modules/principal/pages/register-doctor/register-doctor').then(m => m.RegisterDoctor),
+		pathMatch: 'full'
+	},
+	{
+		path: 'recuperar-contrasena',
+		loadComponent: () => import('./modules/principal/pages/recuperar-contrasena/recuperar-contrasena').then(m => m.RecuperarContrasena),
+		pathMatch: 'full'
+	},
+	{
+		path: 'reset-password',
+		loadComponent: () => import('./modules/principal/pages/reset-password/reset-password').then(m => m.ResetPassword),
 		pathMatch: 'full'
 	},
 	{
 		path: 'terminos-condiciones',
-		component: TerminosCondiciones,
+		loadComponent: () => import('./modules/principal/pages/terminos-condiciones/terminos-condiciones').then(m => m.TerminosCondiciones),
 		pathMatch: 'full'
 	},
 	{
 		path: 'politica-privacidad',
-		component: PoliticaPrivacidad,
+		loadComponent: () => import('./modules/principal/pages/politica-privacidad/politica-privacidad').then(m => m.PoliticaPrivacidad),
 		pathMatch: 'full'
 	},
-	// Rutas protegidas (requieren autenticación)
+
+	// Rutas protegidas (requieren autenticación) - Lazy Loading
 	{
 		path: 'dashboard',
-		component: Dashboard,
+		loadComponent: () => import('./modules/principal/pages/dashboard/dashboard').then(m => m.Dashboard),
 		pathMatch: 'full',
 		canActivate: [authGuard]
 	},
 	{
 		path: 'perfil',
-		component: Perfil,
+		loadComponent: () => import('./modules/principal/pages/perfil/perfil').then(m => m.Perfil),
 		pathMatch: 'full',
 		canActivate: [authGuard]
 	},
 	{
 		path: 'usuario',
-		component: UsuarioAnciano,
+		loadComponent: () => import('./modules/principal/pages/usuarioAnciano/usuarioAnciano').then(m => m.UsuarioAnciano),
 		pathMatch: 'full',
 		canActivate: [authGuard]
 	},
 	{
 		path: 'usuariodoctor',
-		component: UsuarioDoctor,
+		loadComponent: () => import('./modules/principal/pages/usuario-doctor/usuario-doctor').then(m => m.UsuarioDoctor),
 		pathMatch: 'full',
 		canActivate: [authGuard]
 	},
 	{
 		path: 'chat',
-		component: ChatPage,
+		loadComponent: () => import('./modules/principal/pages/chat-page/chat-page').then(m => m.ChatPage),
 		pathMatch: 'full',
 		canActivate: [authGuard]
 	},
-	
+
 	// Fallback: redirect unknown paths to home
 	{
 		path: '**',
 		redirectTo: ''
 	}
 ];
-

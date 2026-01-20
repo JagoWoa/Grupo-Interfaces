@@ -43,7 +43,10 @@ export class HealthService {
   private recordatoriosSubject = new BehaviorSubject<Recordatorio[]>([]);
   public recordatorios$ = this.recordatoriosSubject.asObservable();
 
-  constructor(private supabase: SupabaseService) {}
+  // Mapa de suscripciones activas por paciente
+  private signosVitalesSubscriptions = new Map<string, any>();
+
+  constructor(private supabase: SupabaseService) { }
 
   // ==================== SIGNOS VITALES ====================
 
@@ -76,7 +79,7 @@ export class HealthService {
     console.log('HealthService.updateSignosVitales - Iniciando actualización');
     console.log('Paciente ID:', pacienteId);
     console.log('Signos a guardar:', signos);
-    
+
     try {
       // Verificar si ya existe un registro
       const { data: existing, error: selectError } = await this.supabase.client
@@ -138,6 +141,74 @@ export class HealthService {
       console.error('📌 Detalles:', error?.details);
       return false;
     }
+  }
+
+  /**
+   * Suscribirse a cambios en tiempo real de signos vitales de un paciente
+   * @param pacienteId ID del paciente a observar
+   * @param callback Función a ejecutar cuando hay cambios
+   */
+  suscribirseASignosVitales(pacienteId: string, callback: (signos: SignosVitales) => void): void {
+    console.log('📡 HealthService - Suscribiéndose a signos vitales en tiempo real para:', pacienteId);
+
+    // Cancelar suscripción anterior si existe
+    this.desuscribirseDeSignosVitales(pacienteId);
+
+    const subscription = this.supabase.client
+      .channel(`signos_vitales:${pacienteId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*', // INSERT, UPDATE, DELETE
+          schema: 'public',
+          table: 'signos_vitales',
+          filter: `adulto_mayor_id=eq.${pacienteId}`
+        },
+        async (payload) => {
+          console.log('📥 Cambio detectado en signos vitales:', payload.eventType);
+
+          if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+            const nuevosSignos = payload.new as SignosVitales;
+            console.log('📊 Nuevos signos vitales recibidos:', nuevosSignos);
+
+            // Actualizar el BehaviorSubject
+            this.signosVitalesSubject.next(nuevosSignos);
+
+            // Ejecutar callback
+            callback(nuevosSignos);
+          }
+        }
+      )
+      .subscribe((status) => {
+        console.log('📡 Estado de suscripción signos vitales:', status);
+      });
+
+    // Guardar referencia de la suscripción
+    this.signosVitalesSubscriptions.set(pacienteId, subscription);
+  }
+
+  /**
+   * Desuscribirse de cambios en tiempo real de signos vitales
+   * @param pacienteId ID del paciente
+   */
+  desuscribirseDeSignosVitales(pacienteId: string): void {
+    const subscription = this.signosVitalesSubscriptions.get(pacienteId);
+    if (subscription) {
+      console.log('🔌 Desuscribiéndose de signos vitales para:', pacienteId);
+      subscription.unsubscribe();
+      this.signosVitalesSubscriptions.delete(pacienteId);
+    }
+  }
+
+  /**
+   * Limpiar todas las suscripciones activas
+   */
+  limpiarSuscripciones(): void {
+    console.log('🧹 Limpiando todas las suscripciones de signos vitales');
+    this.signosVitalesSubscriptions.forEach((subscription, pacienteId) => {
+      subscription.unsubscribe();
+    });
+    this.signosVitalesSubscriptions.clear();
   }
 
   // ==================== RECORDATORIOS ====================
@@ -229,7 +300,7 @@ export class HealthService {
 
   // ==================== DETALLES DEL PACIENTE ====================
   // Estos podrían guardarse en una nueva tabla o en campos adicionales de usuarios
-  
+
   async getDetallesPaciente(pacienteId: string): Promise<DetallesPaciente | null> {
     // Por ahora, devolver datos de ejemplo
     // Más adelante se puede crear una tabla específica para esto
@@ -394,11 +465,11 @@ export class HealthService {
       const { data: allDoctores, error: errorAll } = await this.supabase.client
         .from('doctores')
         .select('*');
-      
+
       if (errorAll) {
         console.error('❌ Error en Paso 1:', errorAll);
       }
-      
+
       console.log('📊 Total registros en tabla doctores:', allDoctores?.length || 0);
       if (allDoctores && allDoctores.length > 0) {
         console.log('📋 Datos completos de doctores:', JSON.stringify(allDoctores, null, 2));
@@ -412,13 +483,13 @@ export class HealthService {
             numero_licencia: d.numero_licencia,
             anos_experiencia: d.anos_experiencia
           });
-          
+
           // Verificar si tiene usuario_id
           if (!d.usuario_id) {
             console.error(`❌ Doctor ${index + 1} NO TIENE usuario_id - esto es REQUERIDO!`);
           }
         });
-        
+
         // Verificar si hay doctores SIN usuario_id
         const sinUsuarioId = allDoctores.filter((d: any) => !d.usuario_id);
         if (sinUsuarioId.length > 0) {
@@ -457,7 +528,7 @@ export class HealthService {
 
       for (const doctor of doctoresDisponibles) {
         console.log(`🔍 Procesando doctor ID ${doctor.id}, usuario_id: ${doctor.usuario_id}`);
-        
+
         try {
           const { data: usuario, error: errorUsuario } = await this.supabase.client
             .from('usuarios')
@@ -514,19 +585,71 @@ export class HealthService {
   async asignarDoctor(pacienteId: string, doctorId: string, notas?: string): Promise<boolean> {
     console.log('🔍 HealthService.asignarDoctor - Asignando doctor:', doctorId, 'a paciente:', pacienteId);
     try {
-      // Primero, desactivar cualquier asignación previa
-      const { error: updateError } = await this.supabase.client
+      // Paso 1: Obtener TODOS los registros del paciente para ver qué existe
+      const { data: allRecords, error: fetchError } = await this.supabase.client
         .from('pacientes_doctor')
-        .update({ activo: false })
-        .eq('paciente_id', pacienteId)
-        .eq('activo', true);
+        .select('id, doctor_id, activo')
+        .eq('paciente_id', pacienteId);
 
-      if (updateError) {
-        console.error('❌ Error al desactivar asignaciones previas:', updateError);
-        throw updateError;
+      if (fetchError) {
+        console.error('❌ Error al obtener registros:', fetchError);
+        throw fetchError;
       }
 
-      // Insertar nueva asignación
+      console.log('📋 Registros existentes:', allRecords);
+
+      // Paso 2: Verificar si ya existe el registro exacto que queremos
+      const targetRecord = allRecords?.find(r => r.doctor_id === doctorId && r.activo === true);
+
+      if (targetRecord) {
+        console.log('✅ Ya existe la asignación activa correcta');
+        return true;
+      }
+
+      // Paso 3: ELIMINAR todos los registros del paciente (para limpiar duplicados)
+      if (allRecords && allRecords.length > 0) {
+        const idsToDelete = allRecords.map(r => r.id);
+        console.log('🗑️ Eliminando registros:', idsToDelete);
+
+        const { error: deleteError } = await this.supabase.client
+          .from('pacientes_doctor')
+          .delete()
+          .in('id', idsToDelete);
+
+        if (deleteError) {
+          console.error('❌ Error al eliminar registros:', deleteError);
+          throw deleteError;
+        }
+
+        // Esperar a que se complete la eliminación
+        await new Promise(resolve => setTimeout(resolve, 200));
+      }
+
+      // Paso 4: Verificar que no quede ningún registro
+      const { data: verifyEmpty } = await this.supabase.client
+        .from('pacientes_doctor')
+        .select('id')
+        .eq('paciente_id', pacienteId);
+
+      if (verifyEmpty && verifyEmpty.length > 0) {
+        console.warn('⚠️ Aún quedan registros después de eliminar:', verifyEmpty.length);
+        // Esperar más tiempo y volver a intentar eliminar
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        const { error: forceDeleteError } = await this.supabase.client
+          .from('pacientes_doctor')
+          .delete()
+          .eq('paciente_id', pacienteId);
+
+        if (forceDeleteError) {
+          console.error('❌ Error en eliminación forzada:', forceDeleteError);
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 200));
+      }
+
+      // Paso 5: Insertar nuevo registro limpio
+      console.log('➕ Insertando nuevo registro');
       const { error: insertError } = await this.supabase.client
         .from('pacientes_doctor')
         .insert({
@@ -538,7 +661,7 @@ export class HealthService {
         });
 
       if (insertError) {
-        console.error('❌ Error al crear nueva asignación:', insertError);
+        console.error('❌ Error al insertar:', insertError);
         throw insertError;
       }
 
@@ -575,13 +698,50 @@ export class HealthService {
     }
   }
 
+  /**
+   * Función de diagnóstico para ver registros duplicados
+   */
+  async diagnosticarDuplicados(pacienteId: string): Promise<void> {
+    console.log('🔍 DIAGNÓSTICO DE DUPLICADOS para paciente:', pacienteId);
+
+    const { data: allRecords, error } = await this.supabase.client
+      .from('pacientes_doctor')
+      .select('*')
+      .eq('paciente_id', pacienteId);
+
+    if (error) {
+      console.error('❌ Error en diagnóstico:', error);
+      return;
+    }
+
+    console.log('📊 Total de registros encontrados:', allRecords?.length || 0);
+    console.table(allRecords);
+
+    // Agrupar por doctor_id y activo
+    const grupos = allRecords?.reduce((acc: any, record: any) => {
+      const key = `${record.doctor_id}_${record.activo}`;
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(record);
+      return acc;
+    }, {});
+
+    console.log('📋 Agrupación por doctor_id + activo:');
+    for (const [key, records] of Object.entries(grupos || {})) {
+      const recordsArray = records as any[];
+      if (recordsArray.length > 1) {
+        console.warn(`⚠️ DUPLICADO ENCONTRADO: ${recordsArray.length} registros con clave ${key}`);
+        console.table(recordsArray);
+      }
+    }
+  }
+
   // ==================== NOTIFICACIONES ====================
 
   /**
    * Envía notificación por email al cuidador sobre actualización de signos vitales
    */
   async enviarNotificacionSignosVitales(
-    pacienteId: string, 
+    pacienteId: string,
     pacienteNombre: string,
     doctorNombre: string,
     signos: Partial<SignosVitales>

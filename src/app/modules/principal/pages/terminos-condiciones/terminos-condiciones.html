@@ -1,184 +1,195 @@
 <app-header></app-header>
 
-<main class="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4">
-  <div class="max-w-4xl mx-auto">
-    
+<main class="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4 contenedor-terminos">
+  <div class="max-w-4xl mx-auto contenido-terminos">
+
     <!-- Header -->
-    <div class="text-center mb-12">
-      <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#004b98] to-[#0066cc] rounded-2xl shadow-lg mb-6">
-        <span class="text-4xl">📜</span>
+    <div class="text-center mb-12 header-terminos">
+      <div
+        class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#004b98] to-[#0066cc] rounded-2xl shadow-lg mb-6 icono-header">
+        <i class="fa-solid fa-scroll text-white text-4xl"></i>
       </div>
-      <h1 class="text-4xl font-bold text-gray-900 mb-3">Términos y Condiciones</h1>
-      <p class="text-gray-500">Última actualización: {{ lastUpdated }}</p>
+      <h1 class="text-4xl font-bold text-gray-900 mb-3 titulo-terminos" [appSpeakOnHover]="'TERMS.TITLE' | translate">{{
+        'TERMS.TITLE' | translate }}</h1>
+      <p class="text-gray-500 fecha-terminos">{{ 'TERMS.LAST_UPDATED' | translate }}: {{ lastUpdated }}</p>
     </div>
 
     <!-- Content Card -->
-    <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 space-y-8">
+    <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 space-y-8 card-terminos">
 
       <!-- Introducción -->
-      <section class="prose prose-lg max-w-none">
-        <div class="bg-blue-50 border-l-4 border-[#004b98] p-6 rounded-r-lg mb-8">
-          <p class="text-gray-700 m-0">
-            Bienvenido al Sistema de Salud. Al acceder y utilizar esta plataforma, usted acepta cumplir con los siguientes términos y condiciones. 
-            Por favor, léalos detenidamente antes de utilizar nuestros servicios.
+      <section class="prose prose-lg max-w-none seccion-intro">
+        <div class="bg-blue-50 border-l-4 border-[#004b98] p-6 rounded-r-lg mb-8 alerta-intro">
+          <p class="text-gray-700 m-0 texto-intro" [appSpeakOnHover]="'TERMS.INTRO' | translate">
+            {{ 'TERMS.INTRO' | translate }}
           </p>
         </div>
       </section>
 
       <!-- Sección 1 -->
-      <section class="space-y-4">
+      <section class="space-y-4 seccion-terminos">
         <div class="flex items-center gap-3">
-          <span class="flex items-center justify-center w-10 h-10 bg-[#004b98] text-white rounded-full font-bold">1</span>
-          <h2 class="text-2xl font-bold text-gray-900 m-0">Aceptación de los Términos</h2>
+          <span
+            class="flex items-center justify-center w-10 h-10 bg-[#004b98] text-white rounded-full font-bold numero-seccion">1</span>
+          <h2 class="text-2xl font-bold text-gray-900 m-0 titulo-seccion"
+            [appSpeakOnHover]="'TERMS.SECTION_1_TITLE' | translate">{{ 'TERMS.SECTION_1_TITLE' | translate }}</h2>
         </div>
-        <div class="pl-13 ml-5 border-l-2 border-gray-200 pl-6">
-          <p class="text-gray-600 leading-relaxed">
-            Al registrarse y utilizar esta plataforma, usted confirma que ha leído, entendido y acepta estar vinculado por estos 
-            Términos y Condiciones, así como por nuestra Política de Privacidad. Si no está de acuerdo con alguno de estos términos, 
-            no debe utilizar nuestros servicios.
+        <div class="pl-13 ml-5 border-l-2 border-gray-200 pl-6 contenido-seccion">
+          <p class="text-gray-600 leading-relaxed texto-seccion">
+            {{ 'TERMS.SECTION_1_TEXT' | translate }}
           </p>
         </div>
       </section>
 
       <!-- Sección 2 -->
-      <section class="space-y-4">
+      <section class="space-y-4 seccion-terminos">
         <div class="flex items-center gap-3">
-          <span class="flex items-center justify-center w-10 h-10 bg-[#004b98] text-white rounded-full font-bold">2</span>
-          <h2 class="text-2xl font-bold text-gray-900 m-0">Descripción del Servicio</h2>
+          <span
+            class="flex items-center justify-center w-10 h-10 bg-[#004b98] text-white rounded-full font-bold numero-seccion">2</span>
+          <h2 class="text-2xl font-bold text-gray-900 m-0 titulo-seccion"
+            [appSpeakOnHover]="'TERMS.SECTION_2_TITLE' | translate">{{ 'TERMS.SECTION_2_TITLE' | translate }}</h2>
         </div>
-        <div class="pl-13 ml-5 border-l-2 border-gray-200 pl-6">
-          <p class="text-gray-600 leading-relaxed mb-4">
-            El Sistema de Salud es una plataforma digital diseñada para facilitar la comunicación entre pacientes y profesionales 
-            de la salud. Nuestros servicios incluyen:
+        <div class="pl-13 ml-5 border-l-2 border-gray-200 pl-6 contenido-seccion">
+          <p class="text-gray-600 leading-relaxed mb-4 texto-seccion">
+            {{ 'TERMS.SECTION_2_TEXT' | translate }}
           </p>
-          <ul class="space-y-2">
-            <li class="flex items-start gap-2 text-gray-600">
-              <span class="text-green-500 mt-1">✓</span>
-              Gestión de citas médicas y recordatorios
+          <ul class="space-y-2 lista-servicios">
+            <li class="flex items-start gap-2 text-gray-600 item-lista">
+              <i class="fa-solid fa-check text-green-500 mt-1"></i>
+              {{ 'TERMS.SERVICE_1' | translate }}
             </li>
-            <li class="flex items-start gap-2 text-gray-600">
-              <span class="text-green-500 mt-1">✓</span>
-              Comunicación segura entre pacientes y doctores
+            <li class="flex items-start gap-2 text-gray-600 item-lista">
+              <i class="fa-solid fa-check text-green-500 mt-1"></i>
+              {{ 'TERMS.SERVICE_2' | translate }}
             </li>
-            <li class="flex items-start gap-2 text-gray-600">
-              <span class="text-green-500 mt-1">✓</span>
-              Acceso a historial médico personal
+            <li class="flex items-start gap-2 text-gray-600 item-lista">
+              <i class="fa-solid fa-check text-green-500 mt-1"></i>
+              {{ 'TERMS.SERVICE_3' | translate }}
             </li>
-            <li class="flex items-start gap-2 text-gray-600">
-              <span class="text-green-500 mt-1">✓</span>
-              Monitoreo de signos vitales
+            <li class="flex items-start gap-2 text-gray-600 item-lista">
+              <i class="fa-solid fa-check text-green-500 mt-1"></i>
+              {{ 'TERMS.SERVICE_4' | translate }}
             </li>
           </ul>
         </div>
       </section>
 
       <!-- Sección 3 -->
-      <section class="space-y-4">
+      <section class="space-y-4 seccion-terminos">
         <div class="flex items-center gap-3">
-          <span class="flex items-center justify-center w-10 h-10 bg-[#004b98] text-white rounded-full font-bold">3</span>
-          <h2 class="text-2xl font-bold text-gray-900 m-0">Registro y Cuenta de Usuario</h2>
+          <span
+            class="flex items-center justify-center w-10 h-10 bg-[#004b98] text-white rounded-full font-bold numero-seccion">3</span>
+          <h2 class="text-2xl font-bold text-gray-900 m-0 titulo-seccion">{{ 'TERMS.SECTION_3_TITLE' | translate }}</h2>
         </div>
-        <div class="pl-13 ml-5 border-l-2 border-gray-200 pl-6">
-          <p class="text-gray-600 leading-relaxed mb-4">Para utilizar nuestros servicios, usted debe:</p>
-          <ul class="space-y-2">
-            <li class="flex items-start gap-2 text-gray-600">
-              <span class="text-[#004b98] mt-1">•</span>
-              Proporcionar información veraz, actual y completa durante el registro
+        <div class="pl-13 ml-5 border-l-2 border-gray-200 pl-6 contenido-seccion">
+          <p class="text-gray-600 leading-relaxed mb-4 texto-seccion">{{ 'TERMS.SECTION_3_TEXT' | translate }}</p>
+          <ul class="space-y-2 lista-requisitos">
+            <li class="flex items-start gap-2 text-gray-600 item-lista">
+              <i class="fa-solid fa-circle text-[#004b98] text-xs mt-2"></i>
+              {{ 'TERMS.REQUIREMENT_1' | translate }}
             </li>
-            <li class="flex items-start gap-2 text-gray-600">
-              <span class="text-[#004b98] mt-1">•</span>
-              Mantener la confidencialidad de su contraseña
+            <li class="flex items-start gap-2 text-gray-600 item-lista">
+              <i class="fa-solid fa-circle text-[#004b98] text-xs mt-2"></i>
+              {{ 'TERMS.REQUIREMENT_2' | translate }}
             </li>
-            <li class="flex items-start gap-2 text-gray-600">
-              <span class="text-[#004b98] mt-1">•</span>
-              Notificar inmediatamente cualquier uso no autorizado de su cuenta
+            <li class="flex items-start gap-2 text-gray-600 item-lista">
+              <i class="fa-solid fa-circle text-[#004b98] text-xs mt-2"></i>
+              {{ 'TERMS.REQUIREMENT_3' | translate }}
             </li>
-            <li class="flex items-start gap-2 text-gray-600">
-              <span class="text-[#004b98] mt-1">•</span>
-              Ser mayor de 18 años o contar con autorización de un tutor legal
+            <li class="flex items-start gap-2 text-gray-600 item-lista">
+              <i class="fa-solid fa-circle text-[#004b98] text-xs mt-2"></i>
+              {{ 'TERMS.REQUIREMENT_4' | translate }}
             </li>
           </ul>
         </div>
       </section>
 
       <!-- Sección 4 -->
-      <section class="space-y-4">
+      <section class="space-y-4 seccion-terminos">
         <div class="flex items-center gap-3">
-          <span class="flex items-center justify-center w-10 h-10 bg-[#004b98] text-white rounded-full font-bold">4</span>
-          <h2 class="text-2xl font-bold text-gray-900 m-0">Uso Apropiado</h2>
+          <span
+            class="flex items-center justify-center w-10 h-10 bg-[#004b98] text-white rounded-full font-bold numero-seccion">4</span>
+          <h2 class="text-2xl font-bold text-gray-900 m-0 titulo-seccion">{{ 'TERMS.SECTION_4_TITLE' | translate }}</h2>
         </div>
-        <div class="pl-13 ml-5 border-l-2 border-gray-200 pl-6">
-          <p class="text-gray-600 leading-relaxed mb-4">Usted se compromete a NO utilizar la plataforma para:</p>
-          <div class="bg-red-50 rounded-lg p-4 space-y-2">
-            <p class="flex items-start gap-2 text-red-700">
-              <span class="mt-1">✗</span>
-              Actividades ilegales o fraudulentas
+        <div class="pl-13 ml-5 border-l-2 border-gray-200 pl-6 contenido-seccion">
+          <p class="text-gray-600 leading-relaxed mb-4 texto-seccion">{{ 'TERMS.SECTION_4_TEXT' | translate }}</p>
+          <div class="bg-red-50 rounded-lg p-4 space-y-2 alerta-prohibido">
+            <p class="flex items-start gap-2 text-red-700 item-prohibido">
+              <i class="fa-solid fa-xmark mt-1"></i>
+              {{ 'TERMS.PROHIBITED_1' | translate }}
             </p>
-            <p class="flex items-start gap-2 text-red-700">
-              <span class="mt-1">✗</span>
-              Suplantar la identidad de otra persona
+            <p class="flex items-start gap-2 text-red-700 item-prohibido">
+              <i class="fa-solid fa-xmark mt-1"></i>
+              {{ 'TERMS.PROHIBITED_2' | translate }}
             </p>
-            <p class="flex items-start gap-2 text-red-700">
-              <span class="mt-1">✗</span>
-              Transmitir virus o código malicioso
+            <p class="flex items-start gap-2 text-red-700 item-prohibido">
+              <i class="fa-solid fa-xmark mt-1"></i>
+              {{ 'TERMS.PROHIBITED_3' | translate }}
             </p>
-            <p class="flex items-start gap-2 text-red-700">
-              <span class="mt-1">✗</span>
-              Interferir con el funcionamiento normal del sistema
+            <p class="flex items-start gap-2 text-red-700 item-prohibido">
+              <i class="fa-solid fa-xmark mt-1"></i>
+              {{ 'TERMS.PROHIBITED_4' | translate }}
             </p>
           </div>
         </div>
       </section>
 
       <!-- Sección 5 -->
-      <section class="space-y-4">
+      <section class="space-y-4 seccion-terminos">
         <div class="flex items-center gap-3">
-          <span class="flex items-center justify-center w-10 h-10 bg-[#004b98] text-white rounded-full font-bold">5</span>
-          <h2 class="text-2xl font-bold text-gray-900 m-0">Limitación de Responsabilidad</h2>
+          <span
+            class="flex items-center justify-center w-10 h-10 bg-[#004b98] text-white rounded-full font-bold numero-seccion">5</span>
+          <h2 class="text-2xl font-bold text-gray-900 m-0 titulo-seccion">{{ 'TERMS.SECTION_5_TITLE' | translate }}</h2>
         </div>
-        <div class="pl-13 ml-5 border-l-2 border-gray-200 pl-6">
-          <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <div class="pl-13 ml-5 border-l-2 border-gray-200 pl-6 contenido-seccion">
+          <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 alerta-advertencia">
             <p class="text-gray-700">
-              <strong class="text-yellow-700">⚠️ Importante:</strong> Esta plataforma NO reemplaza la atención médica profesional presencial. 
-              En caso de emergencia médica, contacte inmediatamente a los servicios de emergencia locales.
+              <strong class="text-yellow-700">
+                <i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                {{ 'TERMS.IMPORTANT' | translate }}:
+              </strong>
+              {{ 'TERMS.SECTION_5_WARNING' | translate }}
             </p>
           </div>
         </div>
       </section>
 
       <!-- Sección 6 -->
-      <section class="space-y-4">
+      <section class="space-y-4 seccion-terminos">
         <div class="flex items-center gap-3">
-          <span class="flex items-center justify-center w-10 h-10 bg-[#004b98] text-white rounded-full font-bold">6</span>
-          <h2 class="text-2xl font-bold text-gray-900 m-0">Modificaciones</h2>
+          <span
+            class="flex items-center justify-center w-10 h-10 bg-[#004b98] text-white rounded-full font-bold numero-seccion">6</span>
+          <h2 class="text-2xl font-bold text-gray-900 m-0 titulo-seccion">{{ 'TERMS.SECTION_6_TITLE' | translate }}</h2>
         </div>
-        <div class="pl-13 ml-5 border-l-2 border-gray-200 pl-6">
-          <p class="text-gray-600 leading-relaxed">
-            Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios serán efectivos 
-            inmediatamente después de su publicación. El uso continuado del servicio después de cualquier modificación 
-            constituye su aceptación de los nuevos términos.
+        <div class="pl-13 ml-5 border-l-2 border-gray-200 pl-6 contenido-seccion">
+          <p class="text-gray-600 leading-relaxed texto-seccion">
+            {{ 'TERMS.SECTION_6_TEXT' | translate }}
           </p>
         </div>
       </section>
 
       <!-- Contacto -->
-      <section class="bg-gradient-to-r from-[#004b98] to-[#0066cc] rounded-xl p-6 text-white">
-        <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
-          <span>📧</span> ¿Tienes preguntas?
+      <section class="bg-gradient-to-r from-[#004b98] to-[#0066cc] rounded-xl p-6 text-white seccion-contacto">
+        <h3 class="text-xl font-bold mb-3 flex items-center gap-2 titulo-contacto">
+          <i class="fa-solid fa-envelope"></i>
+          {{ 'TERMS.CONTACT_TITLE' | translate }}
         </h3>
-        <p class="opacity-90 mb-4">
-          Si tiene alguna pregunta sobre estos Términos y Condiciones, puede contactarnos:
+        <p class="opacity-90 mb-4 texto-contacto">
+          {{ 'TERMS.CONTACT_TEXT' | translate }}
         </p>
-        <p class="font-medium">soporte&#64;sistemasalud.com</p>
+        <p class="font-medium email-contacto">soporte&#64;sistemasalud.com</p>
       </section>
 
       <!-- Links -->
-      <div class="flex flex-wrap gap-4 justify-center pt-6 border-t border-gray-200">
-        <a routerLink="/politica-privacidad" class="inline-flex items-center gap-2 text-[#004b98] hover:underline font-medium">
-          🔒 Ver Política de Privacidad
+      <div class="flex flex-wrap gap-4 justify-center pt-6 border-t border-gray-200 links-footer">
+        <a routerLink="/politica-privacidad"
+          class="inline-flex items-center gap-2 text-[#004b98] hover:underline font-medium link-privacidad">
+          <i class="fa-solid fa-lock"></i>
+          {{ 'TERMS.VIEW_PRIVACY' | translate }}
         </a>
-        <a routerLink="/login" class="inline-flex items-center gap-2 text-gray-500 hover:text-gray-700">
-          ← Volver al inicio de sesión
+        <a routerLink="/login" class="inline-flex items-center gap-2 text-gray-500 hover:text-gray-700 link-login">
+          <i class="fa-solid fa-arrow-left"></i>
+          {{ 'TERMS.BACK_TO_LOGIN' | translate }}
         </a>
       </div>
 

@@ -23,15 +23,15 @@
             @if (successMessage) {
             <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
                 {{ successMessage }}
-                
+
                 <!-- Botón para reenviar email si es necesario -->
                 @if (showEmailVerificationMessage) {
                 <button type="button" (click)="resendVerificationEmail()" [disabled]="isLoading"
                     class="mt-3 w-full bg-green-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
                     @if (isLoading) {
-                        <span>{{ 'REGISTER.RESENDING' | translate }}</span>
+                    <span>{{ 'REGISTER.RESENDING' | translate }}</span>
                     } @else {
-                        <span>{{ 'REGISTER.RESEND_EMAIL' | translate }}</span>
+                    <span>{{ 'REGISTER.RESEND_EMAIL' | translate }}</span>
                     }
                 </button>
                 }
@@ -46,11 +46,11 @@
                         <label for="nombre" class="block text-sm font-medium text-gray-700">
                             {{ 'REGISTER.NAME' | translate }} *
                         </label>
-                        <input type="text" id="nombre" name="nombre" [(ngModel)]="nombre" [placeholder]="'REGISTER.NAME_PLACEHOLDER' | translate" required
-                            [class.border-red-500]="fieldErrors['nombre']"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
-                  focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
-                  placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                        <input type="text" id="nombre" name="nombre" [(ngModel)]="nombre"
+                            [placeholder]="'REGISTER.NAME_PLACEHOLDER' | translate" required
+                            [class.border-red-500]="fieldErrors['nombre']" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-900
+                  focus:ring-2 focus:ring-[#004b98] focus:border-transparent focus:bg-white outline-none transition-all
+                  placeholder-gray-400 placeholder:font-medium" />
                         @if (fieldErrors['nombre']) {
                         <p class="text-xs text-red-600 mt-1">{{ fieldErrors['nombre'] }}</p>
                         }
@@ -61,11 +61,10 @@
                             {{ 'REGISTER.LAST_NAME' | translate }} *
                         </label>
                         <input type="text" id="apellidos" name="apellidos" [(ngModel)]="apellidos"
-                            [placeholder]="'REGISTER.LAST_NAME_PLACEHOLDER' | translate" required 
-                            [class.border-red-500]="fieldErrors['apellidos']"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
-                  focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
-                  placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                            [placeholder]="'REGISTER.LAST_NAME_PLACEHOLDER' | translate" required
+                            [class.border-red-500]="fieldErrors['apellidos']" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-900
+                  focus:ring-2 focus:ring-[#004b98] focus:border-transparent focus:bg-white outline-none transition-all
+                  placeholder-gray-400 placeholder:font-medium" />
                         @if (fieldErrors['apellidos']) {
                         <p class="text-xs text-red-600 mt-1">{{ fieldErrors['apellidos'] }}</p>
                         }
@@ -78,12 +77,11 @@
                         <label for="email" class="block text-sm font-medium text-gray-700">
                             {{ 'REGISTER.EMAIL' | translate }} *
                         </label>
-                        <input type="email" id="email" name="email" [(ngModel)]="email" [placeholder]="'REGISTER.EMAIL_PLACEHOLDER' | translate"
-                            required 
-                            [class.border-red-500]="fieldErrors['email']"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
-                  focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
-                  placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                        <input type="email" id="email" name="email" [(ngModel)]="email"
+                            [placeholder]="'REGISTER.EMAIL_PLACEHOLDER' | translate" required
+                            [class.border-red-500]="fieldErrors['email']" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-900
+                  focus:ring-2 focus:ring-[#004b98] focus:border-transparent focus:bg-white outline-none transition-all
+                  placeholder-gray-400 placeholder:font-medium" />
                         @if (fieldErrors['email']) {
                         <p class="text-xs text-red-600 mt-1">{{ fieldErrors['email'] }}</p>
                         }
@@ -94,12 +92,10 @@
                             {{ 'REGISTER.PHONE' | translate }} *
                         </label>
                         <input type="text" id="telefono" name="telefono" [(ngModel)]="telefono"
-                            (input)="onTelefonoInput($event)"
-                            [placeholder]="'REGISTER.PHONE_PLACEHOLDER' | translate" required maxlength="20"
-                            [class.border-red-500]="fieldErrors['telefono']"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
-                  focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all
-                  placeholder-gray-500 placeholder:font-medium placeholder:opacity-90" />
+                            (input)="onTelefonoInput($event)" [placeholder]="'REGISTER.PHONE_PLACEHOLDER' | translate"
+                            required maxlength="20" [class.border-red-500]="fieldErrors['telefono']" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-900
+                  focus:ring-2 focus:ring-[#004b98] focus:border-transparent focus:bg-white outline-none transition-all
+                  placeholder-gray-400 placeholder:font-medium" />
                         @if (fieldErrors['telefono']) {
                         <p class="text-xs text-red-600 mt-1">{{ fieldErrors['telefono'] }}</p>
                         } @else {
@@ -114,9 +110,7 @@
                         {{ 'REGISTER.BIRTH_DATE' | translate }} *
                     </label>
                     <input type="date" id="fechaNacimiento" name="fechaNacimiento" [(ngModel)]="fechaNacimiento"
-                        required 
-                        [class.border-red-500]="fieldErrors['fechaNacimiento']"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
+                        required [class.border-red-500]="fieldErrors['fechaNacimiento']" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
               focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all" />
                     @if (fieldErrors['fechaNacimiento']) {
                     <p class="text-xs text-red-600 mt-1">{{ fieldErrors['fechaNacimiento'] }}</p>
@@ -132,7 +126,7 @@
                         <input [type]="showPassword ? 'text' : 'password'" id="password" name="password"
                             [(ngModel)]="password" [placeholder]="'REGISTER.PASSWORD_PLACEHOLDER' | translate" required
                             [class.border-red-500]="fieldErrors['password']"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all placeholder-gray-500 placeholder:font-medium placeholder:opacity-100" />
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-2 focus:ring-[#004b98] focus:border-transparent focus:bg-white outline-none transition-all placeholder-gray-400 placeholder:font-medium" />
                         <button type="button" (click)="togglePasswordVisibility()"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                             @if (showPassword) {
@@ -162,10 +156,10 @@
                     </label>
                     <div class="relative">
                         <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword"
-                            name="confirmPassword" [(ngModel)]="confirmPassword" [placeholder]="'REGISTER.CONFIRM_PASSWORD_PLACEHOLDER' | translate"
-                            required
+                            name="confirmPassword" [(ngModel)]="confirmPassword"
+                            [placeholder]="'REGISTER.CONFIRM_PASSWORD_PLACEHOLDER' | translate" required
                             [class.border-red-500]="fieldErrors['confirmPassword']"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-[#004b98] focus:border-transparent outline-none transition-all placeholder-gray-500 placeholder:font-medium placeholder:opacity-100" />
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-2 focus:ring-[#004b98] focus:border-transparent focus:bg-white outline-none transition-all placeholder-gray-400 placeholder:font-medium" />
                         <button type="button" (click)="toggleConfirmPasswordVisibility()"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
                             @if (showConfirmPassword) {
@@ -195,10 +189,12 @@
                             [class.border-red-500]="fieldErrors['terms']"
                             class="w-4 h-4 mt-1 text-[#004b98] border-gray-300 rounded focus:ring-[#004b98]" />
                         <label for="terms" class="text-sm text-gray-600">
-                            Acepto los 
-                            <a routerLink="/terminos-condiciones" class="text-[#004b98] hover:underline font-medium" target="_blank">Términos y Condiciones</a>
-                            y la 
-                            <a routerLink="/politica-privacidad" class="text-[#004b98] hover:underline font-medium" target="_blank">Política de Privacidad</a>
+                            Acepto los
+                            <a routerLink="/terminos-condiciones" class="text-[#004b98] hover:underline font-medium"
+                                target="_blank">Términos y Condiciones</a>
+                            y la
+                            <a routerLink="/politica-privacidad" class="text-[#004b98] hover:underline font-medium"
+                                target="_blank">Política de Privacidad</a>
                         </label>
                     </div>
                     @if (fieldErrors['terms']) {
@@ -210,18 +206,18 @@
                 <button type="submit" [disabled]="isLoading"
                     class="w-full bg-[#004b98] text-white py-3 rounded-lg font-semibold hover:bg-[#004bbc] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed boton-register flex items-center justify-center gap-2">
                     @if (isLoading) {
-                        <span class="animate-spin">🔄</span>
-                        <span>{{ 'REGISTER.REGISTERING' | translate }}</span>
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    <span>{{ 'REGISTER.REGISTERING' | translate }}</span>
                     } @else {
-                        <span>✨</span>
-                        <span>{{ 'REGISTER.REGISTER_BUTTON' | translate }}</span>
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>{{ 'REGISTER.REGISTER_BUTTON' | translate }}</span>
                     }
                 </button>
             </form>
 
 
             <!-- Enlace a login -->
-          <div class="text-center text-sm">
+            <div class="text-center text-sm">
                 <span class="text-gray-600">{{ 'REGISTER.ALREADY_ACCOUNT' | translate }}</span>
                 <a routerLink="/login" class="text-[#004b98] hover:underline font-semibold ml-1">
                     {{ 'REGISTER.LOGIN_HERE' | translate }}

@@ -1,22 +1,62 @@
-/* Autocompletado */
+/* ========== AUTOFILL DEL NAVEGADOR ========== */
+/* Sobrescribir los estilos de autofill de Chrome/Edge/Safari */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #f9fafb inset !important;
+  /* bg-gray-50 */
+  -webkit-text-fill-color: #111827 !important;
+  /* text-gray-900 */
+  font-size: inherit !important;
+  caret-color: #111827 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
 
+/* Para inputs con fondo blanco al enfocar */
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+}
+
+/* Firefox */
+input:-moz-autofill {
+  background-color: #f9fafb !important;
+  color: #111827 !important;
+}
+
+/* Asegurar que el texto sea oscuro en todos los inputs */
+.card-login input,
+.card-login input::placeholder {
+  color: #111827;
+}
+
+.card-login input::placeholder {
+  color: #9ca3af;
+  /* text-gray-400 */
+  opacity: 1;
+}
 
 /* ========== TRANSICIONES SUAVES ========== */
 :host-context(.dark-mode) * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
+
 /* ========== OVERLAYS Y FONDOS CON IMAGEN ========== */
 :host-context(.dark-mode) .bg-black\/60 {
   background-color: rgba(0, 0, 0, 0.8) !important;
 }
+
 /* ========== Login ========== */
 :host-context(.dark-mode) .card-login {
-  background-color: #f3eded ;
-  color: #030303 ;
+  background-color: #f3eded;
+  color: #030303;
 }
-:host-context(.dark-mode) .card-login div p, span {
-  color: #030303 ;
+
+:host-context(.dark-mode) .card-login div p,
+span {
+  color: #030303;
 }
+
 :host-context(.dark-mode) .card-login input {
-  border: 1px solid #030303 ;
+  border: 1px solid #030303;
 }

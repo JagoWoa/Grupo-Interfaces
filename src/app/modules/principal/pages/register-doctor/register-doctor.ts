@@ -106,7 +106,18 @@ export class RegisterDoctor {
           }, 2000);
         }
       } else {
-        this.errorMessage = result.error || 'Error al registrar el doctor. Por favor, intenta de nuevo.';
+        // Mostrar error con más detalle
+        const errorMsg = result.error || 'Error al registrar el doctor. Por favor, intenta de nuevo.';
+        this.errorMessage = errorMsg;
+        
+        // Si es un error de usuario ya registrado, sugerir ir al login
+        if (errorMsg.includes('ya está registrado')) {
+          setTimeout(() => {
+            if (confirm('¿Deseas ir a la página de inicio de sesión?')) {
+              this.router.navigate(['/login']);
+            }
+          }, 1000);
+        }
       }
     } catch (error) {
       console.error('Error en registro de doctor:', error);

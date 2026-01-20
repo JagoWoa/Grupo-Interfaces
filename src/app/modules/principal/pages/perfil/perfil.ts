@@ -7,12 +7,13 @@ import { Footer } from '../../components/footer/footer';
 import { AuthService } from '../../../../core/services/auth.service';
 import { SupabaseService } from '../../../../core/services/supabase.service';
 import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
+import { SpeakOnHoverDirective } from '../../../../core/directives/speak-on-hover.directive';
 
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, Header, Footer, TranslatePipe],
+  imports: [CommonModule, FormsModule, RouterModule, Header, Footer, TranslatePipe, SpeakOnHoverDirective],
   templateUrl: './perfil.html',
   styleUrls: ['./perfil.css']
 })
@@ -31,11 +32,11 @@ export class Perfil implements OnInit, OnDestroy {
     private supabase: SupabaseService,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadProfile();
-    
+
     // Escuchar cambios de autenticación
     try {
       const client = this.supabase.client;
@@ -66,17 +67,17 @@ export class Perfil implements OnInit, OnDestroy {
   async loadProfile() {
     this.loading = true;
     this.message = '';
-    
+
     try {
       console.log('🔍 Perfil - Iniciando carga...');
-      
+
       const client = this.supabase.client;
-      
+
       // PASO 1: Obtener sesión de Supabase Auth
       const { data: { session }, error: sessionError } = await client.auth.getSession();
-      
+
       console.log('� Perfil - Sesión obtenida:', session?.user?.email);
-      
+
       if (sessionError || !session?.user) {
         console.log('❌ Perfil - No hay sesión activa');
         this.message = 'No hay sesión activa. Por favor, inicia sesión.';
@@ -96,7 +97,7 @@ export class Perfil implements OnInit, OnDestroy {
         .maybeSingle();
 
       console.log('📋 Perfil - Datos de usuarios:', usuario);
-      
+
       if (usuarioError) {
         console.error('❌ Error al obtener usuario:', usuarioError);
         throw new Error('No se pudo obtener el perfil del usuario: ' + usuarioError.message);
@@ -152,7 +153,7 @@ export class Perfil implements OnInit, OnDestroy {
 
   async updateProfile() {
     this.message = '';
-    
+
     if (!this.user || !this.role) {
       this.message = 'Usuario no autenticado o rol desconocido.';
       this.messageType = 'error';
@@ -194,7 +195,7 @@ export class Perfil implements OnInit, OnDestroy {
 
       this.message = '✅ Perfil actualizado correctamente.';
       this.messageType = 'success';
-      
+
       // Recargar datos
       setTimeout(() => {
         this.loadProfile();

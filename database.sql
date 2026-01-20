@@ -1,7 +1,7 @@
 -- WARNING: This schema is for context only and is not meant to be run.
 -- Table order and constraints may not be valid for execution.
 
-CREATE TABLE conversacion (
+CREATE TABLE public.conversacion (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
   doctor_id uuid NOT NULL,
   adulto_mayor_id uuid NOT NULL,
@@ -9,10 +9,10 @@ CREATE TABLE conversacion (
   ultima_actividad timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
   activo boolean DEFAULT true,
   CONSTRAINT conversacion_pkey PRIMARY KEY (id),
-  CONSTRAINT conversacion_doctor_id_fkey FOREIGN KEY (doctor_id) REFERENCES usuarios(id),
-  CONSTRAINT conversacion_adulto_mayor_id_fkey FOREIGN KEY (adulto_mayor_id) REFERENCES usuarios(id)
+  CONSTRAINT conversacion_doctor_id_fkey FOREIGN KEY (doctor_id) REFERENCES public.usuarios(id),
+  CONSTRAINT conversacion_adulto_mayor_id_fkey FOREIGN KEY (adulto_mayor_id) REFERENCES public.usuarios(id)
 );
-CREATE TABLE doctores (
+CREATE TABLE public.doctores (
   id integer NOT NULL DEFAULT nextval('doctores_id_seq'::regclass),
   usuario_id uuid NOT NULL UNIQUE,
   titulo character varying NOT NULL,
@@ -23,9 +23,9 @@ CREATE TABLE doctores (
   created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT doctores_pkey PRIMARY KEY (id),
-  CONSTRAINT doctores_usuario_id_fkey FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+  CONSTRAINT doctores_usuario_id_fkey FOREIGN KEY (usuario_id) REFERENCES public.usuarios(id)
 );
-CREATE TABLE historial_medico (
+CREATE TABLE public.historial_medico (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
   adulto_mayor_id uuid NOT NULL,
   diagnostico text NOT NULL,
@@ -34,9 +34,9 @@ CREATE TABLE historial_medico (
   observaciones text,
   fecha_registro timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT historial_medico_pkey PRIMARY KEY (id),
-  CONSTRAINT historial_medico_adulto_mayor_id_fkey FOREIGN KEY (adulto_mayor_id) REFERENCES usuarios(id)
+  CONSTRAINT historial_medico_adulto_mayor_id_fkey FOREIGN KEY (adulto_mayor_id) REFERENCES public.usuarios(id)
 );
-CREATE TABLE mensajes (
+CREATE TABLE public.mensajes (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
   conversacion_id uuid NOT NULL,
   emisor_tipo character varying NOT NULL CHECK (emisor_tipo::text = ANY (ARRAY['doctor'::character varying, 'adulto_mayor'::character varying]::text[])),
@@ -44,9 +44,9 @@ CREATE TABLE mensajes (
   creado_en timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
   leido boolean DEFAULT false,
   CONSTRAINT mensajes_pkey PRIMARY KEY (id),
-  CONSTRAINT mensajes_conversacion_id_fkey FOREIGN KEY (conversacion_id) REFERENCES conversacion(id)
+  CONSTRAINT mensajes_conversacion_id_fkey FOREIGN KEY (conversacion_id) REFERENCES public.conversacion(id)
 );
-CREATE TABLE pacientes_doctor (
+CREATE TABLE public.pacientes_doctor (
   id integer NOT NULL DEFAULT nextval('pacientes_doctor_id_seq'::regclass),
   paciente_id uuid NOT NULL,
   doctor_id uuid NOT NULL,
@@ -54,10 +54,10 @@ CREATE TABLE pacientes_doctor (
   activo boolean DEFAULT true,
   notas text,
   CONSTRAINT pacientes_doctor_pkey PRIMARY KEY (id),
-  CONSTRAINT pacientes_doctor_paciente_id_fkey FOREIGN KEY (paciente_id) REFERENCES usuarios(id),
-  CONSTRAINT pacientes_doctor_doctor_id_fkey FOREIGN KEY (doctor_id) REFERENCES usuarios(id)
+  CONSTRAINT pacientes_doctor_paciente_id_fkey FOREIGN KEY (paciente_id) REFERENCES public.usuarios(id),
+  CONSTRAINT pacientes_doctor_doctor_id_fkey FOREIGN KEY (doctor_id) REFERENCES public.usuarios(id)
 );
-CREATE TABLE recordatorio (
+CREATE TABLE public.recordatorio (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
   adulto_mayor_id uuid NOT NULL,
   titulo text NOT NULL,
@@ -66,9 +66,9 @@ CREATE TABLE recordatorio (
   fecha_recordatorio timestamp with time zone,
   completado boolean DEFAULT false,
   CONSTRAINT recordatorio_pkey PRIMARY KEY (id),
-  CONSTRAINT recordatorio_adulto_mayor_id_fkey FOREIGN KEY (adulto_mayor_id) REFERENCES usuarios(id)
+  CONSTRAINT recordatorio_adulto_mayor_id_fkey FOREIGN KEY (adulto_mayor_id) REFERENCES public.usuarios(id)
 );
-CREATE TABLE signos_vitales (
+CREATE TABLE public.signos_vitales (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
   adulto_mayor_id uuid NOT NULL,
   presion_arterial character varying,
@@ -77,9 +77,9 @@ CREATE TABLE signos_vitales (
   peso character varying,
   ultima_medicion timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT signos_vitales_pkey PRIMARY KEY (id),
-  CONSTRAINT signos_vitales_adulto_mayor_id_fkey FOREIGN KEY (adulto_mayor_id) REFERENCES usuarios(id)
+  CONSTRAINT signos_vitales_adulto_mayor_id_fkey FOREIGN KEY (adulto_mayor_id) REFERENCES public.usuarios(id)
 );
-CREATE TABLE usuarios (
+CREATE TABLE public.usuarios (
   id uuid NOT NULL,
   email character varying NOT NULL UNIQUE,
   nombre_completo character varying NOT NULL,
@@ -93,6 +93,6 @@ CREATE TABLE usuarios (
   CONSTRAINT usuarios_pkey PRIMARY KEY (id),
   CONSTRAINT usuarios_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id)
 );
-CREATE TABLE v_doctor_id (
+CREATE TABLE public.v_doctor_id (
   id uuid
 );

@@ -1,7 +1,157 @@
 /* Animación de entrada */
-.prose { animation: fadeIn 0.4s ease-out; }
+.prose {
+  animation: fadeIn 0.4s ease-out;
+}
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== TRANSICIONES SUAVES ========== */
+:host-context(.dark-mode) * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ========== CONTENEDOR PRINCIPAL ========== */
+:host-context(.dark-mode) .contenedor-privacidad {
+  background: linear-gradient(to bottom, #0f0f0f, #1a1a1a) !important;
+}
+
+/* ========== HEADER ========== */
+:host-context(.dark-mode) .titulo-privacidad {
+  color: #ffffff !important;
+}
+
+:host-context(.dark-mode) .fecha-privacidad {
+  color: #9ca3af !important;
+}
+
+/* ========== CARD PRINCIPAL ========== */
+:host-context(.dark-mode) .card-privacidad {
+  background-color: #1e1e1e !important;
+  border: 1px solid #333 !important;
+}
+
+/* ========== SECCIONES ========== */
+:host-context(.dark-mode) .titulo-seccion {
+  color: #ffffff !important;
+}
+
+:host-context(.dark-mode) .texto-seccion {
+  color: #d1d5db !important;
+}
+
+:host-context(.dark-mode) .contenido-seccion {
+  border-color: #444 !important;
+}
+
+/* ========== ALERTAS ========== */
+:host-context(.dark-mode) .alerta-intro {
+  background-color: #064e3b !important;
+  border-color: #10b981 !important;
+}
+
+:host-context(.dark-mode) .alerta-intro .texto-intro {
+  color: #d1fae5 !important;
+}
+
+:host-context(.dark-mode) .alerta-no-venta {
+  background-color: #3f1d1d !important;
+  border-color: #991b1b !important;
+}
+
+:host-context(.dark-mode) .alerta-no-venta p {
+  color: #fecaca !important;
+}
+
+/* ========== CARDS DE DATOS ========== */
+:host-context(.dark-mode) .card-personal {
+  background-color: #1e3a5f !important;
+}
+
+:host-context(.dark-mode) .card-personal .titulo-datos {
+  color: #93c5fd !important;
+}
+
+:host-context(.dark-mode) .card-personal .lista-datos li {
+  color: #d1d5db !important;
+}
+
+:host-context(.dark-mode) .card-salud {
+  background-color: #3b1f5f !important;
+}
+
+:host-context(.dark-mode) .card-salud .titulo-datos {
+  color: #d8b4fe !important;
+}
+
+:host-context(.dark-mode) .card-salud .lista-datos li {
+  color: #d1d5db !important;
+}
+
+/* ========== CARD PROTECCIÓN ========== */
+:host-context(.dark-mode) .card-proteccion {
+  background: linear-gradient(to right, #064e3b, #1e3a5f) !important;
+}
+
+:host-context(.dark-mode) .card-proteccion .titulo-item {
+  color: #ffffff !important;
+}
+
+:host-context(.dark-mode) .card-proteccion .descripcion-item {
+  color: #d1d5db !important;
+}
+
+/* ========== CARDS DE DERECHOS ========== */
+:host-context(.dark-mode) .card-derecho {
+  background-color: #262626 !important;
+  border-color: #404040 !important;
+}
+
+:host-context(.dark-mode) .card-derecho:hover {
+  background-color: #333 !important;
+}
+
+:host-context(.dark-mode) .card-derecho .titulo-derecho {
+  color: #ffffff !important;
+}
+
+/* ========== ITEMS DE LISTA ========== */
+:host-context(.dark-mode) .item-uso {
+  color: #d1d5db !important;
+}
+
+:host-context(.dark-mode) .item-cookie {
+  color: #d1d5db !important;
+}
+
+/* ========== LINKS FOOTER ========== */
+:host-context(.dark-mode) .links-footer {
+  border-color: #333 !important;
+}
+
+:host-context(.dark-mode) .link-terminos {
+  color: #60a5fa !important;
+}
+
+:host-context(.dark-mode) .link-login {
+  color: #9ca3af !important;
+}
+
+:host-context(.dark-mode) .link-login:hover {
+  color: #ffffff !important;
+}
+
+/* ========== HOVER EFFECTS ========== */
+:host-context(.dark-mode) .seccion-privacidad:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
 }

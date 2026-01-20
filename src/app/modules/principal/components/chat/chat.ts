@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
-import { ChatService, Message, Conversation } from '..//../../../core/services/chat.service';
+import { ChatService, Message, Conversation, DoctorAsignado } from '..//../../../core/services/chat.service';
 import { AuthService } from '..//../../../core/services/auth.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -9,23 +9,31 @@ import { CommonModule } from '@angular/common';
   selector: 'app-chat',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './chat.html',
+  styleUrls: ['./chat.css']
 })
 export class Chat implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
-  
+
   messages: Message[] = [];
   conversacionActual: Conversation | null = null;
+  conversaciones: Conversation[] = [];
   isChatOpen = false;
   isLoading = false;
   messageForm: FormGroup;
   userRole: 'doctor' | 'adulto_mayor' | null = null;
   userId: string | null = null;
   unreadCount = 0;
-  
+  doctorAsignado: DoctorAsignado | null = null;
+  sinDoctorAsignado = false;
+  showConversationList = false;
+
   private messagesSub!: Subscription;
   private conversacionSub!: Subscription;
+  private conversacionesSub!: Subscription;
   private chatStateSub!: Subscription;
   private loadingSub!: Subscription;
+  private doctorSub!: Subscription;
+  private sinDoctorSub!: Subscription;
   private shouldScrollToBottom = false;
 
   constructor(
@@ -42,7 +50,7 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
   async ngOnInit() {
     try {
       this.isLoading = true;
-      
+
       // Obtener usuario actual
       const user = await this.authService.getCurrentUser();
       if (!user) {
@@ -53,7 +61,7 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
 
       this.userId = user.id;
       this.userRole = user.rol as 'doctor' | 'adulto_mayor';
-      
+
       console.log('👤 Chat inicializado para:', {
         userId: this.userId,
         userRole: this.userRole,
@@ -69,17 +77,17 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
         .subscribe(messages => {
           const previousCount = this.messages.length;
           this.messages = messages;
-          
+
           // Calcular mensajes no leídos
           this.unreadCount = messages.filter(m => !m.leido && m.emisor_tipo !== this.userRole).length;
-          
+
           console.log(`📨 Mensajes actualizados: ${messages.length} mensajes (${this.unreadCount} no leídos)`);
-          
+
           // Scroll automático si hay nuevos mensajes
           if (messages.length > previousCount) {
             this.shouldScrollToBottom = true;
           }
-          
+
           this.cdr.detectChanges();
         });
 
@@ -88,6 +96,14 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
         .subscribe(conversacion => {
           this.conversacionActual = conversacion;
           console.log('💬 Conversación actual:', conversacion);
+          this.cdr.detectChanges();
+        });
+
+      // Suscribirse a lista de conversaciones (para doctores)
+      this.conversacionesSub = this.chatService.conversations$
+        .subscribe(conversaciones => {
+          this.conversaciones = conversaciones;
+          console.log(`📋 Conversaciones disponibles: ${conversaciones.length}`);
           this.cdr.detectChanges();
         });
 
@@ -105,6 +121,20 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
       this.loadingSub = this.chatService.isLoading$
         .subscribe(loading => {
           this.isLoading = loading;
+          this.cdr.detectChanges();
+        });
+
+      // Suscribirse al doctor asignado
+      this.doctorSub = this.chatService.doctorAsignado$
+        .subscribe(doctor => {
+          this.doctorAsignado = doctor;
+          this.cdr.detectChanges();
+        });
+
+      // Suscribirse al estado de sin doctor
+      this.sinDoctorSub = this.chatService.sinDoctorAsignado$
+        .subscribe(sinDoctor => {
+          this.sinDoctorAsignado = sinDoctor;
           this.cdr.detectChanges();
         });
 
@@ -126,7 +156,7 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
   async sendMessage(): Promise<void> {
     if (this.messageForm.valid && !this.isLoading) {
       const messageText = this.messageForm.get('message')?.value;
-      
+
       try {
         await this.chatService.enviarMensaje(messageText);
         this.messageForm.reset();
@@ -152,6 +182,17 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
     this.cdr.detectChanges();
   }
 
+  toggleConversationList(): void {
+    this.showConversationList = !this.showConversationList;
+    this.cdr.detectChanges();
+  }
+
+  async seleccionarConversacion(conversacionId: string): Promise<void> {
+    this.showConversationList = false;
+    await this.chatService.seleccionarConversacion(conversacionId);
+    this.cdr.detectChanges();
+  }
+
   esMiMensaje(mensaje: Message): boolean {
     return mensaje.emisor_tipo === this.userRole;
   }
@@ -161,7 +202,7 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
     if (this.userRole === 'doctor') {
       return this.conversacionActual?.paciente_nombre || 'Paciente';
     }
-    
+
     // Si el usuario actual es paciente, mostrar el nombre del doctor
     if (this.conversacionActual?.doctor_titulo) {
       return `${this.conversacionActual.doctor_titulo} ${this.conversacionActual.doctor_nombre}`;
@@ -174,16 +215,24 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
     if (this.userRole === 'doctor') {
       return 'Paciente';
     }
-    
+
     // Si es paciente, mostrar la especialidad del doctor
     return this.conversacionActual?.doctor_especialidad || 'Medicina General';
   }
 
+  tieneConversaciones(): boolean {
+    return this.conversaciones.length > 0;
+  }
+
+  puedeEnviarMensaje(): boolean {
+    return this.conversacionActual !== null && !this.sinDoctorAsignado;
+  }
+
   formatearHora(fecha: string): string {
     const date = new Date(fecha);
-    return date.toLocaleTimeString('es-ES', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return date.toLocaleTimeString('es-ES', {
+      hour: '2-digit',
+      minute: '2-digit'
     });
   }
 
@@ -205,11 +254,20 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
     if (this.conversacionSub) {
       this.conversacionSub.unsubscribe();
     }
+    if (this.conversacionesSub) {
+      this.conversacionesSub.unsubscribe();
+    }
     if (this.chatStateSub) {
       this.chatStateSub.unsubscribe();
     }
     if (this.loadingSub) {
       this.loadingSub.unsubscribe();
+    }
+    if (this.doctorSub) {
+      this.doctorSub.unsubscribe();
+    }
+    if (this.sinDoctorSub) {
+      this.sinDoctorSub.unsubscribe();
     }
   }
 }

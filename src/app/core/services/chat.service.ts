@@ -23,6 +23,17 @@ export interface Conversation {
   paciente_nombre?: string;
   doctor_titulo?: string;
   doctor_especialidad?: string;
+  ultimo_mensaje?: string;
+  mensajes_no_leidos?: number;
+}
+
+export interface DoctorAsignado {
+  id: string;
+  nombre_completo: string;
+  titulo: string;
+  especialidad: string;
+  email: string;
+  telefono?: string;
 }
 
 @Injectable({
@@ -33,15 +44,17 @@ export class ChatService {
   private currentConversationId: string | null = null;
   private currentUserId: string | null = null;
   private currentUserRole: 'doctor' | 'adulto_mayor' | null = null;
-  
+
   public messages$ = new BehaviorSubject<Message[]>(this.messages);
   public conversations$ = new BehaviorSubject<Conversation[]>([]);
   public currentConversation$ = new BehaviorSubject<Conversation | null>(null);
   public isChatOpen$ = new BehaviorSubject<boolean>(false);
   public isLoading$ = new BehaviorSubject<boolean>(false);
+  public doctorAsignado$ = new BehaviorSubject<DoctorAsignado | null>(null);
+  public sinDoctorAsignado$ = new BehaviorSubject<boolean>(false);
   private subscription: any = null;
 
-  constructor(private supabaseService: SupabaseService) {}
+  constructor(private supabaseService: SupabaseService) { }
 
   /**
    * Inicializa el chat con el usuario actual
@@ -49,11 +62,125 @@ export class ChatService {
   async inicializarChat(userId: string, userRole: 'doctor' | 'adulto_mayor'): Promise<void> {
     this.currentUserId = userId;
     this.currentUserRole = userRole;
-    
+    this.sinDoctorAsignado$.next(false);
+
     if (userRole === 'doctor') {
       await this.cargarConversacionesDoctor();
     } else {
       await this.cargarConversacionPaciente();
+    }
+  }
+
+  /**
+   * Obtener el doctor asignado al paciente actual
+   */
+  async obtenerDoctorAsignado(): Promise<DoctorAsignado | null> {
+    if (!this.currentUserId) return null;
+
+    try {
+      const supabase = this.supabaseService.client;
+
+      // Buscar asignación activa en pacientes_doctor
+      const { data: asignacion, error: asignacionError } = await supabase
+        .from('pacientes_doctor')
+        .select('doctor_id')
+        .eq('paciente_id', this.currentUserId)
+        .eq('activo', true)
+        .maybeSingle();
+
+      if (asignacionError && asignacionError.code !== 'PGRST116') {
+        console.error('❌ Error obteniendo asignación:', asignacionError);
+        return null;
+      }
+
+      if (!asignacion) {
+        console.log('⚠️ No hay doctor asignado para este paciente');
+        this.sinDoctorAsignado$.next(true);
+        return null;
+      }
+
+      // Obtener información del doctor
+      const { data: doctorUsuario, error: doctorError } = await supabase
+        .from('usuarios')
+        .select('id, nombre_completo, email, telefono')
+        .eq('id', asignacion.doctor_id)
+        .single();
+
+      if (doctorError) {
+        console.error('❌ Error obteniendo usuario doctor:', doctorError);
+        return null;
+      }
+
+      // Obtener información adicional del doctor (título y especialidad)
+      const { data: doctorInfo } = await supabase
+        .from('doctores')
+        .select('titulo, especialidad')
+        .eq('usuario_id', asignacion.doctor_id)
+        .maybeSingle();
+
+      const doctor: DoctorAsignado = {
+        id: doctorUsuario.id,
+        nombre_completo: doctorUsuario.nombre_completo,
+        email: doctorUsuario.email,
+        telefono: doctorUsuario.telefono,
+        titulo: doctorInfo?.titulo || 'Dr.',
+        especialidad: doctorInfo?.especialidad || 'Medicina General'
+      };
+
+      this.doctorAsignado$.next(doctor);
+      return doctor;
+    } catch (error) {
+      console.error('❌ Error obteniendo doctor asignado:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Crear una conversación nueva entre el paciente y su doctor asignado
+   */
+  async crearConversacionConDoctorAsignado(): Promise<Conversation | null> {
+    if (!this.currentUserId) return null;
+
+    try {
+      const supabase = this.supabaseService.client;
+
+      // Primero obtener el doctor asignado
+      const doctor = await this.obtenerDoctorAsignado();
+      if (!doctor) {
+        console.log('⚠️ No se puede crear conversación sin doctor asignado');
+        return null;
+      }
+
+      console.log('🆕 Creando nueva conversación con doctor:', doctor.nombre_completo);
+
+      // Crear la conversación
+      const { data: nuevaConversacion, error: createError } = await supabase
+        .from('conversacion')
+        .insert({
+          doctor_id: doctor.id,
+          adulto_mayor_id: this.currentUserId,
+          activo: true
+        })
+        .select()
+        .single();
+
+      if (createError) {
+        console.error('❌ Error creando conversación:', createError);
+        return null;
+      }
+
+      const conversacion: Conversation = {
+        ...nuevaConversacion,
+        doctor_nombre: doctor.nombre_completo,
+        doctor_titulo: doctor.titulo,
+        doctor_especialidad: doctor.especialidad
+      };
+
+      console.log('✅ Conversación creada exitosamente:', conversacion.id);
+      return conversacion;
+    } catch (error) {
+      console.error('❌ Error al crear conversación:', error);
+      return null;
     }
   }
 
@@ -86,7 +213,7 @@ export class ChatService {
 
       console.log(`📋 Conversaciones del doctor cargadas: ${conversaciones.length}`);
       this.conversations$.next(conversaciones);
-      
+
       // Seleccionar automáticamente la primera conversación si existe
       if (conversaciones.length > 0) {
         console.log('🔄 Seleccionando primera conversación automáticamente');
@@ -129,7 +256,7 @@ export class ChatService {
 
       if (conversacionData) {
         console.log('✅ Conversación encontrada:', conversacionData);
-        
+
         // Intentar obtener información adicional del doctor desde v_doctores_completo
         let doctorInfo = null;
         if (conversacionData.doctor_id) {
@@ -138,7 +265,7 @@ export class ChatService {
             .select('titulo, especialidad')
             .eq('id', conversacionData.doctor_id)
             .maybeSingle();
-          
+
           doctorInfo = doctorData;
           console.log('📋 Info del doctor:', doctorInfo);
         }
@@ -149,11 +276,21 @@ export class ChatService {
           doctor_titulo: doctorInfo?.titulo || 'Dr.',
           doctor_especialidad: doctorInfo?.especialidad || 'Medicina General'
         };
-        
+
         this.conversations$.next([conversacion]);
         await this.seleccionarConversacion(conversacion.id);
       } else {
         console.log('⚠️ No se encontró conversación para este paciente');
+
+        // Intentar crear una conversación si tiene doctor asignado
+        const nuevaConversacion = await this.crearConversacionConDoctorAsignado();
+        if (nuevaConversacion) {
+          this.conversations$.next([nuevaConversacion]);
+          await this.seleccionarConversacion(nuevaConversacion.id);
+        } else {
+          // Si no hay doctor asignado, ya se actualizó el estado sinDoctorAsignado$
+          console.log('ℹ️ El paciente no tiene doctor asignado');
+        }
       }
     } catch (error) {
       console.error('Error cargando conversación del paciente:', error);
@@ -168,19 +305,19 @@ export class ChatService {
   async seleccionarConversacion(conversacionId: string): Promise<void> {
     try {
       console.log('🔍 Seleccionando conversación:', conversacionId);
-      
+
       // Cancelar suscripción anterior si existe
       if (this.subscription) {
         this.subscription.unsubscribe();
       }
 
       this.currentConversationId = conversacionId;
-      
+
       // Buscar la conversación en la lista
       const conversaciones = this.conversations$.value;
       console.log('📋 Conversaciones disponibles:', conversaciones.length);
       const conversacion = conversaciones.find(c => c.id === conversacionId);
-      
+
       if (conversacion) {
         console.log('✅ Conversación encontrada y establecida:', conversacion);
         this.currentConversation$.next(conversacion);
@@ -190,10 +327,10 @@ export class ChatService {
 
       // Cargar mensajes
       await this.cargarMensajes();
-      
+
       // Suscribirse a nuevos mensajes
       this.suscribirseAMensajes();
-      
+
       // Marcar como leídos
       await this.marcarMensajesComoLeidos();
     } catch (error) {
@@ -239,7 +376,7 @@ export class ChatService {
     if (!this.currentConversationId) return;
 
     const supabase = this.supabaseService.client;
-    
+
     this.subscription = supabase
       .channel(`mensajes:${this.currentConversationId}`)
       .on(
@@ -252,12 +389,12 @@ export class ChatService {
         },
         (payload) => {
           const newMsg = payload.new as Message;
-          
+
           // Solo agregar si no existe
           if (!this.messages.find(m => m.id === newMsg.id)) {
             this.messages = [...this.messages, newMsg];
             this.messages$.next(this.messages);
-            
+
             // Si el mensaje es del otro usuario, marcarlo como leído después de un breve delay
             if (this.isChatOpen$.value && newMsg.emisor_tipo !== this.currentUserRole) {
               setTimeout(() => this.marcarMensajesComoLeidos(), 500);
@@ -297,7 +434,7 @@ export class ChatService {
         .eq('id', this.currentConversationId);
 
       // El mensaje se agregará automáticamente vía suscripción en tiempo real
-      
+
     } catch (error) {
       console.error('Error enviando mensaje:', error);
       throw error;
@@ -311,17 +448,36 @@ export class ChatService {
     if (!this.currentConversationId || !this.currentUserRole) return;
 
     try {
-      const supabase = this.supabaseService.client;
-      
-      // Marcar como leídos los mensajes del otro usuario
       const emisorTipo = this.currentUserRole === 'doctor' ? 'adulto_mayor' : 'doctor';
-      
+
+      // 1. Actualización Optimista: Actualizar estado local inmediatamente
+      const currentMessages = this.messages;
+      let hayCambios = false;
+
+      const updatedMessages = currentMessages.map(msg => {
+        if (msg.conversacion_id === this.currentConversationId &&
+          msg.emisor_tipo === emisorTipo &&
+          !msg.leido) {
+          hayCambios = true;
+          return { ...msg, leido: true };
+        }
+        return msg;
+      });
+
+      if (hayCambios) {
+        this.messages = updatedMessages;
+        this.messages$.next(this.messages);
+      }
+
+      // 2. Actualizar en Supabase
+      const supabase = this.supabaseService.client;
       await supabase
         .from('mensajes')
         .update({ leido: true })
         .eq('conversacion_id', this.currentConversationId)
         .eq('emisor_tipo', emisorTipo)
         .eq('leido', false);
+
     } catch (error) {
       console.error('Error marcando mensajes como leídos:', error);
     }
@@ -333,7 +489,7 @@ export class ChatService {
   toggleChat(): void {
     const newState = !this.isChatOpen$.value;
     this.isChatOpen$.next(newState);
-    
+
     if (newState && this.currentConversationId) {
       this.marcarMensajesComoLeidos();
     }
@@ -365,5 +521,7 @@ export class ChatService {
     this.currentUserId = null;
     this.currentUserRole = null;
     this.isChatOpen$.next(false);
+    this.doctorAsignado$.next(null);
+    this.sinDoctorAsignado$.next(false);
   }
 }

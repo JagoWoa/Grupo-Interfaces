@@ -4,308 +4,321 @@
   <div class="max-w-7xl mx-auto contenido-dashboard">
 
     @if (isLoading) {
-      <div class="flex items-center justify-center min-h-[400px] loader-wrapper">
-        <div class="text-center loader-box">
-          <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#004b98] loader-icon"></div>
-          <p class="mt-4 text-gray-600 loader-text">{{ 'DASHBOARD.LOADING' | translate }}</p>
-        </div>
+    <div class="flex items-center justify-center min-h-[400px] loader-wrapper">
+      <div class="text-center loader-box">
+        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#004b98] loader-icon"></div>
+        <p class="mt-4 text-gray-600 loader-text">{{ 'DASHBOARD.LOADING' | translate }}</p>
       </div>
+    </div>
     } @else {
 
-      <!-- Sección Perfil -->
-      <div class="bg-white rounded-3xl mb-8 perfil-card">
+    <!-- Sección Perfil -->
+    <div class="bg-white rounded-3xl mb-8 perfil-card">
 
-        <!-- Banner -->
-        <div class="h-32 bg-gradient-to-r rounded-2xl from-[#004b98] to-[#0066cc] banner-perfil"></div>
+      <!-- Banner -->
+      <div class="h-32 bg-gradient-to-r rounded-2xl from-[#004b98] to-[#0066cc] banner-perfil"></div>
 
-        <!-- Contenido del Perfil -->
-        <div class="px-6 sm:px-8 pb-8 perfil-contenido">
+      <!-- Contenido del Perfil -->
+      <div class="px-6 sm:px-8 pb-8 perfil-contenido">
 
-          <!-- Avatar -->
-          <div class="flex flex-col sm:flex-row items-center sm:items-end -mt-16 sm:-mt-12 mb-6 perfil-avatar-box ">
-            <div class="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold shadow-2xl ring-4 ring-white mb-4 sm:mb-0 avatar-perfil">
-              <p class="nombre-avatar">{{ getInitials(userName) }}</p>
-            </div>
-
-            <div class="sm:ml-6 text-center sm:text-left flex-1 perfil-datos-usuario">
-              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <div class="perfil-nombre-rol">
-                  <h1 class="text-3xl font-bold text-gray-900 nombre-usuario" 
-                      [appSpeakOnHover]="'Bienvenido ' + userName">{{ userName }}</h1>
-
-                  <div class="flex flex-wrap gap-2 mt-2 justify-center sm:justify-start badges-roles">
-                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium badge-rol">
-                      <i class="fas fa-user-circle mr-1"></i>
-                      {{ userRole === 'doctor' ? 'Doctor' : 'Paciente' }}
-                    </span>
-
-                    @if (userRole === 'adulto_mayor') {
-                      <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium badge-activo">
-                        <i class="fas fa-heartbeat mr-1"></i>
-                        Activo
-                      </span>
-                    }
-                  </div>
-                </div>
-
-                <button
-                  (click)="navegarAPerfil()"
-                  [appSpeakOnHover]="'DASHBOARD.EDIT_PROFILE' | translate"
-                  class="mt-4 sm:mt-0 px-6 py-3 bg-gradient-to-r from-[#004b98] to-[#0066cc] text-white rounded-xl hover:shadow-lg transition-all duration-300 flex items-center gap-2 hover:scale-105 boton-editar-perfil">
-                  <i class="fas fa-edit"></i>
-                  <span>{{ 'DASHBOARD.EDIT_PROFILE' | translate }}</span>
-                </button>
-              </div>
-            </div>
+        <!-- Avatar -->
+        <div class="flex flex-col sm:flex-row items-center sm:items-end -mt-16 sm:-mt-12 mb-6 perfil-avatar-box ">
+          <div
+            class="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold shadow-2xl ring-4 ring-white mb-4 sm:mb-0 avatar-perfil">
+            <p class="nombre-avatar">{{ getInitials(userName) }}</p>
           </div>
 
-          <!-- Info del usuario -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8 grid-info-usuario">
+          <div class="sm:ml-6 text-center sm:text-left flex-1 perfil-datos-usuario">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+              <div class="perfil-nombre-rol">
+                <h1 class="text-3xl font-bold text-gray-900 nombre-usuario"
+                  [appSpeakOnHover]="'Bienvenido ' + userName">{{ userName }}</h1>
 
-            <!-- Correo -->
-            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-4  info-card email-card"
-                 [appSpeakOnHover]="'Correo electrónico: ' + (user?.email || 'No especificado')">
-              <div class="flex items-center gap-3">
-                <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
-                  <i class="fas fa-envelope text-white text-lg"></i>
-                </div>
-                <div class="overflow-hidden tarjeta">
-                  <p class="text-xs text-blue-600 font-medium mb-1 label-info">{{ 'DASHBOARD.EMAIL' | translate }}</p>
-                  <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ user?.email || 'No especificado' }}</p>
+                <div class="flex flex-wrap gap-2 mt-2 justify-center sm:justify-start badges-roles">
+                  <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium badge-rol">
+                    <i class="fas fa-user-circle mr-1"></i>
+                    {{ userRole === 'doctor' ? 'Doctor' : 'Paciente' }}
+                  </span>
+
+                  @if (userRole === 'adulto_mayor') {
+                  <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium badge-activo">
+                    <i class="fas fa-heartbeat mr-1"></i>
+                    Activo
+                  </span>
+                  }
                 </div>
               </div>
+
+              <button (click)="navegarAPerfil()" [appSpeakOnHover]="'DASHBOARD.EDIT_PROFILE' | translate"
+                class="mt-4 sm:mt-0 px-6 py-3 bg-gradient-to-r from-[#004b98] to-[#0066cc] text-white rounded-xl hover:shadow-lg transition-all duration-300 flex items-center gap-2 hover:scale-105 boton-editar-perfil">
+                <i class="fas fa-edit"></i>
+                <span>{{ 'DASHBOARD.EDIT_PROFILE' | translate }}</span>
+              </button>
             </div>
-
-            <!-- Teléfono -->
-            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-4   info-card telefono-card">
-              <div class="flex items-center gap-3">
-                <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center">
-                  <i class="fas fa-phone text-white text-lg"></i>
-                </div>
-                <div class="overflow-hidden tarjeta">
-                  <p class="text-xs text-green-600 font-medium mb-1 label-info">{{ 'DASHBOARD.PHONE' | translate }}</p>
-                  <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ user?.telefono || 'No especificado' }}</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Fecha Nacimiento -->
-            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-4  info-card fecha-card">
-              <div class="flex items-center gap-3">
-                <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center">
-                  <i class="fas fa-calendar text-white text-lg"></i>
-                </div>
-                <div class="overflow-hidden tarjeta">
-                  <p class="text-xs text-purple-600 font-medium mb-1 label-info">{{ 'DASHBOARD.BIRTH_DATE' | translate }}</p>
-                  <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ formatDate(user?.fecha_nacimiento) }}</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Email Cuidador (solo para adultos mayores) -->
-            @if (userRole === 'adulto_mayor') {
-              <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-4 info-card cuidador-card">
-                <div class="flex items-center gap-3">
-                  <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-user-shield text-white text-lg"></i>
-                  </div>
-                  <div class="overflow-hidden tarjeta flex-1">
-                    <p class="text-xs text-orange-600 font-medium mb-1 label-info">Cuidador/Familiar</p>
-                    @if (emailCuidadorActual) {
-                      <div class="flex items-center justify-between gap-2">
-                        <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ emailCuidadorActual }}</p>
-                        <button 
-                          (click)="eliminarCuidador()"
-                          class="text-red-500 hover:text-red-700 p-1"
-                          title="Eliminar cuidador">
-                          <i class="fas fa-times text-xs"></i>
-                        </button>
-                      </div>
-                    } @else {
-                      <p class="text-sm font-semibold text-gray-500 valor-info">No asignado</p>
-                    }
-                  </div>
-                </div>
-              </div>
-            }
-
-            <!-- Doctor -->
-            @if (userRole === 'doctor') {
-
-              <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl p-4 border border-indigo-200 info-card titulo-card">
-                <div class="flex items-center gap-3">
-                  <div class="w-12 h-12 bg-indigo-500 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-user-md text-white text-lg"></i>
-                  </div>
-                  <div class="overflow-hidden tarjeta">
-                    <p class="text-xs text-indigo-600 font-medium mb-1 label-info">Título</p>
-                    <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ user?.titulo_profesional || 'No especificado' }}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-4 border border-pink-200 info-card especialidad-card">
-                <div class="flex items-center gap-3">
-                  <div class="w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-stethoscope text-white text-lg"></i>
-                  </div>
-                  <div class="overflow-hidden tarjeta">
-                    <p class="text-xs text-pink-600 font-medium mb-1 label-info">Especialidad</p>
-                    <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ user?.especialidad || 'No especificado' }}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-4 border border-orange-200 info-card licencia-card">
-                <div class="flex items-center gap-3">
-                  <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-id-card text-white text-lg"></i>
-                  </div>
-                  <div class="overflow-hidden tarjeta">
-                    <p class="text-xs text-orange-600 font-medium mb-1 label-info">Licencia Médica</p>
-                    <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ user?.licencia_medica || 'No especificado' }}</p>
-                  </div>
-                </div>
-              </div>
-            }
           </div>
         </div>
+
+        <!-- Info del usuario -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8 grid-info-usuario">
+
+          <!-- Correo -->
+          <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-4  info-card email-card"
+            [appSpeakOnHover]="'Correo electrónico: ' + (user?.email || 'No especificado')">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
+                <i class="fas fa-envelope text-white text-lg"></i>
+              </div>
+              <div class="overflow-hidden tarjeta">
+                <p class="text-xs text-blue-600 font-medium mb-1 label-info">{{ 'DASHBOARD.EMAIL' | translate }}</p>
+                <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ user?.email || 'No especificado'
+                  }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Teléfono -->
+          <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-4   info-card telefono-card">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center">
+                <i class="fas fa-phone text-white text-lg"></i>
+              </div>
+              <div class="overflow-hidden tarjeta">
+                <p class="text-xs text-green-600 font-medium mb-1 label-info">{{ 'DASHBOARD.PHONE' | translate }}</p>
+                <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ user?.telefono || 'No
+                  especificado' }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fecha Nacimiento -->
+          <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-4  info-card fecha-card">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center">
+                <i class="fas fa-calendar text-white text-lg"></i>
+              </div>
+              <div class="overflow-hidden tarjeta">
+                <p class="text-xs text-purple-600 font-medium mb-1 label-info">{{ 'DASHBOARD.BIRTH_DATE' | translate }}
+                </p>
+                <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ formatDate(user?.fecha_nacimiento)
+                  }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email Cuidador (solo para adultos mayores) -->
+          @if (userRole === 'adulto_mayor') {
+          <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-4 info-card cuidador-card">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
+                <i class="fas fa-user-shield text-white text-lg"></i>
+              </div>
+              <div class="overflow-hidden tarjeta flex-1">
+                <p class="text-xs text-orange-600 font-medium mb-1 label-info">Cuidador/Familiar</p>
+                @if (emailCuidadorActual) {
+                <div class="flex items-center justify-between gap-2">
+                  <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ emailCuidadorActual }}</p>
+                  <button (click)="eliminarCuidador()" class="text-red-500 hover:text-red-700 p-1"
+                    title="Eliminar cuidador">
+                    <i class="fas fa-times text-xs"></i>
+                  </button>
+                </div>
+                } @else {
+                <p class="text-sm font-semibold text-gray-500 valor-info">No asignado</p>
+                }
+              </div>
+            </div>
+          </div>
+          }
+
+          <!-- Doctor -->
+          @if (userRole === 'doctor') {
+
+          <div
+            class="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl p-4 border border-indigo-200 info-card titulo-card">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-indigo-500 rounded-xl flex items-center justify-center">
+                <i class="fas fa-user-md text-white text-lg"></i>
+              </div>
+              <div class="overflow-hidden tarjeta">
+                <p class="text-xs text-indigo-600 font-medium mb-1 label-info">Título</p>
+                <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ user?.titulo_profesional || 'No
+                  especificado' }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-4 border border-pink-200 info-card especialidad-card">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center">
+                <i class="fas fa-stethoscope text-white text-lg"></i>
+              </div>
+              <div class="overflow-hidden tarjeta">
+                <p class="text-xs text-pink-600 font-medium mb-1 label-info">Especialidad</p>
+                <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ user?.especialidad || 'No
+                  especificado' }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-4 border border-orange-200 info-card licencia-card">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
+                <i class="fas fa-id-card text-white text-lg"></i>
+              </div>
+              <div class="overflow-hidden tarjeta">
+                <p class="text-xs text-orange-600 font-medium mb-1 label-info">Licencia Médica</p>
+                <p class="text-sm font-semibold text-gray-900 truncate valor-info">{{ user?.licencia_medica || 'No
+                  especificado' }}</p>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
       </div>
+    </div>
 
-      <!-- Quick Links -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 accesos-rapidos">
+    <!-- Quick Links -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 accesos-rapidos">
 
-        @if (userRole === 'adulto_mayor') {
-          <a routerLink="/usuario" class="bg-white rounded-3xl shadow-xl transition-all duration-300 p-8 hover:scale-105 group tarjeta-salud">
-            <div class="flex items-center gap-4 mb-4">
-              <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
-                <i class="fas fa-heartbeat text-white text-2xl"></i>
-              </div>
-              <h3 class="text-2xl font-bold text-gray-900 titulo-salud">{{ 'DASHBOARD.MY_HEALTH' | translate }}</h3>
-            </div>
-            <p class="text-gray-600 mb-4 descripcion-salud">{{ 'DASHBOARD.MY_HEALTH_DESC' | translate }}</p>
-            <div class="flex items-center text-green-600 font-medium">
-              <span>{{ 'DASHBOARD.VIEW_DETAILS' | translate }}</span>
-              <i class="fas fa-arrow-right ml-2"></i>
-            </div>
-          </a>
+      @if (userRole === 'adulto_mayor') {
+      <a routerLink="/usuario"
+        class="bg-white rounded-3xl shadow-xl transition-all duration-300 p-8 hover:scale-105 group tarjeta-salud">
+        <div class="flex items-center gap-4 mb-4">
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
+            <i class="fas fa-heartbeat text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 titulo-salud">{{ 'DASHBOARD.MY_HEALTH' | translate }}</h3>
+        </div>
+        <p class="text-gray-600 mb-4 descripcion-salud">{{ 'DASHBOARD.MY_HEALTH_DESC' | translate }}</p>
+        <div class="flex items-center text-green-600 font-medium">
+          <span>{{ 'DASHBOARD.VIEW_DETAILS' | translate }}</span>
+          <i class="fas fa-arrow-right ml-2"></i>
+        </div>
+      </a>
 
-          <!-- Botón para agregar familiar/cuidador -->
-          <button 
-            (click)="abrirModalFamiliar()"
-            [appSpeakOnHover]="'Agregar familiar o cuidador'"
-            class="bg-white rounded-3xl shadow-xl transition-all duration-300 p-8 hover:scale-105 group boton-agregar-familiar">
-            <div class="flex items-center gap-4 mb-4 ">
-              <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center">
-                <i class="fas fa-user-plus text-white text-2xl"></i>
-              </div>
-              <h3 class="text-2xl font-bold text-gray-900">Familiar/Cuidador</h3>
-            </div>
-            <p class="text-gray-600 mb-4">Agrega un familiar o cuidador para que te ayude a administrar tu salud</p>
-            <div class="flex items-center text-purple-600 font-medium">
-              <span>Agregar ahora</span>
-              <i class="fas fa-arrow-right ml-2"></i>
-            </div>
-          </button>
-        }
+      <!-- Botón para agregar familiar/cuidador -->
+      <button (click)="abrirModalFamiliar()" [appSpeakOnHover]="'Agregar familiar o cuidador'"
+        class="bg-white rounded-3xl shadow-xl transition-all duration-300 p-8 hover:scale-105 group boton-agregar-familiar">
+        <div class="flex items-center gap-4 mb-4 ">
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center">
+            <i class="fas fa-user-plus text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900">Familiar/Cuidador</h3>
+        </div>
+        <p class="text-gray-600 mb-4">Agrega un familiar o cuidador para que te ayude a administrar tu salud</p>
+        <div class="flex items-center text-purple-600 font-medium">
+          <span>Agregar ahora</span>
+          <i class="fas fa-arrow-right ml-2"></i>
+        </div>
+      </button>
+      }
 
-        @if (userRole === 'doctor') {
-          <a routerLink="/usuariodoctor" class="bg-white rounded-3xl shadow-xl transition-all duration-300 p-8 hover:scale-105 group tarjeta-pacientes">
-            <div class="flex items-center gap-4 mb-4">
-              <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
-                <i class="fas fa-users text-white text-2xl"></i>
-              </div>
-              <h3 class="text-2xl font-bold text-gray-900">{{ 'DASHBOARD.MY_PATIENTS' | translate }}</h3>
-            </div>
-            <p class="text-gray-600 mb-4">{{ 'DASHBOARD.MY_PATIENTS_DESC' | translate }}</p>
-            <div class="flex items-center text-green-600 font-medium">
-              <span>{{ 'DASHBOARD.VIEW_PATIENTS' | translate }}</span>
-              <i class="fas fa-arrow-right ml-2"></i>
-            </div>
-          </a>
-        }
-      </div>
+      @if (userRole === 'doctor') {
+      <a routerLink="/usuariodoctor"
+        class="bg-white rounded-3xl shadow-xl transition-all duration-300 p-8 hover:scale-105 group tarjeta-pacientes">
+        <div class="flex items-center gap-4 mb-4">
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
+            <i class="fas fa-users text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900">{{ 'DASHBOARD.MY_PATIENTS' | translate }}</h3>
+        </div>
+        <p class="text-gray-600 mb-4">{{ 'DASHBOARD.MY_PATIENTS_DESC' | translate }}</p>
+        <div class="flex items-center text-green-600 font-medium">
+          <span>{{ 'DASHBOARD.VIEW_PATIENTS' | translate }}</span>
+          <i class="fas fa-arrow-right ml-2"></i>
+        </div>
+      </a>
+      }
+    </div>
     }
   </div>
 </section>
 
 <app-footer class="footer-componente"></app-footer>
 
+<!-- Chat flotante - Solo para pacientes (adultos mayores) -->
+@if (userRole === 'adulto_mayor') {
 <div class="fixed right-4 bottom-4 z-50 chat-floating">
   <app-chat></app-chat>
 </div>
+} @else if (userRole === 'doctor') {
+<!-- Mensaje para doctores indicando que deben ir al panel de pacientes -->
+<div class="fixed right-4 bottom-4 z-50">
+  <a routerLink="/usuariodoctor"
+    class="bg-gray-200 text-gray-500 p-4 rounded-full shadow-lg flex items-center gap-2 hover:bg-gray-300 transition-all"
+    title="Ve al panel de pacientes para chatear">
+    <i class="fa-solid fa-comment-slash text-xl"></i>
+  </a>
+</div>
+}
 
 <!-- Modal para agregar familiar/cuidador -->
 @if (showModalFamiliar) {
-  <div class="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4" (click)="cerrarModalFamiliar()">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden" (click)="$event.stopPropagation()">
-      <!-- Header del modal -->
-      <div class="bg-gradient-to-r from-purple-500 to-pink-600 px-6 py-4">
-        <div class="flex items-center justify-between">
-          <h2 class="text-2xl font-bold text-white">Agregar Familiar/Cuidador</h2>
-          <button 
-            (click)="cerrarModalFamiliar()"
-            class="text-white hover:bg-white/20 rounded-lg p-2 transition">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
+<div class="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4" (click)="cerrarModalFamiliar()">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden" (click)="$event.stopPropagation()">
+    <!-- Header del modal -->
+    <div class="bg-gradient-to-r from-purple-500 to-pink-600 px-6 py-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-white">Agregar Familiar/Cuidador</h2>
+        <button (click)="cerrarModalFamiliar()" class="text-white hover:bg-white/20 rounded-lg p-2 transition">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Contenido del modal -->
+    <div class="p-6">
+      <p class="text-gray-600 mb-4">
+        Ingresa el correo electrónico del familiar o cuidador que deseas agregar.
+        Esta persona podrá ayudarte a administrar tu salud.
+      </p>
+
+      <!-- Formulario -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Correo Electrónico
+        </label>
+        <input type="email" [(ngModel)]="emailFamiliar" placeholder="ejemplo@correo.com"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+          [disabled]="isLoadingFamiliar">
       </div>
 
-      <!-- Contenido del modal -->
-      <div class="p-6">
-        <p class="text-gray-600 mb-4">
-          Ingresa el correo electrónico del familiar o cuidador que deseas agregar. 
-          Esta persona podrá ayudarte a administrar tu salud.
-        </p>
+      <!-- Mensajes de error/success -->
+      @if (errorMessageFamiliar) {
+      <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+        <p class="text-sm text-red-600">{{ errorMessageFamiliar }}</p>
+      </div>
+      }
 
-        <!-- Formulario -->
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-700 mb-2">
-            Correo Electrónico
-          </label>
-          <input 
-            type="email"
-            [(ngModel)]="emailFamiliar"
-            placeholder="ejemplo@correo.com"
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-            [disabled]="isLoadingFamiliar">
-        </div>
+      @if (successMessageFamiliar) {
+      <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+        <p class="text-sm text-green-600">{{ successMessageFamiliar }}</p>
+      </div>
+      }
 
-        <!-- Mensajes de error/success -->
-        @if (errorMessageFamiliar) {
-          <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-            <p class="text-sm text-red-600">{{ errorMessageFamiliar }}</p>
-          </div>
-        }
-
-        @if (successMessageFamiliar) {
-          <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-            <p class="text-sm text-green-600">{{ successMessageFamiliar }}</p>
-          </div>
-        }
-
-        <!-- Botones -->
-        <div class="flex gap-3">
-          <button 
-            (click)="cerrarModalFamiliar()"
-            [disabled]="isLoadingFamiliar"
-            class="flex-1 px-4 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium transition disabled:opacity-50">
-            Cancelar
-          </button>
-          <button 
-            (click)="agregarFamiliar()"
-            [disabled]="isLoadingFamiliar || !emailFamiliar.trim()"
-            class="flex-1 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-lg font-medium transition disabled:opacity-50 flex items-center justify-center gap-2">
-            @if (isLoadingFamiliar) {
-              <span class="animate-spin">⏳</span>
-              <span>Agregando...</span>
-            } @else {
-              <i class="fas fa-user-plus"></i>
-              <span>Agregar</span>
-            }
-          </button>
-        </div>
+      <!-- Botones -->
+      <div class="flex gap-3">
+        <button (click)="cerrarModalFamiliar()" [disabled]="isLoadingFamiliar"
+          class="flex-1 px-4 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium transition disabled:opacity-50">
+          Cancelar
+        </button>
+        <button (click)="agregarFamiliar()" [disabled]="isLoadingFamiliar || !emailFamiliar.trim()"
+          class="flex-1 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-lg font-medium transition disabled:opacity-50 flex items-center justify-center gap-2">
+          @if (isLoadingFamiliar) {
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <span>Agregando...</span>
+          } @else {
+          <i class="fas fa-user-plus"></i>
+          <span>Agregar</span>
+          }
+        </button>
       </div>
     </div>
   </div>
+</div>
 }

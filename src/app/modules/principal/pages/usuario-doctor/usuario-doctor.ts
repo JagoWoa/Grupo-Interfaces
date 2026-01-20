@@ -2,8 +2,8 @@
 import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Header }  from '../../components/header/header';
-import { Footer }  from '../../components/footer/footer';
+import { Header } from '../../components/header/header';
+import { Footer } from '../../components/footer/footer';
 import { Chat } from '../../components/chat/chat';
 import { ChatService } from '..//../../../core/services/chat.service';
 import { HealthService, SignosVitales } from '../../../../core/services/health.service';
@@ -11,9 +11,11 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { SupabaseService } from '..//../../../core/services/supabase.service';
 import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 import { ProgressBarComponent } from '../../../../shared/components/progress-bar/progress-bar.component';
+import { SpeakOnHoverDirective } from '../../../../core/directives/speak-on-hover.directive';
+
 @Component({
   selector: 'app-usuario-doctor',
-  imports: [CommonModule, FormsModule, Header, Footer, Chat, TranslatePipe, ProgressBarComponent],
+  imports: [CommonModule, FormsModule, Header, Footer, Chat, TranslatePipe, ProgressBarComponent, SpeakOnHoverDirective],
   templateUrl: './usuario-doctor.html',
   styleUrls: ['./usuario-doctor.css']
 })
@@ -21,10 +23,10 @@ export class UsuarioDoctor implements OnInit {
 
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
-  
+
   // Estado de carga
   isLoading = true;
-  doctorId: string = '';  
+  doctorId: string = '';
   doctorName: string = '';
 
   // Lista de pacientes
@@ -57,8 +59,8 @@ export class UsuarioDoctor implements OnInit {
   constructor(
     private healthService: HealthService,
     private authService: AuthService,
-  private supabaseService: SupabaseService
-  ) {}
+    private supabaseService: SupabaseService
+  ) { }
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
@@ -73,7 +75,7 @@ export class UsuarioDoctor implements OnInit {
     try {
       // Obtener el doctor autenticado
       const user = this.authService.getCurrentUser();
-      
+
       if (!user) {
         await new Promise(resolve => setTimeout(resolve, 1000));
         const retryUser = this.authService.getCurrentUser();
@@ -93,7 +95,7 @@ export class UsuarioDoctor implements OnInit {
 
       // Cargar lista de pacientes
       await this.cargarPacientes();
-      
+
       console.log('🏁 Carga completada exitosamente');
 
     } catch (error) {
@@ -103,7 +105,7 @@ export class UsuarioDoctor implements OnInit {
       console.log('🔚 Finally block - Cambiando isLoading a false');
       this.isLoading = false;
       console.log('✅ isLoading ahora es:', this.isLoading);
-      
+
       // Forzar detección de cambios
       this.cdr.detectChanges();
       console.log('🔄 Change detection forzada');
@@ -115,7 +117,7 @@ export class UsuarioDoctor implements OnInit {
     try {
       const data = await this.healthService.getPacientesDeDoctor(this.doctorId);
       console.log('📦 Datos recibidos:', data);
-      
+
       // Transformar datos para el formato esperado
       this.pacientes = data
         .filter((item: any) => item.paciente) // Filtrar items sin paciente
@@ -141,7 +143,7 @@ export class UsuarioDoctor implements OnInit {
     console.log('Seleccionando paciente:', paciente.nombre);
     this.pacienteSeleccionado = paciente;
     this.cdr.detectChanges();
-    
+
     // Cargar datos del paciente
     await this.cargarDatosPaciente(paciente.id);
     this.cdr.detectChanges();
@@ -151,9 +153,9 @@ export class UsuarioDoctor implements OnInit {
     try {
       console.log('📋 Cargando datos del paciente:', pacienteId);
       const datos = await this.healthService.getDatosPacienteParaDoctor(pacienteId);
-      
+
       console.log('📦 Datos recibidos:', datos);
-      
+
       if (datos) {
         // Cargar signos vitales
         const signos = datos.signosVitales;
@@ -183,7 +185,7 @@ export class UsuarioDoctor implements OnInit {
 
     console.log('💾 Actualizando signos vitales del paciente:', this.pacienteSeleccionado.id);
     this.isSaving = true;
-    
+
     // Iniciar barra de progreso
     this.showProgressBar = true;
     this.progressValue = 0;
@@ -195,7 +197,7 @@ export class UsuarioDoctor implements OnInit {
       if (this.progressValue < 90) {
         this.progressValue += Math.random() * 15;
         if (this.progressValue > 90) this.progressValue = 90;
-        
+
         // Actualizar hint según el progreso
         if (this.progressValue > 30 && this.progressValue < 60) {
           this.progressHint = 'Validando datos...';
@@ -224,14 +226,14 @@ export class UsuarioDoctor implements OnInit {
         this.progressValue = 100;
         this.progressHint = '¡Completado!';
         this.cdr.detectChanges();
-        
+
         // Esperar un momento para mostrar el 100%
         await new Promise(resolve => setTimeout(resolve, 500));
-        
+
         this.showProgressBar = false;
         this.isSaving = false;
         alert('Signos vitales actualizados correctamente');
-        
+
         // Enviar notificación por email al cuidador (no bloqueante)
         this.healthService.enviarNotificacionSignosVitales(
           this.pacienteSeleccionado.id,
@@ -290,7 +292,7 @@ export class UsuarioDoctor implements OnInit {
       if (success) {
         // Recargar recordatorios
         await this.cargarDatosPaciente(this.pacienteSeleccionado.id);
-        
+
         // Limpiar campos
         this.nuevoRecordatorioTitulo = '';
         this.nuevoRecordatorioDescripcion = '';
@@ -335,7 +337,7 @@ export class UsuarioDoctor implements OnInit {
 
   formatearFecha(fecha: string): string {
     if (!fecha) return 'N/A';
-    
+
     const date = new Date(fecha);
     const ahora = new Date();
     const diferencia = ahora.getTime() - date.getTime();
@@ -353,7 +355,7 @@ export class UsuarioDoctor implements OnInit {
       return this.pacientes;
     }
 
-    return this.pacientes.filter(p => 
+    return this.pacientes.filter(p =>
       p.nombre.toLowerCase().includes(this.busqueda.toLowerCase()) ||
       p.email?.toLowerCase().includes(this.busqueda.toLowerCase())
     );
@@ -386,6 +388,15 @@ export class UsuarioDoctor implements OnInit {
     this.showProgressBar = false;
     this.progressValue = 0;
     this.progressHint = '';
+  }
+
+  // TrackBy functions para mejorar rendimiento de listas
+  trackByPacienteId(index: number, paciente: any): string {
+    return paciente.id;
+  }
+
+  trackByRecordatorioId(index: number, recordatorio: any): string {
+    return recordatorio.id;
   }
 
 }
