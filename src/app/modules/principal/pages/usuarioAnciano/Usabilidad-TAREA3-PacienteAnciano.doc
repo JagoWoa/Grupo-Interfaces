@@ -1,0 +1,134 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body { font-family: Arial, sans-serif; font-size: 11pt; margin: 40px; }
+h1 { color: #cc0000; font-size: 14pt; margin-top: 30px; }
+h2 { color: #000000; font-size: 12pt; margin-top: 20px; margin-bottom: 10px; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+th, td { border: 1px solid #000000; padding: 8px; text-align: left; vertical-align: top; }
+th { background-color: #f0f0f0; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>TAREA 3: VISTA DEL PACIENTE ANCIANO (SALUD)</h1>
+
+<h2>Adecuación reconocible</h2>
+<table>
+<tr>
+<th>Métrica</th>
+<th>Ejemplo explicado</th>
+<th>Resultado</th>
+<th>Mejora de usabilidad</th>
+</tr>
+<tr>
+<td>% de usuarios que reconocen la función</td>
+<td>Se pregunta a 10 usuarios si identifican que la pantalla muestra sus signos vitales, doctor asignado y recordatorios de medicamentos</td>
+<td>10 de 10 usuarios reconocen la función (100%)</td>
+<td>Mantener el título claro "Signos Vitales" y los íconos asociados (corazón, termómetro, balanza)</td>
+</tr>
+<tr>
+<td>Tiempo de reconocimiento inicial</td>
+<td>Pregunta: ¿Qué tan fácil fue reconocer las secciones de signos vitales? (1-5, donde 5 es muy fácil)</td>
+<td>Valor promedio: 4.8/5</td>
+<td>Añadir colores de fondo diferenciados por sección (rojo para presión, rosa para frecuencia, naranja para temperatura, azul para peso)</td>
+</tr>
+<tr>
+<td>Pregunta directa de comprensión</td>
+<td>Se pregunta: ¿Qué acción permite realizar el botón "Cambiar Doctor"?</td>
+<td>Todos los usuarios responden "Cambiar o seleccionar otro doctor"</td>
+<td>El texto del botón "Cambiar Doctor" es claro y tiene ícono descriptivo</td>
+</tr>
+</table>
+
+<h2>Facilidad de aprendizaje</h2>
+<table>
+<tr>
+<th>Métrica</th>
+<th>Ejemplo explicado</th>
+<th>Resultado</th>
+<th>Mejora de usabilidad</th>
+</tr>
+<tr>
+<td>Tiempo de primera ejecución</td>
+<td>Se mide el tiempo que toma un usuario marcar un recordatorio como completado por primera vez</td>
+<td>Promedio: 8 segundos</td>
+<td>Permitir la navegación intuitiva con scroll horizontal para ver más recordatorios</td>
+</tr>
+<tr>
+<td>Escala Likert de facilidad</td>
+<td>Pregunta: ¿Qué tan fácil fue encontrar sus signos vitales? (1-5, donde 5 es muy fácil)</td>
+<td>Valor promedio: 4.7/5</td>
+<td>Añadir indicador de formato esperado (ej: "120/80" en Presión Arterial como ejemplo visual)</td>
+</tr>
+</table>
+
+<h2>Operabilidad</h2>
+<table>
+<tr>
+<th>Métrica</th>
+<th>Ejemplo explicado</th>
+<th>Resultado</th>
+<th>Mejora de usabilidad</th>
+</tr>
+<tr>
+<td>TCR (Finalización de tareas)</td>
+<td>Porcentaje de usuarios que logran marcar un recordatorio como completado sin ayuda</td>
+<td>100% de los usuarios completan la tarea</td>
+<td>Agregar botón toggle grande con ícono de pastilla visible para marcar completado</td>
+</tr>
+<tr>
+<td>Comentario sobre facilidad del uso</td>
+<td>Comentario abierto del usuario sobre el proceso</td>
+<td>Las tarjetas son grandes y fáciles de seleccionar. El botón de eliminar es visible</td>
+<td>Aumentar ligeramente el contraste del botón "Limpiar" para que sea más visible sin competir con la acción principal</td>
+</tr>
+</table>
+
+<h2>Protección frente a errores</h2>
+<table>
+<tr>
+<th>Métrica</th>
+<th>Ejemplo explicado</th>
+<th>Resultado</th>
+<th>Mejora de usabilidad</th>
+</tr>
+<tr>
+<td>Número de errores</td>
+<td>Conteo de errores al intentar marcar recordatorios o cambiar doctor (ej: clics accidentales)</td>
+<td>Promedio: 0.3 errores por sesión (principalmente clics accidentales)</td>
+<td>Implementar confirmación antes de desasignar doctor para evitar acciones no deseadas</td>
+</tr>
+<tr>
+<td>Claridad del mensaje de error</td>
+<td>Se comprueba si existe mensaje claro cuando no hay datos disponibles</td>
+<td>El sistema muestra "--/--" cuando no hay signos vitales y mensaje "No tienes recordatorios" cuando está vacío</td>
+<td>Añadir validación en rangos (ej: Temperatura: 35-42°C) y mantener mensajes de error claros</td>
+</tr>
+</table>
+
+<h2>Estética de la interfaz</h2>
+<table>
+<tr>
+<th>Métrica</th>
+<th>Ejemplo explicado</th>
+<th>Resultado</th>
+<th>Mejora de usabilidad</th>
+</tr>
+<tr>
+<td>% de usuarios satisfechos</td>
+<td>Porcentaje de usuarios que califican la estética como agradable o muy satisfactoria</td>
+<td>95% de los usuarios están satisfechos</td>
+<td>Mantener el diseño limpio y la paleta de colores suaves con gradientes</td>
+</tr>
+<tr>
+<td>Comentario visual</td>
+<td>Percepción visual del usuario sobre el aspecto</td>
+<td>El uso de colores diferenciados para cada signo vital ayuda a identificar rápidamente cada métrica</td>
+<td>Aplicar colores accesibles para personas con daltonismo y añadir íconos más distintivos además del color</td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,4 +1,92 @@
 /* ===================================
+   LIGHT MODE STYLES - Usuario Anciano
+   Asegurar textos visibles
+   =================================== */
+
+/* Tarjetas de Signos Vitales - Modo Claro */
+.tarjeta-signo .label-signo {
+  color: #374151 !important; /* gray-700 - texto oscuro visible */
+}
+
+.tarjeta-signo .valor-signo {
+  color: #111827 !important; /* gray-900 - texto muy oscuro */
+}
+
+.tarjeta-signo .unidad-signo {
+  color: #4b5563 !important; /* gray-600 - texto gris oscuro */
+}
+
+/* Estilos específicos para cada tarjeta */
+.presion-card .label-signo { color: #991b1b !important; } /* red-800 */
+.presion-card .valor-signo { color: #7f1d1d !important; } /* red-900 */
+.presion-card .unidad-signo { color: #b91c1c !important; } /* red-700 */
+
+.frecuencia-card .label-signo { color: #9d174d !important; } /* pink-800 */
+.frecuencia-card .valor-signo { color: #831843 !important; } /* pink-900 */
+.frecuencia-card .unidad-signo { color: #be185d !important; } /* pink-700 */
+
+.temperatura-card .label-signo { color: #9a3412 !important; } /* orange-800 */
+.temperatura-card .valor-signo { color: #7c2d12 !important; } /* orange-900 */
+.temperatura-card .unidad-signo { color: #c2410c !important; } /* orange-700 */
+
+.peso-card .label-signo { color: #1e40af !important; } /* blue-800 */
+.peso-card .valor-signo { color: #1e3a8a !important; } /* blue-900 */
+.peso-card .unidad-signo { color: #1d4ed8 !important; } /* blue-700 */
+
+/* Iconos de las tarjetas - Modo Claro */
+.presion-card .icono-signo i { color: #dc2626 !important; } /* red-600 */
+.frecuencia-card .icono-signo i { color: #db2777 !important; } /* pink-600 */
+.temperatura-card .icono-signo i { color: #ea580c !important; } /* orange-600 */
+.peso-card .icono-signo i { color: #2563eb !important; } /* blue-600 */
+
+/* Iconos de Recordatorios - Modo Claro */
+.boton-toggle-recordatorio i {
+  color: #7c3aed !important; /* purple-600 - visible */
+}
+
+.boton-toggle-recordatorio.bg-purple-200 i,
+.tarjeta-recordatorio .fa-pills {
+  color: #6d28d9 !important; /* purple-700 */
+}
+
+.boton-toggle-recordatorio.bg-green-200 i,
+.tarjeta-recordatorio .fa-check {
+  color: #15803d !important; /* green-700 */
+}
+
+/* Icono de bandera en recordatorios */
+.tarjeta-recordatorio .fa-flag {
+  color: #7c3aed !important; /* purple-600 */
+}
+
+/* Botón eliminar en recordatorios */
+.boton-eliminar-recordatorio {
+  color: #dc2626 !important; /* red-600 */
+}
+.boton-eliminar-recordatorio i,
+.boton-eliminar-recordatorio .fa-trash {
+  color: #dc2626 !important; /* red-600 */
+}
+.boton-eliminar-recordatorio:hover {
+  color: #b91c1c !important; /* red-700 */
+}
+.boton-eliminar-recordatorio:hover i {
+  color: #b91c1c !important; /* red-700 */
+}
+
+/* Iconos en sección Doctor Asignado - Modo Claro */
+.doctor-info-contenedor i,
+.seccion-doctor-asignado i {
+  color: #1e40af !important; /* blue-800 */
+}
+.seccion-doctor-asignado .fa-envelope {
+  color: #2563eb !important; /* blue-600 */
+}
+.seccion-doctor-asignado .fa-phone {
+  color: #16a34a !important; /* green-600 */
+}
+
+/* ===================================
    DARK MODE STYLES - Usuario Anciano
    =================================== */
 
@@ -196,11 +284,11 @@ ICONOS
   .chat-expanded-header h3 {
     font-size: 1.125rem;
   }
-  
+
   .chat-expanded-header h3 i {
     font-size: 1.5rem;
   }
-  
+
   .vitales-grid {
     grid-template-columns: 1fr !important;
   }
